@@ -1,0 +1,34 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-hoteleria-dev-d9c64-authRole",
+      "UnauthRoleArn": "arn:aws:iam::303546971471:role/amplify-hoteleria-dev-d9c64-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::303546971471:role/amplify-hoteleria-dev-d9c64-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
+      "UnauthRoleName": "amplify-hoteleria-dev-d9c64-unauthRole",
+      "StackName": "amplify-hoteleria-dev-d9c64",
+      "StackId": "arn:aws:cloudformation:us-east-1:303546971471:stack/amplify-hoteleria-dev-d9c64/b5ef7220-210b-11ef-a1bf-0affedae497b",
+      "AmplifyAppId": "d2ldldh3916yfc"
+    },
+    "categories": {
+      "function": {
+        "hoteleria": {
+          "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
+          "s3Key": "amplify-builds/hoteleria-754e61766c3372475044-build.zip"
+        },
+        "reservations": {
+          "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
+          "s3Key": "amplify-builds/reservations-6b367630696c74424465-build.zip"
+        }
+      },
+      "storage": {
+        "hotels": {},
+        "reservations": {}
+      },
+      "api": {
+        "hoteleria": {}
+      }
+    }
+  }
+}

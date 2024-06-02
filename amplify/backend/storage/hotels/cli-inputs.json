@@ -1,0 +1,10 @@
+{
+  "resourceName": "hotels",
+  "tableName": "hotels",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

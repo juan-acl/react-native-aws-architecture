@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/items": {
+      "name": "/items",
+      "lambdaFunction": "hoteleria",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/reservations": {
+      "name": "/reservations",
+      "lambdaFunction": "reservations",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
