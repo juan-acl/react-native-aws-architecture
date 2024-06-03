@@ -15,7 +15,7 @@
       "function": {
         "hoteleria": {
           "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
-          "s3Key": "amplify-builds/hoteleria-754e61766c3372475044-build.zip"
+          "s3Key": "amplify-builds/hoteleria-5a4856645436356a7131-build.zip"
         },
         "reservations": {
           "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
