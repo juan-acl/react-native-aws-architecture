@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "hoteleria",
+            "hotels",
             {
               "Fn::Join": [
                 "",
                 [
-                  "hoteleria",
+                  "hotels",
                   "-",
                   {
                     "Ref": "env"
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "hoteleriaLambdaRoleb2cf5473",
+            "hoteleriaLambdaRole592ca49f",
             {
               "Fn::Join": [
                 "",
                 [
-                  "hoteleriaLambdaRoleb2cf5473",
+                  "hoteleriaLambdaRole592ca49f",
                   "-",
                   {
                     "Ref": "env"

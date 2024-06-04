@@ -33,7 +33,7 @@ const partitionKeyType = "S";
 const sortKeyName = "";
 const sortKeyType = "";
 const hasSortKey = sortKeyName !== "";
-const path = "/items";
+const path = "/hotels";
 const UNAUTH = "UNAUTH";
 const hashKeyPath = "/:" + partitionKeyName;
 const sortKeyPath = hasSortKey ? "/:" + sortKeyName : "";
@@ -60,97 +60,17 @@ const convertUrlType = (param, type) => {
   }
 };
 
-app.post(path + "/listHotels", async (req, res) => {
+app.post(path + "/getHotels", async function (req, res) {
   try {
     const params = {
       TableName: tableName,
     };
     const command = new ScanCommand(params);
     const response = await ddbDocClient.send(command);
-    return res.json({ code: 200, hotels: response.Items });
-  } catch (error) {
-    return res.json({ code: 500, message: error });
-  }
-});
-
-const generateId = () => {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0,
-      v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-};
-
-// Función para crear un hotel con datos aleatorios
-const createRandomHotel = () => {
-  return {
-    id: generateId(),
-    name: "Hotel " + Math.floor(Math.random() * 1000),
-    address: "Address " + Math.floor(Math.random() * 1000),
-    phone: "123456789",
-    active: Math.random() < 0.5,
-    createAt: Date.now(),
-    updateAt: Date.now(),
-  };
-};
-
-// Función para insertar hoteles en lotes
-const insertBatch = async (batch) => {
-  const putCommands = batch.map(
-    (hotel) =>
-      new PutCommand({
-        TableName: tableName,
-        Item: hotel,
-      })
-  );
-
-  await Promise.all(putCommands.map((command) => ddbDocClient.send(command)));
-};
-
-// Función para crear e insertar 200 hoteles en lotes
-const createAndInsertHotels = async () => {
-  const hotels = [];
-  for (let i = 0; i < 200; i++) {
-    hotels.push(createRandomHotel());
-  }
-
-  const batchSize = 25; // Tamaño del lote
-  for (let i = 0; i < hotels.length; i += batchSize) {
-    const batch = hotels.slice(i, i + batchSize);
-    await insertBatch(batch);
-  }
-
-  console.log("Successfully inserted 200 hotels.");
-};
-
-app.post(path + "/createHotel", async (req, res) => {
-  try {
-    await createAndInsertHotels();
-    return res.json({ code: 200, message: "Hotels created successfully" });
-  } catch (error) {
-    console.error("Error inserting hotels:", error);
-    return res.json({ code: 500, message: error.message });
-  }
-});
-
-app.post(path + "/sortHotels", async (req, res) => {
-  try {
-    const { updateAt } = req.body;
-
-    const params = {
-      TableName: tableName,
-      KeyConditionExpression: "updateAt >= :updateAt",
-      ExpressionAttributeValues: {
-        ":updateAt": updateAt,
-      },
-    };
-
-    const command = new QueryCommand(params);
-    const response = await ddbDocClient.send(command);
-
-    return res.json({ code: 200, hotels: response.Items });
-  } catch (error) {
-    return res.json({ code: 500, message: error.message });
+    res.json({ code: 200, hotels: response.Items });
+  } catch (err) {
+    res.statusCode = 500;
+    res.json({ error: "Could not load items: " + err.message });
   }
 });
 

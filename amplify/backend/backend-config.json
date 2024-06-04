@@ -8,7 +8,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "hoteleria"
+          "resourceName": "reservations"
         },
         {
           "attributes": [
@@ -16,7 +16,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "reservations"
+          "resourceName": "hotels"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -24,7 +24,7 @@
     }
   },
   "function": {
-    "hoteleria": {
+    "hotels": {
       "build": true,
       "dependsOn": [
         {
@@ -64,19 +64,19 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_hoteleria_deploymentBucketName": {
+    "AMPLIFY_function_hotels_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "hoteleria"
+          "resourceName": "hotels"
         }
       ]
     },
-    "AMPLIFY_function_hoteleria_s3Key": {
+    "AMPLIFY_function_hotels_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "hoteleria"
+          "resourceName": "hotels"
         }
       ]
     },
