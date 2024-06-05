@@ -4,11 +4,17 @@ export const getHotels = async () => {
   try {
     const restOperation = post({
       apiName: "hoteleria",
-      path: "hotels/getHotels",
+      path: "/hotels/getHotels",
+      options: {
+        body: {
+          message: "Message",
+        },
+      },
     });
-    const response = await restOperation.response;
-    console.log("GET call succeeded: ", response);
-  } catch (error) {
-    console.log("GET call failed: ", JSON.parse(error.response.body));
+    const { body } = await restOperation.response;
+    const response = await body.json();
+    return response;
+  } catch (e) {
+    console.log("POST call failed: ", JSON.parse(e.response.body));
   }
 };
