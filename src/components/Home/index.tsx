@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import * as API from "@/src/helpers/api";
 
 interface Hotel {
@@ -23,8 +23,7 @@ const HomePage: React.FC = () => {
     } catch (error) {
       console.log("Error en la peticion ", { error });
     }
-  };
-
+  }
 
   useEffect(() => {
     fetchHotels();
@@ -32,15 +31,15 @@ const HomePage: React.FC = () => {
 
 
   return (
-    <View>
+    <SafeAreaView className="bg-customGray" >
       {hotels.map(hotel => (
         <View key={hotel.id}>
-          <Text>{hotel.name}</Text>
-          <Text>{hotel.address}</Text>
+          <Text className="text-customGray" >{hotel.name}</Text>
+          <Text style={{ color: "#fff8" }} >{hotel.address}</Text>
           <Text>{hotel.phone}</Text>
         </View>
       ))}
-    </View>
+    </SafeAreaView>
   );
 };
 

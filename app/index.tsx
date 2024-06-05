@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import ConfigAws from "@/src/aws-exports";
 import { Amplify } from 'aws-amplify';
 import HomePage from "@/src/components/Home";
