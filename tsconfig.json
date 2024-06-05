@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "src/helpers/api.js"  ]
+, "src/helpers/api.ts"  ]
 }

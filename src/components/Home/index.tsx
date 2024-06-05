@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import * as API from "@/src/helpers/api";
-import axios from "axios";
+
+interface Hotel {
+  id: number;
+  active: boolean;
+  updateAt: number;
+  createAt: number;
+  name: string;
+  address: string;
+  phone: string;
+}
 
 const HomePage: React.FC = () => {
-  const [hotels, setHotels] = useState([]);
 
-  const fetchHotels = async () => {
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+
+  const fetchHotels = async (): Promise<void> => {
     try {
-      const response = await API.getHotels()
+      const response: any = await API.getHotels();
+      setHotels(response.hotels);
     } catch (error) {
-      console.log("Error en la peticion ", { error })
+      console.log("Error en la peticion ", { error });
     }
-  }
+  };
+
 
   useEffect(() => {
     fetchHotels();
@@ -21,7 +33,13 @@ const HomePage: React.FC = () => {
 
   return (
     <View>
-      <Text>Home Page</Text>
+      {hotels.map(hotel => (
+        <View key={hotel.id}>
+          <Text>{hotel.name}</Text>
+          <Text>{hotel.address}</Text>
+          <Text>{hotel.phone}</Text>
+        </View>
+      ))}
     </View>
   );
 };
