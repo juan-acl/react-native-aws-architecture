@@ -60,6 +60,41 @@ const convertUrlType = (param, type) => {
   }
 };
 
+app.post(path + "/getHotelById", async (req, res) => {
+  try{
+    const { idHotel } = req.body
+    if(!idHotel) return res.json({ code: 400, message: "IdHotel is required!"});
+    const params = {
+      TableName: tableName,
+      Key: {
+        id: idHotel
+      }
+    }
+    const command = new GetCommand(params);
+    const response = await ddbDocClient.send(command);
+    return res.json({ code: 200, message: "Hotel", hotel: response.Item })
+  }catch(error) {
+    return res.json({ code: 500, message: "Internal server error" + error})
+  }
+})
+
+app.post(path + "/createHotel", async (req, res) => {
+  try{
+    if(!req.body) return res.json({code: 400, message: "Data hotel not provided"})
+    const params = {
+      TableName: tableName,
+      Item: {
+        ...req.body
+      }
+    }
+    const command = new PutCommand(params);
+    await ddbDocClient.send(command);
+    return res.json({code: 200, message: "Hotel created successful"});
+  }catch (error) {
+    return res.json({code: 500, message: "Internal server error" + error})
+  }
+})
+
 app.post(path + "/getHotels", async function (req, res) {
   try {
     const params = {
@@ -67,7 +102,7 @@ app.post(path + "/getHotels", async function (req, res) {
     };
     const command = new ScanCommand(params);
     const response = await ddbDocClient.send(command);
-    res.json({ code: 200, hotels: response.Items });
+    res.json({ code: 200, count: response.Count, hotels: response.Items });
   } catch (err) {
     res.statusCode = 500;
     res.json({ error: "Could not load items: " + err.message });
