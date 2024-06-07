@@ -1,14 +1,12 @@
-import { View } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import ConfigAws from "@/src/aws-exports";
 import { Amplify } from 'aws-amplify';
-import HomePage from "@/src/components/Home";
+import Content from "../index";
 Amplify.configure(ConfigAws);
 
 const App = () => {
     return (
-        <View>
-            <HomePage />
-        </View>
+        <Content />
     )
 }
 
