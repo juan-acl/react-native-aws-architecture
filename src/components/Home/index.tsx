@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, SafeAreaView } from "react-native";
-import * as API from "@/src/helpers/api";
 import { useFetchHotelsQuery } from "@/redux/api/hotel.api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/configureStore";
 
 interface Hotel {
   id: number;
@@ -15,8 +16,8 @@ interface Hotel {
 
 const HomePage: React.FC = () => {
 
-  const [hotels, setHotels] = useState<Hotel[]>([]);
   const { data, error, isLoading } = useFetchHotelsQuery("");
+  const hotels = useSelector((state: RootState) => state.reducer.hotels);
 
   return (
     <SafeAreaView className="bg-customGray" >
