@@ -1,5 +1,5 @@
 import { post } from "aws-amplify/api";
-import { APP_NAME } from "@/constants"
+import { APP_NAME } from "@/src/constants"
 
 export const getHotels = async () => {
   try {

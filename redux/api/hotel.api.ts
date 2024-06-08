@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL_API } from "@/constants";
+import { BASE_URL_API } from "@/src/constants";
 
 interface Hotel {
     id: number;
