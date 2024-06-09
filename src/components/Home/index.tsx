@@ -1,33 +1,25 @@
-import React, { useState } from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import React from "react";
+import { View, Text, Button } from "react-native";
 import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
-import { useSelector } from "react-redux";
-import { RootState } from "@/src/redux/configureStore";
-import SkeletonLoader from "@/src/components/Skeleton"
+import Skeleton from "@/src/components/Skeleton"
+import { autoSignIn, signIn } from "aws-amplify/auth"
 
-interface Hotel {
-  id: number;
-  active: boolean;
-  updateAt: number;
-  createAt: number;
-  name: string;
-  address: string;
-  phone: string;
-}
-
-const HomePage: React.FC = () => {
+const Home = () => {
 
   const { data, error, isLoading } = useFetchHotelsQuery("");
-  const hotels = useSelector((state: RootState) => state.reducer.hotels);
 
-  if (isLoading) return <SkeletonLoader />
+  const login = async () => {
+  }
+
+  if (isLoading) return <Skeleton />
 
   return (
-    <SafeAreaView>
-      <Text>Cargadoo</Text>
-    </SafeAreaView>
-  );
+    <View>
+      <Text>Ya se cargaron los hoteles</Text>
+      <Button title="Login" onPress={login} />
+    </View>
+  )
 
-};
+}
 
-export default HomePage;
+export default Home;
