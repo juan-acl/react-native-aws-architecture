@@ -1,4 +1,3 @@
-import { View, SafeAreaView } from "react-native";
 import ConfigAws from "@/src/aws-exports";
 import { Amplify } from 'aws-amplify';
 import Content from "../index";
