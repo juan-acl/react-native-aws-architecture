@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
         resizeMode: "cover",
     },
     overlay: {
-        ...StyleSheet.absoluteFillObject, // Esto asegura que la superposición cubra toda el área de la imagen de fondo
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Negro con opacidad del 50%
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     container: {
         flex: 1,
@@ -19,11 +19,10 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 50,  // Ajusta este valor según necesites
     },
     content: {
         alignItems: 'center',
-        marginBottom: 30, // Ajusta este valor según necesites
+        marginBottom: 30,
     },
     containerButtons: {
         flexDirection: 'row',
@@ -61,21 +60,20 @@ export const styles = StyleSheet.create({
     },
     title: {
         color: 'white',
-        fontSize: 30,
+        fontSize: 33,
         fontWeight: 'bold',
         textAlign: 'center',
     },
     subtitle: {
         color: 'white',
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 10,
         textAlign: 'center',
     },
     summary: {
         color: 'white',
-        fontSize: 15,
-        fontWeight: 'bold',
+        fontSize: 11,
         marginBottom: 20,
         textAlign: 'center',
     },
