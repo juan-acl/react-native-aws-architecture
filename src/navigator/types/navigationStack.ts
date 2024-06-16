@@ -4,6 +4,7 @@ import { RoutesNameScreens } from "../Stack/nameScreens"
 export type RootStackParamList = {
     [RoutesNameScreens.Home]: undefined;
     [RoutesNameScreens.SignIn]: undefined;
+    [RoutesNameScreens.SignUp]: undefined;
 }
 
 export type HomeProps = NativeStackScreenProps<RootStackParamList, RoutesNameScreens.Home>

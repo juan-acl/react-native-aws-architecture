@@ -3,6 +3,7 @@ import { HomeScreen } from "@/src/screens/Home";
 import { SignInScreen } from "@/src/screens/SignIn";
 import { RoutesNameScreens } from "./nameScreens";
 import { RootStackParamList } from "../types/navigationStack";
+import { SignUpScreen } from "@/src/screens/SignUp";
 
 const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
@@ -21,6 +22,10 @@ export const StackNavigator = () => {
             <InstanceStackNavigation.Screen
                 name={RoutesNameScreens.SignIn}
                 component={SignInScreen}
+            />
+            <InstanceStackNavigation.Screen
+                name={RoutesNameScreens.SignUp}
+                component={SignUpScreen}
             />
         </InstanceStackNavigation.Navigator>
     )

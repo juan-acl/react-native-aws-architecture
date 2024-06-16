@@ -11,6 +11,10 @@ const Buttons = (props: HomeProps) => {
         navigation.navigate(RoutesNameScreens.SignIn);
     }
 
+    const goToSignUp = () => {
+        navigation.navigate(RoutesNameScreens.SignUp);
+    }
+
     return (
         <>
             <View style={styles.header}>
@@ -22,7 +26,7 @@ const Buttons = (props: HomeProps) => {
             </View>
             <View style={styles.containerButtons}>
                 <Pressable style={styles.button2}>
-                    <Text style={styles.text1}>Regístrate</Text>
+                    <Text style={styles.text1} onPress={goToSignUp} >Regístrate</Text>
                 </Pressable>
                 <Pressable style={styles.button1}>
                     <Text style={styles.text2} onPress={goToSignIn} >Iniciar Sesión</Text>
