@@ -11,6 +11,15 @@ export const StackNavigator = () => {
     return (
         <InstanceStackNavigation.Navigator
             initialRouteName={RoutesNameScreens.Home}
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#543313',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
+            }}
         >
             <InstanceStackNavigation.Screen
                 options={{
@@ -20,10 +29,16 @@ export const StackNavigator = () => {
                 component={HomeScreen}
             />
             <InstanceStackNavigation.Screen
+                options={{
+                    title: "Iniciar Sesión",
+                }}
                 name={RoutesNameScreens.SignIn}
                 component={SignInScreen}
             />
             <InstanceStackNavigation.Screen
+                options={{
+                    title: 'Registrarse',
+                }}
                 name={RoutesNameScreens.SignUp}
                 component={SignUpScreen}
             />

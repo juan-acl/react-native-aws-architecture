@@ -25,11 +25,11 @@ const Buttons = (props: HomeProps) => {
                 <Text style={styles.summary}>¡Busca los mejores hoteles para pasar unas buenas vacaciones!</Text>
             </View>
             <View style={styles.containerButtons}>
-                <Pressable style={styles.button2}>
-                    <Text style={styles.text1} onPress={goToSignUp} >Regístrate</Text>
+                <Pressable style={styles.button2} onPress={goToSignUp} >
+                    <Text style={styles.text1} >Regístrate</Text>
                 </Pressable>
-                <Pressable style={styles.button1}>
-                    <Text style={styles.text2} onPress={goToSignIn} >Iniciar Sesión</Text>
+                <Pressable style={styles.button1} onPress={goToSignIn} >
+                    <Text style={styles.text2} >Iniciar Sesión</Text>
                 </Pressable>
             </View>
         </>
