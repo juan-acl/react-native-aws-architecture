@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuthenticator } from '@aws-amplify/ui-react-native';
-
 import { Pressable, Text } from 'react-native';
 
 export function SignOutButton() {

@@ -1,8 +1,16 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { styles } from "../styles";
+import { HomeProps } from "@/src/navigator/types/navigationStack";
+import { RoutesNameScreens } from "@/src/navigator/Stack/nameScreens";
 
-const Buttons = () => {
+const Buttons = (props: HomeProps) => {
+    const { navigation } = props;
+
+    const goToSignIn = () => {
+        navigation.navigate(RoutesNameScreens.SignIn);
+    }
+
     return (
         <>
             <View style={styles.header}>
@@ -17,7 +25,7 @@ const Buttons = () => {
                     <Text style={styles.text1}>Regístrate</Text>
                 </Pressable>
                 <Pressable style={styles.button1}>
-                    <Text style={styles.text2}>Iniciar Sesión</Text>
+                    <Text style={styles.text2} onPress={goToSignIn} >Iniciar Sesión</Text>
                 </Pressable>
             </View>
         </>
