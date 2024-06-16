@@ -1,30 +1,83 @@
 import { Text, View } from 'react-native';
 import { Input } from '../../Input';
 import { useState } from 'react';
-
-interface InitialState {
-    email: string;
-    password: string;
-    name: string;
-    lastName: string;
-    phone: string;
-    address: string;
-}
+import { FormState } from '@/src/hooks/useForm';
 
 export const Register = () => {
 
-    const initialState = {
-        email: '',
-        password: '',
-        name: "",
-        lastName: "",
-        phone: "",
-        address: "",
+    const initialState: FormState = {
+        email: {
+            value: "",
+            hasError: false,
+            name: "email",
+            messageError: "",
+            isFormInvalid: false,
+        },
+        password: {
+            value: "",
+            hasError: false,
+            name: "password",
+            messageError: "",
+            isFormInvalid: false,
+        },
+        name: {
+            value: "",
+            hasError: false,
+            name: "name",
+            messageError: "",
+            isFormInvalid: false,
+        },
+        lastName: {
+            value: "",
+            hasError: false,
+            name: "lastName",
+            messageError: "",
+            isFormInvalid: false,
+        },
+        phone: {
+            value: "",
+            hasError: false,
+            name: "phone",
+            messageError: "",
+            isFormInvalid: false,
+        },
+        address: {
+            value: "",
+            hasError: false,
+            name: "address",
+            messageError: "",
+            isFormInvalid: false
+        },
     }
-    const [state, setState] = useState<InitialState>(initialState);
+    const [name, setName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
 
     const changeValue = ({ value, name }: { value: string, name: string }) => {
-        setState({ ...state, [name]: value });
+        // setState({ ...state, [name]: value });
+        switch (name) {
+            case 'email':
+                setEmail(value);
+                break;
+            case 'password':
+                setPassword(value);
+                break;
+            case 'name':
+                setName(value);
+                break;
+            case 'lastName':
+                setLastName(value);
+                break;
+            case 'phone':
+                setPhone(value);
+                break;
+            case 'address':
+                setAddress(value);
+                break;
+        }
     }
 
     const onFocus = ({ name }: { name: string }) => {
@@ -34,7 +87,7 @@ export const Register = () => {
         <View >
             <Input
                 changeValue={changeValue}
-                value={state.email}
+                value={email}
                 placeholder='xxxx.example.com'
                 name='email'
                 label='Correo electronico'
@@ -44,7 +97,7 @@ export const Register = () => {
             />
             <Input
                 changeValue={changeValue}
-                value={state.name}
+                value={name}
                 placeholder='xxxx.example.com'
                 name='name'
                 label='Nombre'
@@ -54,7 +107,7 @@ export const Register = () => {
             />
             <Input
                 changeValue={changeValue}
-                value={state.password}
+                value={password}
                 secureTextEntry={true}
                 placeholder='xxxx.example.com'
                 name='password'
@@ -65,7 +118,7 @@ export const Register = () => {
             />
             <Input
                 changeValue={changeValue}
-                value={state.lastName}
+                value={lastName}
                 placeholder='xxxx.example.com'
                 name='lastName'
                 label='Apellido'
@@ -75,7 +128,7 @@ export const Register = () => {
             />
             <Input
                 changeValue={changeValue}
-                value={state.phone}
+                value={phone}
                 placeholder='xxxx.example.com'
                 name='phone'
                 label='Telefono'
@@ -85,7 +138,7 @@ export const Register = () => {
             />
             <Input
                 changeValue={changeValue}
-                value={state.address}
+                value={address}
                 placeholder='xxxx.example.com'
                 name='address'
                 label='Direccion'
