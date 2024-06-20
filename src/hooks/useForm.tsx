@@ -1,3 +1,6 @@
+import { useReducer } from "react";
+import { validateInput } from "../components/Input/validateInput";
+
 type InputState = {
     value: string;
     hasError: boolean;
@@ -23,6 +26,50 @@ export type FormState = {
     [key: string]: InputState;
 }
 
-const formReducer = (state: FormState, action: FormAction) => {
+interface onChangeProps {
+    value: string
+    name: string
+}
 
+const formReducer = (state: FormState, action: FormAction) => {
+    const { data, type } = action;
+    switch (type) {
+        case InputActions.CHANGE_VALUE:
+            return {
+                ...state,
+                [data.name]: {
+                    ...state[data.name],
+                    value: data.value,
+                    hasError: data.hasError,
+                    messageError: data.messageError,
+                    isFormInvalid: data.isFormInvalid
+                }
+            }
+        default:
+            return state;
+    }
+}
+
+
+export const useForm = (initialState: FormState) => {
+    // el useReducer recibe como primer parametro un reducer y como segundo parametro el estado inicial
+    const [state, dispatch] = useReducer(formReducer, initialState);
+
+    const onChange = ({ value, name }: onChangeProps) => {
+        const { errorMessage, hasError } = validateInput({ value, name });
+        dispatch({
+            type: InputActions.CHANGE_VALUE,
+            data: {
+                value,
+                name,
+                hasError,
+                messageError: errorMessage,
+                isFormInvalid: !hasError
+            }
+        })
+    }
+    return {
+        state,
+        onChange
+    }
 }
