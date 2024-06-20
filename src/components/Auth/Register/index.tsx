@@ -115,7 +115,7 @@ export const Register = () => {
             <Input
                 changeValue={changeValue}
                 value={state.phone.value}
-                placeholder='4456677'
+                placeholder='24456677'
                 name={state.phone.name}
                 label='Telefono'
                 typeInput='numeric'
@@ -125,7 +125,7 @@ export const Register = () => {
             />
             <Input
                 changeValue={changeValue}
-                value={address}
+                value={state.address.value}
                 placeholder='Ciudad de Guatemala, zona 1, 1 calle 1-01'
                 name={state.address.name}
                 label='Direccion'

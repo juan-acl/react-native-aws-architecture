@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { validateInput } from "../components/Input/validateInput";
 
 type InputState = {
-    value: string | number;
+    value: string;
     hasError: boolean;
     messageError: string;
     name: string;
@@ -57,10 +57,11 @@ export const useForm = (initialState: FormState) => {
 
     const onChange = ({ value, name }: onChangeProps) => {
         const { errorMessage, hasError } = validateInput({ value, name });
+        const PHONE = "phone";
         dispatch({
             type: InputActions.CHANGE_VALUE,
             data: {
-                value: (name === 'phone' && hasError) ? value.substring(0, 8) : value,
+                value: (name === PHONE && hasError) ? value.substring(0, 8) : value,
                 name,
                 hasError,
                 messageError: errorMessage,
