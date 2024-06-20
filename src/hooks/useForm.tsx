@@ -60,7 +60,7 @@ export const useForm = (initialState: FormState) => {
         dispatch({
             type: InputActions.CHANGE_VALUE,
             data: {
-                value: (name === 'phone' && hasError) ? value.substring(0, 7) : value,
+                value: (name === 'phone' && hasError) ? value.substring(0, 8) : value,
                 name,
                 hasError,
                 messageError: errorMessage,
