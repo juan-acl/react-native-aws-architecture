@@ -1,7 +1,12 @@
 import { Text, View } from 'react-native';
 import { Input } from '../../Input';
 import { useState } from 'react';
-import { FormState } from '@/src/hooks/useForm';
+import { FormState, useForm } from '@/src/hooks/useForm';
+
+interface RegisterOnChangeProps {
+    value: string;
+    name: string;
+}
 
 export const Register = () => {
 
@@ -49,6 +54,7 @@ export const Register = () => {
             isFormInvalid: false
         },
     }
+    const { state, onChange } = useForm(initialState);
     const [name, setName] = useState("");
     const [lastName, setLastName] = useState("");
     const [phone, setPhone] = useState("");
@@ -56,28 +62,8 @@ export const Register = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
 
-    const changeValue = ({ value, name }: { value: string, name: string }) => {
-        // setState({ ...state, [name]: value });
-        switch (name) {
-            case 'email':
-                setEmail(value);
-                break;
-            case 'password':
-                setPassword(value);
-                break;
-            case 'name':
-                setName(value);
-                break;
-            case 'lastName':
-                setLastName(value);
-                break;
-            case 'phone':
-                setPhone(value);
-                break;
-            case 'address':
-                setAddress(value);
-                break;
-        }
+    const changeValue = ({ value, name }: RegisterOnChangeProps) => {
+        onChange({ value, name });
     }
 
     const onFocus = ({ name }: { name: string }) => {
@@ -87,13 +73,13 @@ export const Register = () => {
         <View >
             <Input
                 changeValue={changeValue}
-                value={email}
+                value={state.email.value}
                 placeholder='xxxx.example.com'
-                name='email'
+                name={state.email.name}
                 label='Correo electronico'
                 onFocus={onFocus}
-                hasErrror={true}
-                messageError='Correo electronico invalido'
+                hasErrror={state.email.hasError}
+                messageError={state.email.messageError}
             />
             <Input
                 changeValue={changeValue}

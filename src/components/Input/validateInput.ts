@@ -15,17 +15,19 @@ enum NameParams {
 export const validateInput = ({ value, name }: onValidateProps): ValidateInput => {
     let hasError = false;
     let errorMessage = "";
+    const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     const formatValue = value.trim();
     switch (name) {
         case NameParams.email:
             if (!formatValue) {
                 hasError = true;
-                errorMessage = "Email is required";
-            }
-            const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            if (!regexEmail.test(formatValue)) {
+                errorMessage = "El correo es requrerido";
+            } else if (!regexEmail.test(formatValue)) {
                 hasError = true;
-                errorMessage = "Invalid email format";
+                errorMessage = "Formato de correo incorrecto";
+            } else {
+                hasError = false;
+                errorMessage = "";
             }
             break;
         default:
