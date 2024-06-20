@@ -6,7 +6,8 @@ import {
     Text,
     TouchableWithoutFeedback,
     Keyboard,
-    StyleSheet
+    StyleSheet,
+    KeyboardTypeOptions
 } from "react-native";
 
 type onChangeProps = {
@@ -20,13 +21,14 @@ interface InputProps {
     value: string;
     placeholder: string;
     secureTextEntry?: boolean;
+    typeInput?: KeyboardTypeOptions
     label?: string;
     hasErrror?: boolean;
     messageError?: string;
     onFocus: ({ name }: { name: string }) => void;
 }
 
-export const Input = ({ onFocus, placeholder, value, changeValue, name, secureTextEntry, messageError, hasErrror, label }: InputProps) => {
+export const Input = ({ onFocus, placeholder, value, changeValue, name, secureTextEntry, messageError, hasErrror, label, typeInput }: InputProps) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
             <View style={styles.container}>
@@ -39,6 +41,7 @@ export const Input = ({ onFocus, placeholder, value, changeValue, name, secureTe
                     secureTextEntry={secureTextEntry}
                     onChangeText={(text) => changeValue({ value: text, name })}
                     placeholderTextColor="#888"
+                    keyboardType={typeInput}
                 />
                 {hasErrror && <Text style={styles.errorText}>{messageError}</Text>}
             </View>

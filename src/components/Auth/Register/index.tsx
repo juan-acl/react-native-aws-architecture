@@ -83,54 +83,55 @@ export const Register = () => {
             />
             <Input
                 changeValue={changeValue}
-                value={name}
-                placeholder='xxxx.example.com'
-                name='name'
+                value={state.name.value}
+                placeholder='Nombre completo'
+                name={state.name.name}
                 label='Nombre'
                 onFocus={onFocus}
-                hasErrror={true}
-                messageError='Nombre invalido'
+                hasErrror={state.name.hasError}
+                messageError={state.name.messageError}
             />
             <Input
                 changeValue={changeValue}
-                value={password}
+                value={state.password.value}
                 secureTextEntry={true}
-                placeholder='xxxx.example.com'
-                name='password'
+                placeholder='******'
+                name={state.password.name}
                 label='Contraseña'
                 onFocus={onFocus}
-                hasErrror={true}
-                messageError='Contraseña invalida'
+                hasErrror={state.password.hasError}
+                messageError={state.password.messageError}
             />
             <Input
                 changeValue={changeValue}
-                value={lastName}
-                placeholder='xxxx.example.com'
-                name='lastName'
+                value={state.lastName.value}
+                placeholder='Apellido completo'
+                name={state.lastName.name}
                 label='Apellido'
                 onFocus={onFocus}
-                hasErrror={true}
-                messageError='Apellido invalido'
+                hasErrror={state.lastName.hasError}
+                messageError={state.lastName.messageError}
             />
             <Input
                 changeValue={changeValue}
-                value={phone}
-                placeholder='xxxx.example.com'
-                name='phone'
+                value={state.phone.value}
+                placeholder='4456677'
+                name={state.phone.name}
                 label='Telefono'
+                typeInput='numeric'
                 onFocus={onFocus}
-                hasErrror={true}
-                messageError='Telefono invalido'
+                hasErrror={state.phone.hasError}
+                messageError={state.phone.messageError}
             />
             <Input
                 changeValue={changeValue}
                 value={address}
-                placeholder='xxxx.example.com'
-                name='address'
+                placeholder='Ciudad de Guatemala, zona 1, 1 calle 1-01'
+                name={state.address.name}
                 label='Direccion'
                 onFocus={onFocus}
-                hasErrror={true}
-                messageError='Direccion invalida'
+                hasErrror={state.address.hasError}
+                messageError={state.address.messageError}
             />
         </View>
     )
