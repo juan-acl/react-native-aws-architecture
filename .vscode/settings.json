@@ -1,0 +1,11 @@
+{
+    "glassit.force_sway": true,
+    "glassit.step": 50,
+    "glassit.alpha": 255,
+    "editor.fontFamily": "JetBrains Mono Light",
+    "breadcrumbs.enabled": false,
+    "editor.minimap.enabled": false,
+    "editor.cursorStyle": "line",
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorWidth": 5
+}

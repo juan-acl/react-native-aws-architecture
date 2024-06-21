@@ -1,7 +1,9 @@
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Input } from '../../Input';
-import { useState } from 'react';
 import { FormState, useForm } from '@/src/hooks/useForm';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RoutesNameScreens } from '@/src/navigator/Stack/nameScreens';
+import { RootStackParamList } from '@/src/navigator/types/navigationStack';
 
 interface RegisterOnChangeProps {
     value: string;
@@ -9,7 +11,7 @@ interface RegisterOnChangeProps {
 }
 
 export const Register = () => {
-
+    const navigate = useNavigation<NavigationProp<RootStackParamList>>()
     const initialState: FormState = {
         email: {
             value: "",
@@ -54,19 +56,16 @@ export const Register = () => {
             isFormInvalid: false
         },
     }
-    const { state, onChange } = useForm(initialState);
-    const [name, setName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-
+    const { state, onChange, isValidaFormState } = useForm(initialState);
     const changeValue = ({ value, name }: RegisterOnChangeProps) => {
         onChange({ value, name });
     }
 
     const onFocus = ({ name }: { name: string }) => {
+    }
+
+    const login = () => {
+        navigate.navigate(RoutesNameScreens.SignIn)
     }
 
     return (
@@ -93,6 +92,16 @@ export const Register = () => {
             />
             <Input
                 changeValue={changeValue}
+                value={state.lastName.value}
+                placeholder='Apellido completo'
+                name={state.lastName.name}
+                label='Apellido'
+                onFocus={onFocus}
+                hasErrror={state.lastName.hasError}
+                messageError={state.lastName.messageError}
+            />
+            <Input
+                changeValue={changeValue}
                 value={state.password.value}
                 secureTextEntry={true}
                 placeholder='******'
@@ -101,16 +110,6 @@ export const Register = () => {
                 onFocus={onFocus}
                 hasErrror={state.password.hasError}
                 messageError={state.password.messageError}
-            />
-            <Input
-                changeValue={changeValue}
-                value={state.lastName.value}
-                placeholder='Apellido completo'
-                name={state.lastName.name}
-                label='Apellido'
-                onFocus={onFocus}
-                hasErrror={state.lastName.hasError}
-                messageError={state.lastName.messageError}
             />
             <Input
                 changeValue={changeValue}
@@ -133,6 +132,37 @@ export const Register = () => {
                 hasErrror={state.address.hasError}
                 messageError={state.address.messageError}
             />
+            <View>
+                <TouchableOpacity onPress={login} style={!isValidaFormState ? styles.button_disabled : styles.button_login} disabled={!isValidaFormState}>
+                    <Text style={styles.text_login} > Iniciar sesion </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    button_login: {
+        padding: 20,
+        borderRadius: 15,
+        backgroundColor: "#543313",
+        marginHorizontal: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 20
+    },
+    button_disabled: {
+        padding: 20,
+        borderRadius: 15,
+        marginHorizontal: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 20,
+        backgroundColor: "#ccc",
+    },
+    text_login: {
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: 17
+    }
+})

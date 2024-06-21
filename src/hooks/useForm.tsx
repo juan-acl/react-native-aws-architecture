@@ -69,8 +69,20 @@ export const useForm = (initialState: FormState) => {
             }
         })
     }
+
+    const isValidaForm = () => {
+        let isValid = true;
+        Object.keys(state).forEach(key => {
+            if(!state[key].isFormInvalid) {
+                isValid = false
+            }
+        })
+        return isValid
+    }
+
     return {
         state,
-        onChange
+        onChange,
+        isValidaFormState: isValidaForm()
     }
 }
