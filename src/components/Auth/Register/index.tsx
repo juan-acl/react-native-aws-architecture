@@ -66,7 +66,6 @@ export const Register = () => {
     }
 
     const login = () => {
-        // navigate.navigate(RoutesNameScreens.SignIn)
         signUp({
             username: state.email.value,
             password: state.password.value,
@@ -77,11 +76,9 @@ export const Register = () => {
                     family_name: state.lastName.value,
                     phone_number: "+" + state.phone.value,
                     address: state.address.value,
-
                 }
             }
-        }).then((response) => {
-            console.log("Se registro", { response })
+        }).then(() => {
             navigate.navigate(RoutesNameScreens.SignIn)
         }).catch((error) => {
             console.log(error)
@@ -159,6 +156,7 @@ export const Register = () => {
             </View>
         </View>
     )
+
 }
 
 const styles = StyleSheet.create({
