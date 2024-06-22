@@ -4,6 +4,7 @@ import { FormState, useForm } from '@/src/hooks/useForm';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { RoutesNameScreens } from '@/src/navigator/Stack/nameScreens';
 import { RootStackParamList } from '@/src/navigator/types/navigationStack';
+import { signUp } from "aws-amplify/auth"
 
 interface RegisterOnChangeProps {
     value: string;
@@ -65,7 +66,26 @@ export const Register = () => {
     }
 
     const login = () => {
-        navigate.navigate(RoutesNameScreens.SignIn)
+        // navigate.navigate(RoutesNameScreens.SignIn)
+        signUp({
+            username: state.email.value,
+            password: state.password.value,
+            options: {
+                userAttributes: {
+                    email: state.email.value,
+                    name: state.name.value,
+                    family_name: state.lastName.value,
+                    phone_number: "+" + state.phone.value,
+                    address: state.address.value,
+
+                }
+            }
+        }).then((response) => {
+            console.log("Se registro", { response })
+            navigate.navigate(RoutesNameScreens.SignIn)
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     return (
