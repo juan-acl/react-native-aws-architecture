@@ -5,52 +5,72 @@ import { RootStackParamList } from "../types/navigationStack";
 import { SignUpScreen } from "@/src/screens/SignUp";
 import { ButtonTabNavigation } from "../tabs";
 import { HomeScreen } from "@/src/screens/Home";
-
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
 
 const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
 export const StackNavigator = () => {
-    return (
-        <InstanceStackNavigation.Navigator
-            initialRouteName={RoutesNameScreens.Home}
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: '#543313',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                    fontWeight: 'bold',
-                },
-            }}
-        >
-            <InstanceStackNavigation.Screen
-                options={{
-                    headerShown: false,
-                }}
-                name={RoutesNameScreens.Home}
-                component={HomeScreen}
+  return (
+    <InstanceStackNavigation.Navigator
+      initialRouteName={RoutesNameScreens.Home}
+      screenOptions={({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: "#543313",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons
+              name="arrow-back"
+              size={30}
+              style={{
+                marginLeft: 10,
+                backgroundColor: "#543313",
+                borderRadius: 20,
+                padding: 10,
+                color: "#fff",
+              }}
             />
-            <InstanceStackNavigation.Screen
-                options={{
-                    title: "Iniciar Sesión",
-                }}
-                name={RoutesNameScreens.SignIn}
-                component={SignInScreen}
-            />
-            <InstanceStackNavigation.Screen
-                options={{
-                    headerShown: false, // Tengo como componente una navegacion por tabs nuevo y el header solo aplica para el stack si se necesita realizar otra cosa se hace desde el tab
-                }}
-                name={RoutesNameScreens.navigationTab}
-                component={ButtonTabNavigation}
-            />
-            <InstanceStackNavigation.Screen
-                options={{
-                    title: 'Registrarse',
-                }}
-                name={RoutesNameScreens.SignUp}
-                component={SignUpScreen}
-            />
-        </InstanceStackNavigation.Navigator>
-    )
-}
+          </TouchableOpacity>
+        ),
+      })}
+    >
+      <InstanceStackNavigation.Screen
+        options={{
+          headerShown: false,
+        }}
+        name={RoutesNameScreens.Home}
+        component={HomeScreen}
+      />
+      <InstanceStackNavigation.Screen
+        options={{
+          title: "Iniciar Sesión",
+        }}
+        name={RoutesNameScreens.SignIn}
+        component={SignInScreen}
+      />
+      <InstanceStackNavigation.Screen
+        options={{
+          // headerShown: false,
+          title: "",
+          headerStyle: {
+            backgroundColor: "transparent",
+          },
+        }}
+        name={RoutesNameScreens.navigationTab}
+        component={ButtonTabNavigation}
+      />
+      <InstanceStackNavigation.Screen
+        options={{
+          title: "Registrarse",
+        }}
+        name={RoutesNameScreens.SignUp}
+        component={SignUpScreen}
+      />
+    </InstanceStackNavigation.Navigator>
+  );
+};
