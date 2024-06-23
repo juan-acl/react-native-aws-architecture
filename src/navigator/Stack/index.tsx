@@ -38,6 +38,9 @@ export const StackNavigator = () => {
                 component={SignInScreen}
             />
             <InstanceStackNavigation.Screen
+                options={{
+                    headerShown: false, // Tengo como componente una navegacion por tabs nuevo y el header solo aplica para el stack si se necesita realizar otra cosa se hace desde el tab
+                }}
                 name={RoutesNameScreens.navigationTab}
                 component={ButtonTabNavigation}
             />

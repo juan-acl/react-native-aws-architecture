@@ -1,8 +1,8 @@
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Input } from '../../Input';
 import { FormState, useForm } from '@/src/hooks/useForm';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RoutesNameScreens } from '@/src/navigator/Stack/nameScreens';
+import { RoutesNameScreens } from '@/src/navigator/stack/nameScreens';
 import { RootStackParamList } from '@/src/navigator/types/navigationStack';
 import { signUp } from "aws-amplify/auth"
 
@@ -13,6 +13,7 @@ interface RegisterOnChangeProps {
 
 export const Register = () => {
     const navigate = useNavigation<NavigationProp<RootStackParamList>>()
+
     const initialState: FormState = {
         email: {
             value: "",
@@ -57,12 +58,14 @@ export const Register = () => {
             isFormInvalid: false
         },
     }
+
     const { state, onChange, isValidaFormState } = useForm(initialState);
+
     const changeValue = ({ value, name }: RegisterOnChangeProps) => {
         onChange({ value, name });
     }
 
-    const login = () => {
+    const register = () => {
         signUp({
             username: state.email.value,
             password: state.password.value,
@@ -83,7 +86,10 @@ export const Register = () => {
     }
 
     return (
-        <View >
+        <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+        >
             <Input
                 changeValue={changeValue}
                 value={state.email.value}
@@ -141,11 +147,11 @@ export const Register = () => {
                 messageError={state.address.messageError}
             />
             <View>
-                <TouchableOpacity onPress={login} style={!isValidaFormState ? styles.button_disabled : styles.button_login} disabled={!isValidaFormState}>
+                <TouchableOpacity onPress={register} style={!isValidaFormState ? styles.button_disabled : styles.button_login} disabled={!isValidaFormState}>
                     <Text style={styles.text_login} > Iniciar sesion </Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     )
 
 }

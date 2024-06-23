@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RoutesNameScreens } from "../Stack/nameScreens"
+import { RoutesNameScreens } from "../stack/nameScreens"
 
 export type RootStackParamList = {
     [RoutesNameScreens.Home]: undefined;

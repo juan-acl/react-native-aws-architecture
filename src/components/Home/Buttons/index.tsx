@@ -2,13 +2,17 @@ import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { styles } from "../styles";
 import { HomeProps } from "@/src/navigator/types/navigationStack";
-import { RoutesNameScreens } from "@/src/navigator/Stack/nameScreens";
+import { RoutesNameScreens } from "@/src/navigator/stack/nameScreens";
 
 const Buttons = (props: HomeProps) => {
     const { navigation } = props;
 
     const goToSignIn = () => {
         navigation.navigate(RoutesNameScreens.SignIn);
+    }
+
+    const goToHotels = () => {
+        navigation.navigate(RoutesNameScreens.navigationTab);
     }
 
     const goToSignUp = () => {
@@ -32,6 +36,9 @@ const Buttons = (props: HomeProps) => {
                     <Text style={styles.text2} >Iniciar Sesión</Text>
                 </Pressable>
             </View>
+            <Pressable style={styles.button1} onPress={goToHotels} >
+                <Text style={styles.text2} >Ver hoteles</Text>
+            </Pressable>
         </>
     );
 };
