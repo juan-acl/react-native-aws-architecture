@@ -15,10 +15,6 @@ export const StackNavigator = () => {
     <InstanceStackNavigation.Navigator
       initialRouteName={RoutesNameScreens.Home}
       screenOptions={({ navigation }) => ({
-        headerStyle: {
-          backgroundColor: "#543313",
-        },
-        headerTintColor: "#fff",
         headerTitleStyle: {
           fontWeight: "bold",
         },
@@ -55,7 +51,6 @@ export const StackNavigator = () => {
       />
       <InstanceStackNavigation.Screen
         options={{
-          // headerShown: false,
           title: "",
           headerStyle: {
             backgroundColor: "transparent",
