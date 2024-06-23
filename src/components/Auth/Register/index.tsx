@@ -62,9 +62,6 @@ export const Register = () => {
         onChange({ value, name });
     }
 
-    const onFocus = ({ name }: { name: string }) => {
-    }
-
     const login = () => {
         signUp({
             username: state.email.value,
@@ -74,7 +71,7 @@ export const Register = () => {
                     email: state.email.value,
                     name: state.name.value,
                     family_name: state.lastName.value,
-                    phone_number: "+" + state.phone.value,
+                    phone_number: "+502 " + state.phone.value,
                     address: state.address.value,
                 }
             }
@@ -93,7 +90,6 @@ export const Register = () => {
                 placeholder='xxxx.example.com'
                 name={state.email.name}
                 label='Correo electronico'
-                onFocus={onFocus}
                 hasErrror={state.email.hasError}
                 messageError={state.email.messageError}
             />
@@ -103,7 +99,6 @@ export const Register = () => {
                 placeholder='Nombre completo'
                 name={state.name.name}
                 label='Nombre'
-                onFocus={onFocus}
                 hasErrror={state.name.hasError}
                 messageError={state.name.messageError}
             />
@@ -113,7 +108,6 @@ export const Register = () => {
                 placeholder='Apellido completo'
                 name={state.lastName.name}
                 label='Apellido'
-                onFocus={onFocus}
                 hasErrror={state.lastName.hasError}
                 messageError={state.lastName.messageError}
             />
@@ -124,7 +118,6 @@ export const Register = () => {
                 placeholder='******'
                 name={state.password.name}
                 label='Contraseña'
-                onFocus={onFocus}
                 hasErrror={state.password.hasError}
                 messageError={state.password.messageError}
             />
@@ -135,7 +128,6 @@ export const Register = () => {
                 name={state.phone.name}
                 label='Telefono'
                 typeInput='numeric'
-                onFocus={onFocus}
                 hasErrror={state.phone.hasError}
                 messageError={state.phone.messageError}
             />
@@ -145,7 +137,6 @@ export const Register = () => {
                 placeholder='Ciudad de Guatemala, zona 1, 1 calle 1-01'
                 name={state.address.name}
                 label='Direccion'
-                onFocus={onFocus}
                 hasErrror={state.address.hasError}
                 messageError={state.address.messageError}
             />

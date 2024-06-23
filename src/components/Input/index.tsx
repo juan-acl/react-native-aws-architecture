@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     TextInput,
-    TextInputProps,
     View,
     Text,
     TouchableWithoutFeedback,
@@ -25,10 +24,10 @@ interface InputProps {
     label?: string;
     hasErrror?: boolean;
     messageError?: string;
-    onFocus: ({ name }: { name: string }) => void;
 }
 
-export const Input = ({ onFocus, placeholder, value, changeValue, name, secureTextEntry, messageError, hasErrror, label, typeInput }: InputProps) => {
+export const Input = (
+    { placeholder, value, changeValue, name, secureTextEntry, messageError, hasErrror, label, typeInput }: InputProps) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
             <View style={styles.container}>
@@ -37,7 +36,6 @@ export const Input = ({ onFocus, placeholder, value, changeValue, name, secureTe
                     style={[styles.input, hasErrror && styles.errorInput]}
                     placeholder={placeholder}
                     value={value}
-                    onFocus={() => onFocus({ name })}
                     secureTextEntry={secureTextEntry}
                     onChangeText={(text) => changeValue({ value: text, name })}
                     placeholderTextColor="#888"
