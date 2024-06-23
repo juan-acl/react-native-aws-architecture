@@ -6,9 +6,7 @@ import { Favorite } from "@/src/components/Hotels/Favorite";
 import { Reservation_Screen } from "@/src/screens/Reservations";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const InstabceButtonTabNavigation = createBottomTabNavigator<
-  RootButtonTabParamList
->();
+const InstabceButtonTabNavigation = createBottomTabNavigator<RootButtonTabParamList>();
 
 export const ButtonTabNavigation = () => {
   return (
@@ -69,10 +67,6 @@ export const ButtonTabNavigation = () => {
         options={{
           headerShown: false,
           title: "",
-          tabBarStyle: {
-            paddingTop: 50,
-            height: 50,
-          },
           tabBarIcon: ({ color, size }) => (
             <Icon
               name="book"

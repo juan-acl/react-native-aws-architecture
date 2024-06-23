@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface Hotel {
+export interface Hotel {
     id: number;
     name: string;
     address: string;
