@@ -6,7 +6,7 @@ import {Favorite} from "@/src/components/Hotels/Favorite";
 import {Reservation_Screen} from "@/src/screens/Reservations";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const InstabceButtonTabNavigation = createBottomTabNavigator<RootButtonTabParamList>();
+const InstanceButtonTabNavigation = createBottomTabNavigator<RootButtonTabParamList>();
 
 const getTabBarIcon = (routeName: string, color: string, size: number) => {
     let iconName = "";
@@ -21,7 +21,7 @@ const getTabBarIcon = (routeName: string, color: string, size: number) => {
 
 export const ButtonTabNavigation = () => {
     return (
-        <InstabceButtonTabNavigation.Navigator
+        <InstanceButtonTabNavigation.Navigator
             initialRouteName={RoutesNameScreensHotelsTabs.Hotels}
             screenOptions={({route}) => ({
                 tabBarStyle: {
@@ -50,18 +50,18 @@ export const ButtonTabNavigation = () => {
                 tabBarIcon: ({color, size}) => getTabBarIcon(route.name, color, size),
             })}
         >
-            <InstabceButtonTabNavigation.Screen
+            <InstanceButtonTabNavigation.Screen
                 name={RoutesNameScreensHotelsTabs.Hotels}
                 component={HotelsScreen}
             />
-            <InstabceButtonTabNavigation.Screen
+            <InstanceButtonTabNavigation.Screen
                 name={RoutesNameScreensHotelsTabs.Favorite}
                 component={Favorite}
             />
-            <InstabceButtonTabNavigation.Screen
+            <InstanceButtonTabNavigation.Screen
                 name={RoutesNameScreensHotelsTabs.Reservaciones}
                 component={Reservation_Screen}
             />
-        </InstabceButtonTabNavigation.Navigator>
+        </InstanceButtonTabNavigation.Navigator>
     );
 };

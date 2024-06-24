@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {hotel_slice} from "@/src/redux/nameSlices";
 
 export interface Hotel {
     id: number;
@@ -19,7 +20,7 @@ const initialState: HotelState = {
 }
 
 const hotelSlice = createSlice({
-    name: "hotelSlice",
+    name: hotel_slice,
     initialState,
     reducers: {
         setHotels(state, action: PayloadAction<{ hotels: Hotel[] }>) {
@@ -28,6 +29,6 @@ const hotelSlice = createSlice({
     }
 })
 
-export const { setHotels } = hotelSlice.actions;
+export const {setHotels} = hotelSlice.actions;
 const hotelReducer = hotelSlice.reducer;
-export { hotelReducer }
+export {hotelReducer}
