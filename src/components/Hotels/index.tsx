@@ -1,6 +1,5 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Text } from "react-native";
 import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
-import Skeleton from "@/src/components/Skeleton";
 import { Hotel } from "@/src/redux/slices/hotel.slice";
 import { Card } from "./Card";
 import {
@@ -9,6 +8,7 @@ import {
     Icon,
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useDispatch } from "react-redux";
 
 type FetchHotelsQuery = {
     data: fetchHotel;
@@ -23,9 +23,8 @@ interface fetchHotel {
 }
 
 export const Hotels = () => {
-    const { data, error, isLoading } = useFetchHotelsQuery<FetchHotelsQuery>("");
-
-    if (isLoading) return <Skeleton />
+    const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
+    const dispatch = useDispatch();
 
     return (
         <View>

@@ -1,2 +1,2 @@
-export const hotel_slice: string = "hotelSlice";
-export const loader_slice: string = "loaderSlice";
+export const HOTEL_SLICE: string = "hotelSlice";
+export const LOADER_SLICE: string = "loaderSlice";
