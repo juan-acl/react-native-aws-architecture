@@ -1,4 +1,3 @@
-import {View} from "react-native";
 import {HotelsScreen} from "@/src/screens/Hotels";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {RoutesNameScreensHotelsTabs} from "./nameScreensTabs";
@@ -11,20 +10,12 @@ const InstabceButtonTabNavigation = createBottomTabNavigator<RootButtonTabParamL
 
 const getTabBarIcon = (routeName: string, color: string, size: number) => {
     let iconName = "";
-    switch (routeName) {
-        case RoutesNameScreensHotelsTabs.Hotels:
-            iconName = "home";
-            break;
-        case RoutesNameScreensHotelsTabs.Favorite:
-            iconName = "heart";
-            break;
-        case RoutesNameScreensHotelsTabs.Reservaciones:
-            iconName = "book";
-            break;
-        default:
-            iconName = "home";
+    let mapIconName = {
+        [RoutesNameScreensHotelsTabs.Hotels]: "home",
+        [RoutesNameScreensHotelsTabs.Favorite]: "heart",
+        [RoutesNameScreensHotelsTabs.Reservaciones]: "book",
     }
-
+    iconName = mapIconName[routeName]
     return <Icon name={iconName} size={size} color={color} style={{marginTop: 10, marginBottom: -5}}/>;
 };
 
@@ -49,6 +40,7 @@ export const ButtonTabNavigation = () => {
                     position: 'absolute',
                     height: 70,
                 },
+                title: "",
                 headerTransparent: true,
                 tabBarActiveTintColor: "black",
                 tabBarActiveBackgroundColor: "white",
@@ -59,23 +51,14 @@ export const ButtonTabNavigation = () => {
             })}
         >
             <InstabceButtonTabNavigation.Screen
-                options={{
-                    title: "",
-                }}
                 name={RoutesNameScreensHotelsTabs.Hotels}
                 component={HotelsScreen}
             />
             <InstabceButtonTabNavigation.Screen
-                options={{
-                    title: "",
-                }}
                 name={RoutesNameScreensHotelsTabs.Favorite}
                 component={Favorite}
             />
             <InstabceButtonTabNavigation.Screen
-                options={{
-                    title: "",
-                }}
                 name={RoutesNameScreensHotelsTabs.Reservaciones}
                 component={Reservation_Screen}
             />
