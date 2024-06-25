@@ -6,7 +6,7 @@ import {RootState} from "@/src/redux/configureStore";
 import Skeleton from "@/src/components/Skeleton";
 
 export const RootNavigation = () => {
-    const isLoading = useSelector((state: RootState) => state.reducer.loader.isLoading);
+    const isLoading: boolean = useSelector((state: RootState) => state.reducer.loader.isLoading);
 
     return (
         <>
