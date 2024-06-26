@@ -9,9 +9,10 @@ import {
 } from 'native-base';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useDispatch} from "react-redux";
-import { useState } from "react";
+import {useState, useCallback} from "react";
+import { useFocusEffect } from '@react-navigation/native';
 
-type FetchHotelsQuery = {
+interface FetchHotelsQuery {
     data: fetchHotel;
     error: string;
     isLoading: boolean;
@@ -23,17 +24,35 @@ interface fetchHotel {
     hotels: Hotel[];
 }
 
+interface HotelMap {
+    [key: string]: any;
+}
+
 export const Hotels = () => {
     const {data} = useFetchHotelsQuery<FetchHotelsQuery>("");
     const dispatch = useDispatch();
-    const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
-    const hotelsToDisplay = filteredHotels.length > 0 ? filteredHotels : data?.hotels || [];
+    const [hotels, setHotels] = useState<Hotel[]>([]);
 
     const onChangeText = (text: string) => {
-        const { hotels } = data;
-        const filteredHotels = data?.hotels?.filter(hotel => hotel?.name?.toLowerCase()?.includes(text?.toLowerCase()));
-        setFilteredHotels(filteredHotels);
+        if (!text) {
+            setHotels(data?.hotels);
+            return;
+        }
+        const filteredHotels = data?.hotels?.filter((hotel: HotelMap) => {
+            let arrayFilterParams = ["name", "address", "phone"];
+            let filterResult = arrayFilterParams.some((key: string) => {
+                return hotel[key].toLowerCase()?.includes(text?.toLowerCase())
+            })
+            return filterResult;
+        })
+        setHotels(filteredHotels);
     }
+
+    useFocusEffect(
+        useCallback(() => {
+            setHotels(data?.hotels);
+        }, [data])
+    )
 
     return (
         <View>
@@ -69,12 +88,13 @@ export const Hotels = () => {
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
-                style={{ marginBottom: 50 }}
+                style={{marginBottom: 50}}
             >
-                {
-                    hotelsToDisplay?.map((hotel, index) => (
+                {hotels?.length === 0 ? <Text> Not found your search </Text> :
+                    hotels?.map((hotel, index) => (
                         <Card key={index} address={hotel?.address} nameHotel={hotel?.name} phone={hotel?.phone}/>
                     ))
+
                 }
             </ScrollView>
         </View>
