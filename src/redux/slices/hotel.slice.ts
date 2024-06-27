@@ -13,10 +13,12 @@ export interface Hotel {
 
 interface HotelState {
     hotels: Hotel[];
+    filterText: string;
 }
 
 const initialState: HotelState = {
-    hotels: []
+    hotels: [],
+    filterText: ""
 }
 
 const hotelSlice = createSlice({
@@ -25,10 +27,13 @@ const hotelSlice = createSlice({
     reducers: {
         setHotels(state, action: PayloadAction<{ hotels: Hotel[] }>) {
             state.hotels = action.payload.hotels;
+        },
+        setFilterText(state, action: PayloadAction<{ filterText: string }>) {
+            state.filterText = action.payload.filterText;
         }
     }
 })
 
-export const {setHotels} = hotelSlice.actions;
+export const {setHotels, setFilterText} = hotelSlice.actions;
 const hotelReducer = hotelSlice.reducer;
 export {hotelReducer}

@@ -1,23 +1,29 @@
-import {createStackNavigator} from "@react-navigation/stack";
-import {SignInScreen} from "@/src/screens/SignIn";
-import {RoutesNameScreens} from "./nameScreens";
-import {RootStackParamList} from "../types/navigationStack";
-import {SignUpScreen} from "@/src/screens/SignUp";
-import {ButtonTabNavigation} from "../tabs";
-import {HomeScreen} from "@/src/screens/Home";
-import {TouchableOpacity} from "react-native-gesture-handler";
-import {Ionicons} from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
+import { SignInScreen } from "@/src/screens/SignIn";
+import { RoutesNameScreens } from "./nameScreens";
+import { RootStackParamList } from "../types/navigationStack";
+import { SignUpScreen } from "@/src/screens/SignUp";
+import { ButtonTabNavigation } from "../tabs";
+import { HomeScreen } from "@/src/screens/Home";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
+import { TextInput } from "react-native";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/src/redux/configureStore";
+import { setFilterText } from "@/src/redux/slices/hotel.slice";
 
 const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
 export const StackNavigator = () => {
+    const dispatch: AppDispatch = useDispatch();
     return (
         <InstanceStackNavigation.Navigator
             initialRouteName={RoutesNameScreens.Home}
-            screenOptions={({navigation}) => ({
+            screenOptions={({ navigation }) => ({
                 headerTitleStyle: {
                     fontWeight: "bold",
                 },
+                headerTransparent: true,
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Ionicons
@@ -25,6 +31,7 @@ export const StackNavigator = () => {
                             size={30}
                             style={{
                                 marginLeft: 10,
+                                marginTop: 10,
                                 backgroundColor: "#543313",
                                 borderRadius: 20,
                                 padding: 10,
@@ -52,9 +59,22 @@ export const StackNavigator = () => {
             <InstanceStackNavigation.Screen
                 options={{
                     title: "",
-                    headerStyle: {
-                        backgroundColor: "transparent",
-                    },
+                    headerTitle: () => (
+                        <TextInput
+                            placeholder="Buscar"
+                            onChangeText={(text) => dispatch(setFilterText({ filterText: text }))}
+                            style={{
+                                backgroundColor: "#fff",
+                                borderRadius: 20,
+                                padding: 10,
+                                marginTop: 10,
+                                width: 200,
+                                marginLeft: 10,
+                                height: "100%",
+                                textAlign: "center",
+                            }}
+                        />
+                    ),
                 }}
                 name={RoutesNameScreens.navigationTab}
                 component={ButtonTabNavigation}

@@ -15,6 +15,7 @@ const getTabBarIcon = (routeName: string, color: string, size: number) => {
         [RoutesNameScreensHotelsTabs.Favorite]: "heart",
         [RoutesNameScreensHotelsTabs.Reservaciones]: "book",
     }
+    // @ts-ignore
     iconName = mapIconName[routeName]
     return <Icon name={iconName} size={size} color={color} style={{marginTop: 10, marginBottom: -5}}/>;
 };

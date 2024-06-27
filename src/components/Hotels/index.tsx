@@ -1,16 +1,12 @@
-import {ScrollView, View, Text} from "react-native";
-import {useFetchHotelsQuery} from "@/src/redux/api/hotel.api";
-import {Hotel} from "@/src/redux/slices/hotel.slice";
-import {Card} from "./Card";
-import {
-    VStack,
-    Input,
-    Icon,
-} from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons';
-import {useDispatch} from "react-redux";
-import {useState, useCallback} from "react";
+import { ScrollView, View, Text } from "react-native";
+import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
+import { Hotel } from "@/src/redux/slices/hotel.slice";
+import { Card } from "./Card";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
+import { RootState } from "@/src/redux/configureStore";
+import { setFilterText } from "@/src/redux/slices/hotel.slice";
 
 interface FetchHotelsQuery {
     data: fetchHotel;
@@ -29,19 +25,20 @@ interface HotelMap {
 }
 
 export const Hotels = () => {
-    const {data} = useFetchHotelsQuery<FetchHotelsQuery>("");
+    const filterText = useSelector((state: RootState) => state.reducer.hotels.filterText);
+    const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
     const dispatch = useDispatch();
     const [hotels, setHotels] = useState<Hotel[]>([]);
 
-    const onChangeText = (text: string) => {
-        if (!text) {
+    const onChangeText = () => {
+        if (!filterText) {
             setHotels(data?.hotels);
             return;
         }
         const filteredHotels = data?.hotels?.filter((hotel: HotelMap) => {
             let arrayFilterParams = ["name", "address", "phone"];
             let filterResult = arrayFilterParams.some((key: string) => {
-                return hotel[key].toLowerCase()?.includes(text?.toLowerCase())
+                return hotel[key].toLowerCase()?.includes(filterText?.toLowerCase())
             })
             return filterResult;
         })
@@ -54,47 +51,31 @@ export const Hotels = () => {
         }, [data])
     )
 
+    useFocusEffect(
+        useCallback(() => {
+            onChangeText();
+        }, [filterText])
+    )
+
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                dispatch(setFilterText({ filterText: "" }));
+            }
+        }, [])
+    )
+
     return (
         <View>
-            <VStack w="90%" space={5} alignSelf="center" style={{marginTop: 10}}>
-                <Input
-                    placeholder="Search Hotels & Places"
-                    width="100%"
-                    borderRadius="4"
-                    py="3"
-                    px="1"
-                    fontSize="14"
-                    onChangeText={onChangeText}
-                    InputLeftElement={
-                        <Icon
-                            m="2"
-                            ml="3"
-                            size="6"
-                            color="gray.400"
-                            as={<MaterialIcons name="search"/>}
-                        />
-                    }
-                    InputRightElement={
-                        <Icon
-                            m="2"
-                            mr="3"
-                            size="6"
-                            color="gray.400"
-                            as={<MaterialIcons name="mic"/>}
-                        />
-                    }
-                />
-            </VStack>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
-                style={{marginBottom: 50}}
+                style={{ marginBottom: 50 }}
             >
-                {hotels?.length === 0 ? <Text> Not found your search </Text> :
+                {hotels?.length === 0 ? <Text style={{ marginTop: 70 }} > Not found your search </Text> :
                     hotels?.map((hotel, index) => (
-                        <Card key={index} address={hotel?.address} nameHotel={hotel?.name} phone={hotel?.phone}/>
+                        <Card key={index} address={hotel?.address} nameHotel={hotel?.name} phone={hotel?.phone} />
                     ))
-
                 }
             </ScrollView>
         </View>
