@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 import hotel_icon from "@/assets/images/hotels-home.png";
+import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface CardProps {
     nameHotel: string;
@@ -16,6 +18,14 @@ export const Card: React.FC<CardProps> = ({ nameHotel, address, phone }: CardPro
                 style={styles.card}
                 imageStyle={styles.image}
             >
+                <TouchableOpacity >
+                    <Ionicons
+                        name={"heart"}
+                        size={30}
+                        color={"red"}
+                        style={styles.icon}
+                    />
+                </TouchableOpacity>
                 <View style={styles.container_text}>
                     <View style={styles.leftContainer}>
                         <Text style={styles.text}>{nameHotel}</Text>
@@ -32,8 +42,16 @@ export const Card: React.FC<CardProps> = ({ nameHotel, address, phone }: CardPro
 
 const styles = StyleSheet.create({
     container: {
-        margin: 10,
+        margin: 5,
+        padding: 5,
+    },
+    icon: {
+        marginLeft: 290,
+        marginTop: 10,
+        backgroundColor: "#543313",
+        borderRadius: 20,
         padding: 10,
+        color: "#fff",
     },
     card: {
         width: '100%',
@@ -50,7 +68,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         padding: 10,
     },
     leftContainer: {
@@ -58,6 +76,7 @@ const styles = StyleSheet.create({
     },
     rightContainer: {
         flex: 1,
+        justifyContent: 'flex-start',
         alignItems: 'flex-end',
     },
     text: {
