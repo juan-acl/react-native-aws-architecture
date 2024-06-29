@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: 'hidden',
         marginBottom: 20,
-        position: 'relative', // This is important to position the iconContainer absolutely within this container
+        position: 'relative',
     },
     image: {
         borderRadius: 10,
