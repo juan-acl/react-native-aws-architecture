@@ -54,11 +54,11 @@ export const Login = () => {
     }
 
     return (
-        <View style={{padding: 20, marginTop: 20}}>
+        <View style={styles.container}>
             <Input
                 changeValue={changeValue}
                 value={state.email.value}
-                placeholder='xxxx.example.com'
+                placeholder='example@example.com'
                 name={state.email.name}
                 label='Correo electronico'
                 hasErrror={state.email.hasError}
@@ -86,6 +86,10 @@ export const Login = () => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+    },
     button_login: {
         padding: 20,
         borderRadius: 15,

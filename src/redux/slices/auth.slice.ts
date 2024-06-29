@@ -20,6 +20,7 @@ interface UserAuthState {
 interface LoginPayload {
     isSignedIn: boolean;
     userInformation: UserInformation;
+    statusMessage: string;
 }
 
 const initialState: UserAuthState = {
@@ -39,6 +40,7 @@ const authSlice = createSlice({
         setSignOut(state) {
             state.isSignedIn = false;
             state.userInformation = null;
+            state.statusMessage = "";
         },
         setStatusMessage(state, action: PayloadAction<string>) {
             state.statusMessage = action.payload;
@@ -103,7 +105,8 @@ export const SignIn = createAsyncThunk
         }
         thunkAPI.dispatch(setSignIn({
             isSignedIn: signInResponse.isSignedIn,
-            userInformation
+            userInformation,
+            statusMessage: ""
         }));
     } catch (error: AuthError | any) {
         if (error instanceof AuthError) {
@@ -119,7 +122,6 @@ export const SignIn = createAsyncThunk
                     break;
             }
         }
-
     }
 })
 

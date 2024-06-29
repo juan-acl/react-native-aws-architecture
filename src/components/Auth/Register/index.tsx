@@ -93,7 +93,7 @@ export const Register = () => {
             <Input
                 changeValue={changeValue}
                 value={state.email.value}
-                placeholder='xxxx.example.com'
+                placeholder='example@example.com'
                 name={state.email.name}
                 label='Correo electronico'
                 hasErrror={state.email.hasError}
