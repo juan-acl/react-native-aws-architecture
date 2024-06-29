@@ -12,13 +12,13 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({ nameHotel, address, phone }: CardProps) => {
     return (
-        <View style={styles.container} >
+        <View style={styles.container}>
             <ImageBackground
                 source={hotel_icon}
                 style={styles.card}
                 imageStyle={styles.image}
             >
-                <TouchableOpacity >
+                <TouchableOpacity style={styles.iconContainer}>
                     <Ionicons
                         name={"heart"}
                         size={30}
@@ -45,24 +45,28 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 5,
     },
-    icon: {
-        marginLeft: 290,
-        marginTop: 10,
-        backgroundColor: "#543313",
-        borderRadius: 20,
-        padding: 10,
-        color: "#fff",
-    },
     card: {
         width: '100%',
         height: 200,
         borderRadius: 10,
         overflow: 'hidden',
         marginBottom: 20,
+        position: 'relative', // This is important to position the iconContainer absolutely within this container
     },
     image: {
         borderRadius: 10,
         objectFit: 'cover',
+    },
+    iconContainer: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        backgroundColor: "#543313",
+        borderRadius: 20,
+        padding: 5,
+    },
+    icon: {
+        color: "#fff",
     },
     container_text: {
         flex: 1,
