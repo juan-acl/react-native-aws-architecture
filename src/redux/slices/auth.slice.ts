@@ -1,14 +1,16 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AUTH_SLICE} from "../nameSlices";
-import {signIn, SignInInput, signOut, getCurrentUser} from 'aws-amplify/auth';
+import {signIn, SignInInput, signOut, fetchUserAttributes} from 'aws-amplify/auth';
 
 interface UserAuthState {
     isSignedIn: boolean;
     userInformation: {
-        id: string;
-        name: string;
-        email: string;
-        avatar: string;
+        sub?: string;
+        name?: string;
+        email?: string;
+        address?: string;
+        family_name?: string;
+        phone_number?: string;
     } | null;
 }
 
@@ -34,11 +36,11 @@ const authSlice = createSlice({
 
 enum AsyncThunkTypes {
     SIGN_IN = "auth/signIn",
-    SIGN_OUT = "signOut"
+    SIGN_OUT = "auth/signOut"
 }
 
 interface SignInPayload {
-    email: string;
+    emailParams: string;
     passwordParams: any;
 }
 
@@ -49,23 +51,48 @@ enum AuthFlowTypes {
     USER_SRP_AUTH = "USER_SRP_AUTH"
 }
 
+export const SignOut = createAsyncThunk
+(AsyncThunkTypes.SIGN_OUT, async (_, thunk) => {
+    try {
+        await signOut();
+        thunk.dispatch(authSlice.actions.setSignOut());
+    } catch (error) {
+        return thunk.rejectWithValue(error);
+    }
+})
+
 export const SignIn = createAsyncThunk
-(AsyncThunkTypes.SIGN_IN, async ({email, passwordParams}: SignInPayload, thunkAPI) => {
+(AsyncThunkTypes.SIGN_IN, async ({emailParams, passwordParams}: SignInPayload, thunkAPI) => {
     try {
         const {username, password}: SignInInput = {
-            username: email,
+            username: emailParams,
             password: passwordParams
         }
-        const promises = [];
-        promises.push(signIn({
-            username,
-            password,
-            options: {
-                authFlowType: AuthFlowTypes.USER_PASSWORD_AUTH
-            }
-        }));
-        promises.push(getCurrentUser());
-        const [signInResponse, currentUser] = await Promise.all(promises);
+        const [signInResponse, attributesUser] = await Promise.all([
+            signIn({
+                username,
+                password,
+                options: {
+                    authFlowType: AuthFlowTypes.USER_PASSWORD_AUTH
+                }
+            }),
+            fetchUserAttributes()
+        ]);
+        const {email, name, family_name, address, sub, phone_number} = attributesUser;
+        const userInformation = {
+            sub,
+            name,
+            email,
+            address,
+            family_name,
+            phone_number
+        }
+        if (signInResponse.isSignedIn) {
+            thunkAPI.dispatch(authSlice.actions.setSignIn({
+                isSignedIn: true,
+                userInformation
+            }));
+        }
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
