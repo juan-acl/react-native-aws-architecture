@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { View, TextInput, Button } from "react-native";
 import { signIn, SignInInput, signOut } from 'aws-amplify/auth';
 

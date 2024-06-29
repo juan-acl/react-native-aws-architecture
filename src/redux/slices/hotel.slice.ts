@@ -1,5 +1,5 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {HOTEL_SLICE} from "@/src/redux/nameSlices";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { HOTEL_SLICE } from "@/src/redux/nameSlices";
 
 export interface Hotel {
     id: number;
@@ -34,6 +34,5 @@ const hotelSlice = createSlice({
     }
 })
 
-export const {setHotels, setFilterText} = hotelSlice.actions;
-const hotelReducer = hotelSlice.reducer;
-export {hotelReducer}
+export const { setHotels, setFilterText } = hotelSlice.actions;
+export const hotelReducer = hotelSlice.reducer;
