@@ -1,10 +1,10 @@
-import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { Input } from '../../Input';
-import { FormState, useForm } from '@/src/hooks/useForm';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RoutesNameScreens } from '@/src/navigator/stack/nameScreens';
-import { RootStackParamList } from '@/src/navigator/types/navigationStack';
-import { signUp } from "aws-amplify/auth"
+import {Text, View, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
+import {Input} from '../../Input';
+import {FormState, useForm} from '@/src/hooks/useForm';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {RoutesNameScreens} from '@/src/navigator/stack/nameScreens';
+import {RootStackParamList} from '@/src/navigator/types/navigationStack';
+import {signUp} from "aws-amplify/auth"
 
 interface RegisterOnChangeProps {
     value: string;
@@ -59,10 +59,10 @@ export const Register = () => {
         },
     }
 
-    const { state, onChange, isValidaFormState } = useForm(initialState);
+    const {state, onChange, isValidaFormState} = useForm(initialState);
 
-    const changeValue = ({ value, name }: RegisterOnChangeProps) => {
-        onChange({ value, name });
+    const changeValue = ({value, name}: RegisterOnChangeProps) => {
+        onChange({value, name});
     }
 
     const register = () => {
@@ -147,8 +147,11 @@ export const Register = () => {
                 messageError={state.address.messageError}
             />
             <View>
-                <TouchableOpacity onPress={register} style={!isValidaFormState ? styles.button_disabled : styles.button_login} disabled={!isValidaFormState}>
-                    <Text style={styles.text_login} > Iniciar sesion </Text>
+                <TouchableOpacity
+                    onPress={register}
+                    style={!isValidaFormState ? styles.button_disabled : styles.button_register}
+                    disabled={!isValidaFormState}>
+                    <Text style={styles.text_register}> Registrarse </Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -157,7 +160,7 @@ export const Register = () => {
 }
 
 const styles = StyleSheet.create({
-    button_login: {
+    button_register: {
         padding: 20,
         borderRadius: 15,
         backgroundColor: "#543313",
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: "#ccc",
     },
-    text_login: {
+    text_register: {
         color: "#fff",
         fontWeight: "bold",
         fontSize: 17

@@ -1,9 +1,10 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AUTH_SLICE} from "../nameSlices";
-import {signIn, SignInInput, signOut, fetchUserAttributes} from 'aws-amplify/auth';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AUTH_SLICE } from "../nameSlices";
+import { signIn, SignInInput, signOut, fetchUserAttributes } from 'aws-amplify/auth';
 
 interface UserAuthState {
     isSignedIn: boolean;
+    statusMessage: string;
     userInformation: {
         sub?: string;
         name?: string;
@@ -16,7 +17,8 @@ interface UserAuthState {
 
 const initialState: UserAuthState = {
     isSignedIn: false,
-    userInformation: null
+    userInformation: null,
+    statusMessage: ""
 }
 
 const authSlice = createSlice({
@@ -30,6 +32,9 @@ const authSlice = createSlice({
         setSignOut(state) {
             state.isSignedIn = false;
             state.userInformation = null;
+        },
+        setStatusMessage(state, action: PayloadAction<string>) {
+            state.statusMessage = action.payload;
         }
     }
 })
@@ -52,51 +57,50 @@ enum AuthFlowTypes {
 }
 
 export const SignOut = createAsyncThunk
-(AsyncThunkTypes.SIGN_OUT, async (_, thunk) => {
-    try {
-        await signOut();
-        thunk.dispatch(authSlice.actions.setSignOut());
-    } catch (error) {
-        return thunk.rejectWithValue(error);
-    }
-})
+    (AsyncThunkTypes.SIGN_OUT, async (_, thunk) => {
+        try {
+            await signOut();
+            thunk.dispatch(authSlice.actions.setSignOut());
+        } catch (error) {
+            return thunk.rejectWithValue(error);
+        }
+    })
 
 export const SignIn = createAsyncThunk
-(AsyncThunkTypes.SIGN_IN, async ({emailParams, passwordParams}: SignInPayload, thunkAPI) => {
-    try {
-        const {username, password}: SignInInput = {
-            username: emailParams,
-            password: passwordParams
-        }
-        const [signInResponse, attributesUser] = await Promise.all([
-            signIn({
-                username,
-                password,
-                options: {
-                    authFlowType: AuthFlowTypes.USER_PASSWORD_AUTH
-                }
-            }),
-            fetchUserAttributes()
-        ]);
-        const {email, name, family_name, address, sub, phone_number} = attributesUser;
-        const userInformation = {
-            sub,
-            name,
-            email,
-            address,
-            family_name,
-            phone_number
-        }
-        if (signInResponse.isSignedIn) {
+    (AsyncThunkTypes.SIGN_IN, async ({ emailParams, passwordParams }: SignInPayload, thunkAPI): Promise<void> => {
+        try {
+            const { username, password }: SignInInput = {
+                username: emailParams,
+                password: passwordParams
+            }
+            const [signInResponse, attributesUser] = await Promise.all([
+                signIn({
+                    username,
+                    password,
+                    options: {
+                        authFlowType: AuthFlowTypes.USER_PASSWORD_AUTH
+                    }
+                }),
+                fetchUserAttributes()
+            ]);
+            const { email, name, family_name, address, sub, phone_number } = attributesUser;
+            const userInformation = {
+                sub,
+                name,
+                email,
+                address,
+                family_name,
+                phone_number
+            }
             thunkAPI.dispatch(authSlice.actions.setSignIn({
-                isSignedIn: true,
-                userInformation
+                isSignedIn: signInResponse.isSignedIn,
+                userInformation,
+                statusMessage: ""
             }));
+        } catch (error) {
+            thunkAPI.rejectWithValue(error);
         }
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error);
-    }
-})
+    })
 
 export const authReducer = authSlice.reducer;
 export const {

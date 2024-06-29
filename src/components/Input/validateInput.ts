@@ -40,9 +40,9 @@ export const validateInput = ({ value, name }: onValidateProps): ValidateInput =
             if (!formatValue) {
                 hasError = true;
                 errorMessage = "La contraseña es requerida";
-            } else if (formatValue.length < 6) {
+            } else if (formatValue.length < 8) {
                 hasError = true;
-                errorMessage = "La contraseña debe tener al menos 6 caracteres";
+                errorMessage = "La contraseña debe tener al menos 8 caracteres";
             } else {
                 hasError = false;
                 errorMessage = "";

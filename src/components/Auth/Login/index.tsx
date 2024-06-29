@@ -1,82 +1,103 @@
-import React, { useLayoutEffect, useState } from "react";
-import { View, TextInput, Button } from "react-native";
-import { signIn, SignInInput, signOut } from 'aws-amplify/auth';
+import React, {useState} from "react";
+import {View, TextInput, Button, TouchableOpacity, Text, StyleSheet} from "react-native";
+import {signOut} from 'aws-amplify/auth';
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "@/src/redux/configureStore";
+import {SignIn} from "@/src/redux/slices/auth.slice";
+import { Input } from '../../Input';
+import {FormState, useForm} from "@/src/hooks/useForm";
+
+interface RegisterOnChangeProps {
+    value: string;
+    name: string;
+}
 
 export const Login = () => {
-    const [data, setData] = useState({
-        email: "",
-        password: "",
-    });
+    const dispatch: AppDispatch = useDispatch();
+    const initialState: FormState = {
+        email: {
+            value: "",
+            hasError: false,
+            name: "email",
+            messageError: "",
+            isFormInvalid: false,
+        },
+        password: {
+            value: "",
+            hasError: false,
+            name: "password",
+            messageError: "",
+            isFormInvalid: false,
+        },
+    }
+    const {state, onChange, isValidaFormState} = useForm(initialState);
 
     const login = async () => {
         try {
-            const { username, password }: SignInInput = {
-                username: data.email,
-                password: data.password,
-            };
-            const { isSignedIn, nextStep } = await signIn({
-                username,
-                password,
-                options: {
-                    authFlowType: 'USER_PASSWORD_AUTH'
-                }
-            });
-            console.log({ isSignedIn, nextStep });
+            dispatch(SignIn({emailParams: state.email.value, passwordParams: state.password.value}))
         } catch (e) {
             console.log("error signing in", e);
         }
     };
 
-    const logOut = async () => {
-        try {
-            await signOut({ global: true });
-
-        } catch (e) {
-            console.log("error signing out: ", e);
-        }
+    const changeValue = ({value, name}: RegisterOnChangeProps) => {
+        onChange({value, name});
     }
 
     return (
-        <View style={{ padding: 20, marginTop: 20 }}>
-            <TextInput
-                style={{
-                    height: 40,
-                    borderColor: "gray",
-                    borderWidth: 1,
-                    marginTop: 10,
-                    padding: 5,
-                }}
-                onChangeText={(text) => setData({ ...data, email: text })}
-                value={data.email}
-                placeholder="Correo electrónico"
-                keyboardType="email-address"
-                autoCapitalize="none"
+        <View style={{padding: 20, marginTop: 20}}>
+            <Input
+                changeValue={changeValue}
+                value={state.email.value}
+                placeholder='xxxx.example.com'
+                name={state.email.name}
+                label='Correo electronico'
+                hasErrror={state.email.hasError}
+                messageError={state.email.messageError}
             />
-            <TextInput
-                style={{
-                    height: 40,
-                    borderColor: "gray",
-                    borderWidth: 1,
-                    marginTop: 10,
-                    padding: 5,
-                }}
-                onChangeText={(text) => setData({ ...data, password: text })}
-                value={data.password}
-                placeholder="Contraseña"
+            <Input
+                changeValue={changeValue}
+                value={state.password.value}
                 secureTextEntry={true}
+                placeholder='******'
+                name={state.password.name}
+                label='Contraseña'
+                hasErrror={state.password.hasError}
+                messageError={state.password.messageError}
             />
-            <Button
-                onPress={login}
-                title="Iniciar sesión"
-                color="#841584"
-                accessibilityLabel="Iniciar sesión"
-            />
-            <Button
-                onPress={logOut}
-                title="Cerrar sesión"
-                color="#841584"
-                accessibilityLabel="Iniciar sesión"
-            />
+            <View>
+                <TouchableOpacity onPress={login}
+                                  style={!isValidaFormState ? styles.button_disabled : styles.button_login}
+                                  disabled={!isValidaFormState}>
+                    <Text style={styles.text_login}> Iniciar sesion </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    button_login: {
+        padding: 20,
+        borderRadius: 15,
+        backgroundColor: "#543313",
+        marginHorizontal: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 20
+    },
+    button_disabled: {
+        padding: 20,
+        borderRadius: 15,
+        marginHorizontal: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 20,
+        backgroundColor: "#ccc",
+    },
+    text_login: {
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: 17
+    }
+})
