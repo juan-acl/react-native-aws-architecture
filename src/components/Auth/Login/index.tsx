@@ -1,11 +1,11 @@
-import React, {useState} from "react";
-import {View, TextInput, Button, TouchableOpacity, Text, StyleSheet} from "react-native";
-import {signOut} from 'aws-amplify/auth';
+import React from "react";
+import {View, TouchableOpacity, Text, StyleSheet} from "react-native";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/src/redux/configureStore";
-import {SignIn} from "@/src/redux/slices/auth.slice";
-import { Input } from '../../Input';
+import {SignIn, SignOut} from "@/src/redux/slices/auth.slice";
+import {Input} from '../../Input';
 import {FormState, useForm} from "@/src/hooks/useForm";
+import {useFocusEffect} from "@react-navigation/native";
 
 interface RegisterOnChangeProps {
     value: string;
@@ -30,6 +30,15 @@ export const Login = () => {
             isFormInvalid: false,
         },
     }
+
+    useFocusEffect(
+        React.useCallback(() => {
+            return () => {
+                dispatch(SignOut());
+            };
+        }, [])
+    );
+
     const {state, onChange, isValidaFormState} = useForm(initialState);
 
     const login = async () => {
@@ -59,7 +68,7 @@ export const Login = () => {
                 changeValue={changeValue}
                 value={state.password.value}
                 secureTextEntry={true}
-                placeholder='******'
+                placeholder='********'
                 name={state.password.name}
                 label='Contraseña'
                 hasErrror={state.password.hasError}
