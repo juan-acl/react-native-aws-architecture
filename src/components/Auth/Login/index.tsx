@@ -1,6 +1,7 @@
 import React from "react";
 import {View, TextInput, Button} from "react-native";
-import {signIn} from "aws-amplify/auth";
+import { signIn, SignInInput } from 'aws-amplify/auth';
+import { Authenticator } from '@aws-amplify/ui-react-native';
 
 export const Login = () => {
     const [email, setEmail] = React.useState("");
@@ -19,8 +20,21 @@ export const Login = () => {
         }
     };
 
+    const services = {
+        async handleSignIn(input: SignInInput) {
+            try {
+                const user = await signIn(input);
+                console.log(user);
+                return user;
+            } catch (error) {
+                console.error(error)
+            }
+
+        },
+    };
+
     return (
-        <View style={{padding: 20}}>
+        <View style={{padding: 20, marginTop: 20}}>
             <TextInput
                 style={{
                     height: 40,

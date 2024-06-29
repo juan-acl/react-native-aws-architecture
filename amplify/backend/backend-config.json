@@ -24,7 +24,22 @@
     }
   },
   "auth": {
-    "hoteleriaf08a5710": {
+    "userPoolGroups": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID"
+          ],
+          "category": "auth",
+          "resourceName": "usersAuthHoteleria"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito-UserPool-Groups"
+    },
+    "usersAuthHoteleria": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {

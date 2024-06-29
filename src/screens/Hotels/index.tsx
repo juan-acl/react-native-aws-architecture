@@ -1,4 +1,4 @@
-import { Hotels } from "@/src/components/Hotels";
+import Hotels  from "@/src/components/Hotels";
 
 export const HotelsScreen = () => {
     return (

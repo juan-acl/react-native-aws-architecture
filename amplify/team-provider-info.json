@@ -30,7 +30,8 @@
         "hoteleria": {}
       },
       "auth": {
-        "hoteleriaf08a5710": {}
+        "usersAuthHoteleria": {},
+        "userPoolGroups": {}
       }
     }
   }

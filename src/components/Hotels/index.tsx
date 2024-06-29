@@ -7,6 +7,7 @@ import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { RootState } from "@/src/redux/configureStore";
 import { setFilterText } from "@/src/redux/slices/hotel.slice";
+import { withAuthenticator } from '@aws-amplify/ui-react-native';
 
 interface FetchHotelsQuery {
     data: fetchHotel;
@@ -24,7 +25,7 @@ interface HotelMap {
     [key: string]: any;
 }
 
-export const Hotels = () => {
+const Hotels = () => {
     const filterText = useSelector((state: RootState) => state.reducer.hotels.filterText);
     const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
     const dispatch = useDispatch();
@@ -81,3 +82,5 @@ export const Hotels = () => {
         </View>
     );
 }
+
+export default withAuthenticator(Hotels);
