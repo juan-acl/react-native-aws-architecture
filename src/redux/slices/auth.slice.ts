@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AUTH_SLICE } from "../nameSlices";
-import { signIn, SignInInput, signOut, fetchUserAttributes, AuthError, signUp } from 'aws-amplify/auth';
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AUTH_SLICE} from "../nameSlices";
+import {signIn, SignInInput, signOut, fetchUserAttributes, AuthError, signUp} from 'aws-amplify/auth';
+import {setIsLoading} from "./loader.slice";
 
 interface UserInformation {
     sub?: string;
@@ -78,84 +79,95 @@ enum AuthFlowErrorTypes {
 }
 
 export const SignOut = createAsyncThunk
-    (AsyncThunkTypes.SIGN_OUT, async (_, thunk) => {
-        try {
-            await signOut();
-            thunk.dispatch(setSignOut());
-        } catch (error) {
-            return thunk.rejectWithValue(error);
-        }
-    })
+(AsyncThunkTypes.SIGN_OUT, async (_, thunk) => {
+    try {
+        thunk.dispatch(setIsLoading({isLoading: true}));
+        await signOut();
+        thunk.dispatch(setSignOut());
+    } catch (error) {
+        return thunk.rejectWithValue(error);
+    } finally {
+        thunk.dispatch(setIsLoading({isLoading: false}));
+    }
+})
 
 export const SignUp = createAsyncThunk
-    (AsyncThunkTypes.SIGN_UP, async ({ emailParams, passwordParams, nameParams, lastNameParams,
-        phoneNumberParams, addressParams }: SignUpPayload, thunkAPI) => {
-        try {
-            await signUp({
-                username: emailParams,
-                password: passwordParams,
-                options: {
-                    userAttributes: {
-                        email: emailParams,
-                        name: nameParams,
-                        family_name: lastNameParams,
-                        phone_number: "+502" + phoneNumberParams,
-                        address: addressParams,
-                    }
+(AsyncThunkTypes.SIGN_UP, async ({
+                                     emailParams, passwordParams, nameParams, lastNameParams,
+                                     phoneNumberParams, addressParams
+                                 }: SignUpPayload, thunkAPI) => {
+    try {
+        thunkAPI.dispatch(setIsLoading({isLoading: true}));
+        await signUp({
+            username: emailParams,
+            password: passwordParams,
+            options: {
+                userAttributes: {
+                    email: emailParams,
+                    name: nameParams,
+                    family_name: lastNameParams,
+                    phone_number: "+502" + phoneNumberParams,
+                    address: addressParams,
                 }
-            })
-        } catch (error: any) {
-            return thunkAPI.rejectWithValue(error.message);
-        }
-    })
+            }
+        })
+    } catch (error: any) {
+        return thunkAPI.rejectWithValue(error.message);
+    } finally {
+        thunkAPI.dispatch(setIsLoading({isLoading: false}));
+    }
+})
 
 export const SignIn = createAsyncThunk
-    (AsyncThunkTypes.SIGN_IN, async ({ emailParams, passwordParams }: SignInPayload, thunkAPI): Promise<void> => {
-        try {
-            const { username, password }: SignInInput = {
-                username: emailParams,
-                password: passwordParams
-            }
-            const [signInResponse] = await Promise.all([
-                signIn({
-                    username,
-                    password,
-                    options: {
-                        authFlowType: AuthFlowTypes.USER_PASSWORD_AUTH
-                    }
-                }),
-            ]);
-            let attributesUser = await fetchUserAttributes()
-            const { email, name, family_name, address, sub, phone_number } = attributesUser;
-            const userInformation = {
-                sub,
-                name,
-                email,
-                address,
-                family_name,
-                phone_number
-            }
-            thunkAPI.dispatch(setSignIn({
-                isSignedIn: signInResponse.isSignedIn,
-                userInformation,
-                statusMessage: ""
-            }));
-        } catch (error: AuthError | any) {
-            if (error instanceof AuthError) {
-                switch (error.message) {
-                    case AuthFlowErrorTypes.USER_NOT_EXIST:
-                        thunkAPI.dispatch(authSlice.actions.setStatusMessage('El usuario no existe'));
-                        break;
-                    case AuthFlowErrorTypes.USER_OR_PASSWORD_INCORRECT:
-                        thunkAPI.dispatch(authSlice.actions.setStatusMessage('El usuario o la contraseña son incorrectos'));
-                        break;
-                    default:
-                        thunkAPI.dispatch(authSlice.actions.setStatusMessage('Error desconocido'));
-                        break;
+(AsyncThunkTypes.SIGN_IN, async ({emailParams, passwordParams}: SignInPayload, thunkAPI): Promise<void> => {
+    try {
+        thunkAPI.dispatch(setIsLoading({isLoading: true}));
+        const {username, password}: SignInInput = {
+            username: emailParams,
+            password: passwordParams
+        }
+        const [signInResponse] = await Promise.all([
+            signIn({
+                username,
+                password,
+                options: {
+                    authFlowType: AuthFlowTypes.USER_PASSWORD_AUTH
                 }
+            }),
+        ]);
+        let attributesUser = await fetchUserAttributes()
+        const {email, name, family_name, address, sub, phone_number} = attributesUser;
+        const userInformation = {
+            sub,
+            name,
+            email,
+            address,
+            family_name,
+            phone_number
+        }
+        thunkAPI.dispatch(setSignIn({
+            isSignedIn: signInResponse.isSignedIn,
+            userInformation,
+            statusMessage: ""
+        }));
+    } catch (error: AuthError | any) {
+        if (error instanceof AuthError) {
+            switch (error.message) {
+                case AuthFlowErrorTypes.USER_NOT_EXIST:
+                    thunkAPI.dispatch(authSlice.actions.setStatusMessage('El usuario no existe'));
+                    break;
+                case AuthFlowErrorTypes.USER_OR_PASSWORD_INCORRECT:
+                    thunkAPI.dispatch(authSlice.actions.setStatusMessage('El usuario o la contraseña son incorrectos'));
+                    break;
+                default:
+                    thunkAPI.dispatch(authSlice.actions.setStatusMessage('Error desconocido'));
+                    break;
             }
         }
-    })
+    } finally {
+        thunkAPI.dispatch(setIsLoading({isLoading: false}));
+    }
+})
 
 export const authReducer = authSlice.reducer;
 export const {

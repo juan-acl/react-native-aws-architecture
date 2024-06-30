@@ -1,11 +1,10 @@
 import React from "react";
-import {View, TouchableOpacity, Text, StyleSheet} from "react-native";
+import {View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView} from "react-native";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/src/redux/configureStore";
-import {SignIn, SignOut} from "@/src/redux/slices/auth.slice";
+import {SignIn} from "@/src/redux/slices/auth.slice";
 import {Input} from '../../Input';
 import {FormState, useForm} from "@/src/hooks/useForm";
-import {useFocusEffect} from "@react-navigation/native";
 
 interface RegisterOnChangeProps {
     value: string;
@@ -31,14 +30,6 @@ export const Login = () => {
         },
     }
 
-    useFocusEffect(
-        React.useCallback(() => {
-            return () => {
-                dispatch(SignOut());
-            };
-        }, [])
-    );
-
     const {state, onChange, isValidaFormState} = useForm(initialState);
 
     const login = async () => {
@@ -54,13 +45,17 @@ export const Login = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior='position'
+        >
             <Input
                 changeValue={changeValue}
                 value={state.email.value}
                 placeholder='example@example.com'
                 name={state.email.name}
                 label='Correo electronico'
+                autocapitalize={'none'}
                 hasErrror={state.email.hasError}
                 messageError={state.email.messageError}
             />
@@ -75,13 +70,14 @@ export const Login = () => {
                 messageError={state.password.messageError}
             />
             <View>
-                <TouchableOpacity onPress={login}
-                                  style={!isValidaFormState ? styles.button_disabled : styles.button_login}
-                                  disabled={!isValidaFormState}>
+                <TouchableOpacity
+                    onPress={login}
+                    style={!isValidaFormState ? styles.button_disabled : styles.button_login}
+                    disabled={!isValidaFormState}>
                     <Text style={styles.text_login}> Iniciar sesion </Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -89,6 +85,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
+        marginTop: 70,
     },
     button_login: {
         padding: 20,

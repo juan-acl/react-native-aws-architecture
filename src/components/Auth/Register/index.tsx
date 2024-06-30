@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Input } from '../../Input';
 import { FormState, useForm } from '@/src/hooks/useForm';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
