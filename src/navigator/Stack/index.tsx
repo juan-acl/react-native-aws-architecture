@@ -7,10 +7,9 @@ import { ButtonTabNavigation } from "../tabs";
 import { HomeScreen } from "@/src/screens/Home";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { TextInput } from "react-native";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/src/redux/configureStore";
-import { setFilterText } from "@/src/redux/slices/hotel.slice";
+import {InputFilter} from "@/src/components/InputFilter";
 
 const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
@@ -67,20 +66,7 @@ export const StackNavigator = () => {
                 options={{
                     title: "",
                     headerTitle: () => (
-                        <TextInput
-                            placeholder="Buscar"
-                            onChangeText={(text) => dispatch(setFilterText({ filterText: text }))}
-                            style={{
-                                backgroundColor: "#fff",
-                                borderRadius: 20,
-                                padding: 10,
-                                marginTop: 10,
-                                width: 200,
-                                marginLeft: 10,
-                                height: "100%",
-                                textAlign: "center",
-                            }}
-                        />
+                        <InputFilter/>
                     ),
                 }}
                 name={RoutesNameScreens.navigationTab}

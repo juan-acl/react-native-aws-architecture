@@ -66,8 +66,8 @@ const Hotels = () => {
     )
 
     return (
-        <View>
             <ScrollView
+                contentContainerStyle={{ paddingBottom: 80, paddingTop: 50 }}
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
             >
@@ -77,7 +77,6 @@ const Hotels = () => {
                     ))
                 }
             </ScrollView>
-        </View>
     );
 }
 

@@ -28,7 +28,7 @@ export const ButtonTabNavigation = () => {
                 tabBarHideOnKeyboard: true,
                 tabBarStyle: {
                     margin: 20,
-                    borderRadius: 11,
+                    borderRadius: 21,
                     backgroundColor: "#543313",
                     shadowOffset: {
                         width: 0,
