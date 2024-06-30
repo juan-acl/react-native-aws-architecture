@@ -1,19 +1,36 @@
 import React from "react";
-import {NavigationContainer} from "@react-navigation/native";
-import {StackNavigator} from "./stack";
-import {useSelector} from "react-redux";
-import {RootState} from "@/src/redux/configureStore";
-import Skeleton from "@/src/components/Skeleton";
+import { NavigationContainer } from "@react-navigation/native";
+import { StackNavigator } from "./stack";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/redux/configureStore";
+import { Loader } from "../components/Loader";
+import { View, StyleSheet } from "react-native";
 
 export const RootNavigation = () => {
-    const isLoading: boolean = useSelector((state: RootState) => state.reducer.loader.isLoading);
+    const isLoading = useSelector((state: RootState) => state.reducer.loader.isLoading);
 
     return (
         <>
-            <NavigationContainer independent={true}>
-                <StackNavigator/>
+            <NavigationContainer independent={true} >
+                {isLoading && (
+                    <View style={styles.loader_container} >
+                        <Loader />
+                    </View>)}
+                <StackNavigator />
             </NavigationContainer>
-            {isLoading && <Skeleton/>}
         </>
     );
 };
+
+const styles = StyleSheet.create({
+    loader_container: {
+        position: "relative",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000'
+    }
+})

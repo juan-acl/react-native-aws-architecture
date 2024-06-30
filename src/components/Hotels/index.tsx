@@ -1,13 +1,12 @@
-import {ScrollView, View, Text} from "react-native";
-import {useFetchHotelsQuery} from "@/src/redux/api/hotel.api";
-import {Hotel} from "@/src/redux/slices/hotel.slice";
-import {Card} from "./Card";
-import {useDispatch, useSelector} from "react-redux";
-import {useState, useCallback} from "react";
-import {useFocusEffect} from '@react-navigation/native';
-import {RootState} from "@/src/redux/configureStore";
-import {setFilterText} from "@/src/redux/slices/hotel.slice";
-import {withAuthenticator} from '@aws-amplify/ui-react-native';
+import { ScrollView, View, Text } from "react-native";
+import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
+import { Hotel } from "@/src/redux/slices/hotel.slice";
+import { Card } from "./Card";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useCallback } from "react";
+import { useFocusEffect } from '@react-navigation/native';
+import { RootState } from "@/src/redux/configureStore";
+import { setFilterText } from "@/src/redux/slices/hotel.slice";
 
 interface FetchHotelsQuery {
     data: fetchHotel;
@@ -27,7 +26,7 @@ interface HotelMap {
 
 const Hotels = () => {
     const filterText = useSelector((state: RootState) => state.reducer.hotels.filterText);
-    const {data} = useFetchHotelsQuery<FetchHotelsQuery>("");
+    const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
     const dispatch = useDispatch();
     const [hotels, setHotels] = useState<Hotel[]>([]);
 
@@ -61,7 +60,7 @@ const Hotels = () => {
     useFocusEffect(
         useCallback(() => {
             return () => {
-                dispatch(setFilterText({filterText: ""}));
+                dispatch(setFilterText({ filterText: "" }));
             }
         }, [])
     )
@@ -72,9 +71,9 @@ const Hotels = () => {
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
             >
-                {hotels?.length === 0 ? <Text style={{marginTop: 70}}> Not found your search </Text> :
+                {hotels?.length === 0 ? <Text style={{ marginTop: 70 }}> Not found your search </Text> :
                     hotels?.map((hotel, index) => (
-                        <Card key={index} address={hotel?.address} nameHotel={hotel?.name} phone={hotel?.phone}/>
+                        <Card key={index} address={hotel?.address} nameHotel={hotel?.name} phone={hotel?.phone} />
                     ))
                 }
             </ScrollView>
@@ -83,5 +82,3 @@ const Hotels = () => {
 }
 
 export default Hotels;
-
-// export default withAuthenticator(Hotels);

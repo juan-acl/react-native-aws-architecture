@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_API } from "@/src/constants";
-import { setIsLoading} from "@/src/redux/slices/loader.slice";
+import { setIsLoading } from "@/src/redux/slices/loader.slice";
 import { HOTELS_API } from "@/src/redux/nameApis";
 
 interface Hotel {
@@ -22,11 +22,11 @@ export const hotelsApi = createApi({
                 url: "/hotels/getHotels",
                 method: "POST",
             }),
-            onQueryStarted: async (arg, { dispatch, queryFulfilled}) => {
-                try{
+            onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+                try {
                     dispatch(setIsLoading({ isLoading: true }))
                     await queryFulfilled;
-                }finally {
+                } finally {
                     dispatch(setIsLoading({ isLoading: false }))
                 }
             }
