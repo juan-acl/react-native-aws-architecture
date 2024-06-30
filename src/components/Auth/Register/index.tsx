@@ -87,6 +87,7 @@ export const Register = () => {
 
     return (
         <ScrollView
+            contentContainerStyle={styles.container_register}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
         >
@@ -156,10 +157,13 @@ export const Register = () => {
             </View>
         </ScrollView>
     )
-
 }
 
 const styles = StyleSheet.create({
+    container_register: {
+        flex: 1,
+        justifyContent: "center",
+    },
     button_register: {
         padding: 20,
         borderRadius: 15,
