@@ -25,22 +25,29 @@ export const StackNavigator = () => {
                 },
                 headerTransparent: true,
                 headerLeft: () => (
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <TouchableOpacity
+                        style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: 10,
+                            height: 50,
+                            width: 50,
+                            backgroundColor: "#543313",
+                            borderRadius: 25,
+                        }}
+                        onPress={() => navigation.goBack()}
+                    >
                         <Ionicons
                             name="arrow-back"
                             size={30}
                             style={{
-                                marginLeft: 10,
-                                marginTop: 10,
-                                backgroundColor: "#543313",
-                                borderRadius: 20,
-                                padding: 10,
                                 color: "#fff",
                             }}
                         />
                     </TouchableOpacity>
                 ),
             })}
+
         >
             <InstanceStackNavigation.Screen
                 options={{
