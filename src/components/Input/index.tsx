@@ -24,10 +24,12 @@ interface InputProps {
     label?: string;
     hasErrror?: boolean;
     messageError?: string;
+    maxLength?: number;
+    autocapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 }
 
 export const Input = (
-    { placeholder, value, changeValue, name, secureTextEntry, messageError, hasErrror, label, typeInput }: InputProps) => {
+    { placeholder, value, changeValue, name, secureTextEntry, messageError, hasErrror, label, typeInput, autocapitalize, maxLength }: InputProps) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
             <View style={styles.container}>
@@ -40,6 +42,8 @@ export const Input = (
                     onChangeText={(text) => changeValue({ value: text, name })}
                     placeholderTextColor="#888"
                     keyboardType={typeInput}
+                    maxLength={typeInput === 'numeric' ? maxLength : undefined}
+                    autoCapitalize={autocapitalize}
                 />
                 {hasErrror && <Text style={styles.errorText}>{messageError}</Text>}
             </View>

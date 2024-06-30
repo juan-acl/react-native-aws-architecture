@@ -70,6 +70,9 @@ export const validateInput = ({ value, name }: onValidateProps): ValidateInput =
             if (!formatValue) {
                 hasError = true;
                 errorMessage = "El teléfono es requerido";
+            } else if (formatValue.length < 8) {
+                hasError = true;
+                errorMessage = "El teléfono debe tener al menos 8 caracteres";
             } else if (formatValue.length > 8) {
                 hasError = true;
                 errorMessage = "El teléfono no puede tener más de 8 caracteres";
