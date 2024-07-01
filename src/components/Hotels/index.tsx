@@ -1,4 +1,4 @@
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
 import { Hotel } from "@/src/redux/slices/hotel.slice";
 import { Card } from "./Card";
@@ -66,17 +66,17 @@ const Hotels = () => {
     )
 
     return (
-            <ScrollView
-                contentContainerStyle={{ paddingBottom: 80, paddingTop: 65 }}
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
-            >
-                {hotels?.length === 0 ? <Text style={{ marginTop: 70 }}> Not found your search </Text> :
-                    hotels?.map((hotel, index) => (
-                        <Card key={index} address={hotel?.address} nameHotel={hotel?.name} phone={hotel?.phone} />
-                    ))
-                }
-            </ScrollView>
+        <ScrollView
+            contentContainerStyle={{ paddingBottom: 80, paddingTop: 65 }}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+        >
+            {hotels?.length === 0 ? <Text style={{ marginTop: 70 }}> Not found your search </Text> :
+                hotels?.map((hotel, index) => (
+                    <Card key={index} address={hotel?.address} nameHotel={hotel?.name} phone={hotel?.phone} />
+                ))
+            }
+        </ScrollView>
     );
 }
 
