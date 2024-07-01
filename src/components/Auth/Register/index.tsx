@@ -70,20 +70,22 @@ export const Register = () => {
 
     const register = async () => {
         try {
-            const response = await dispatch(SignUp({
-                emailParams: state.email.value,
-                passwordParams: state.password.value,
-                nameParams: state.name.value,
-                lastNameParams: state.lastName.value,
-                phoneNumberParams: state.phone.value,
-                addressParams: state.address.value,
-            }))
-            if (SignUp.fulfilled.match(response)) {
-                navigate.navigate(RoutesNameScreens.SignIn)
-            } else {
-                console.log("Es la respuesta " + SignUp.rejected.match(response))
+            navigate.navigate(RoutesNameScreens.ConfirmEmail)
 
-            }
+            // const response = await dispatch(SignUp({
+            //     emailParams: state.email.value,
+            //     passwordParams: state.password.value,
+            //     nameParams: state.name.value,
+            //     lastNameParams: state.lastName.value,
+            //     phoneNumberParams: state.phone.value,
+            //     addressParams: state.address.value,
+            // }))
+            // if (SignUp.fulfilled.match(response)) {
+            //     navigate.navigate(RoutesNameScreens.SignIn)
+            // } else {
+            //     console.log("Es la respuesta " + SignUp.rejected.match(response))
+            //
+            // }
         } catch (e) {
             console.log(e)
         }
@@ -162,7 +164,7 @@ export const Register = () => {
                     <TouchableOpacity
                         onPress={register}
                         style={!isValidaFormState ? styles.button_disabled : styles.button_register}
-                        disabled={!isValidaFormState}>
+                        disabled={isValidaFormState}>
                         <Text style={styles.text_register}> Registrarse </Text>
                     </TouchableOpacity>
                 </View>

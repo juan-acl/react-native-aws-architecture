@@ -6,6 +6,7 @@ export type RootStackParamList = {
     [RoutesNameScreens.SignIn]: undefined;
     [RoutesNameScreens.SignUp]: undefined;
     [RoutesNameScreens.navigationTab]: undefined;
+    [RoutesNameScreens.ConfirmEmail]: undefined;
 }
 
 export type HomeProps = NativeStackScreenProps<RootStackParamList, RoutesNameScreens.Home>
