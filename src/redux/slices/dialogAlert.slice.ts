@@ -5,7 +5,7 @@ interface DialogAlertState {
     typeAlert: ALERT_TYPE;
     title: string;
     message: string;
-    textButton: string;
+    textButton?: string;
 }
 
 enum AsyncThunkTypes {

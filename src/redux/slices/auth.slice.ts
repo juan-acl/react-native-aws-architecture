@@ -16,7 +16,7 @@ interface UserInformation {
 
 interface UserAuthState {
     isSignedIn: boolean;
-    statusMessage: string;
+    errorAuth: boolean;
     userInformation: UserInformation | null;
 }
 
@@ -29,8 +29,12 @@ interface LoginPayload {
 const initialState: UserAuthState = {
     isSignedIn: false,
     userInformation: null,
-    statusMessage: "",
+    errorAuth: false,
 };
+
+/**************************
+    * Create Slice and Reducers *
+ * **************************/
 
 const authSlice = createSlice({
     name: AUTH_SLICE,
@@ -39,15 +43,15 @@ const authSlice = createSlice({
         setSignIn(state, action: PayloadAction<LoginPayload>) {
             state.isSignedIn = action.payload.isSignedIn;
             state.userInformation = action.payload.userInformation;
-            state.statusMessage = "";
+            state.errorAuth = false;
         },
         setSignOut(state) {
             state.isSignedIn = false;
             state.userInformation = null;
-            state.statusMessage = "";
+            state.errorAuth = false;
         },
-        setStatusMessage(state, action: PayloadAction<string>) {
-            state.statusMessage = action.payload;
+        setAuthError(state, action: PayloadAction<boolean>) {
+            state.errorAuth = action.payload;
         },
     },
 });
@@ -79,6 +83,13 @@ enum AuthFlowTypes {
 enum AuthFlowErrorTypes {
     USER_NOT_EXIST = "User does not exist.",
     USER_OR_PASSWORD_INCORRECT = "Incorrect username or password.",
+}
+
+interface EstatusAndMessage {
+    error: boolean;
+    message: string;
+    title: string;
+    textButton?: string | "Cerrar";
 }
 
 /**********************
@@ -182,32 +193,65 @@ export const SignIn = createAsyncThunk(
                 textButton: 'Ok'
             }));
         } catch (error: AuthError | any) {
+            let statusAndMessage: EstatusAndMessage  = {
+                error: false,
+                message: "",
+                title: "",
+                textButton: "Cerrar",
+            }
             if (error instanceof AuthError) {
                 switch (error.message) {
                     case AuthFlowErrorTypes.USER_NOT_EXIST:
+                        statusAndMessage = {
+                            ...statusAndMessage,
+                            error: true,
+                            message: "El usuario no existe",
+                            title: "Usuario no existe"
+                        }
                         thunkAPI.dispatch(
-                            authSlice.actions.setStatusMessage("El usuario no existe")
+                            authSlice.actions.setAuthError(true)
                         );
                         break;
                     case AuthFlowErrorTypes.USER_OR_PASSWORD_INCORRECT:
+                        statusAndMessage = {
+                            ...statusAndMessage,
+                            error: true,
+                            message: "El usuario o la contraseña son incorrectos",
+                            title: "Usuario o contraseña incorrectos",
+                        }
                         thunkAPI.dispatch(
-                            authSlice.actions.setStatusMessage(
-                                "El usuario o la contraseña son incorrectos"
-                            )
+                            authSlice.actions.setAuthError(true)
                         );
                         break;
                     default:
+                        statusAndMessage = {
+                            ...statusAndMessage,
+                            error: true,
+                            message: "Error en la autenticación",
+                            title: "Error en la autenticación",
+                        }
                         thunkAPI.dispatch(
-                            authSlice.actions.setStatusMessage("Error desconocido")
+                            authSlice.actions.setAuthError(true)
                         );
                         break;
                 }
+            }else{
+                statusAndMessage = {
+                    ...statusAndMessage,
+                    error: true,
+                    message: "Errror desconocido",
+                    title: "Error desconocido",
+                }
+                thunkAPI.dispatch(
+                    authSlice.actions.setAuthError(true)
+                );
             }
+            if(!statusAndMessage.error) return
             thunkAPI.dispatch(DialogAlert({
                 typeAlert: ALERT_TYPE.DANGER,
-                title: 'Error',
-                message: 'Error',
-                textButton: 'Cerrar'
+                title: statusAndMessage.title,
+                message: statusAndMessage.message,
+                textButton: statusAndMessage.textButton
             }));
         } finally {
             thunkAPI.dispatch(setIsLoading({ isLoading: false }));
@@ -216,5 +260,5 @@ export const SignIn = createAsyncThunk(
 );
 
 export const authReducer = authSlice.reducer;
-export const { setSignIn, setSignOut } = authSlice.actions;
+export const { setSignIn, setSignOut, setAuthError } = authSlice.actions;
 

@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView} from "react-native";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/src/redux/configureStore";
-import {SignIn} from "@/src/redux/slices/auth.slice";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "@/src/redux/configureStore";
+import {SignIn, setAuthError} from "@/src/redux/slices/auth.slice";
 import {Input} from '../../Input';
 import {FormState, useForm} from "@/src/hooks/useForm";
+import {useFocusEffect} from "@react-navigation/native";
 
 interface RegisterOnChangeProps {
     value: string;
@@ -13,6 +14,8 @@ interface RegisterOnChangeProps {
 
 export const Login = () => {
     const dispatch: AppDispatch = useDispatch();
+    const authError = useSelector((state: RootState) => state.reducer.auth.errorAuth)
+
     const initialState: FormState = {
         email: {
             value: "",
@@ -29,6 +32,12 @@ export const Login = () => {
             isFormInvalid: false,
         },
     }
+
+    useFocusEffect(
+        useCallback(() => {
+            dispatch(setAuthError(false))
+        }, [])
+    )
 
     const {state, onChange, isValidaFormState} = useForm(initialState);
 
@@ -56,7 +65,7 @@ export const Login = () => {
                 name={state.email.name}
                 label='Correo electronico'
                 autocapitalize={'none'}
-                hasErrror={state.email.hasError}
+                hasErrror={state.email.hasError || authError}
                 messageError={state.email.messageError}
             />
             <Input
@@ -66,7 +75,8 @@ export const Login = () => {
                 placeholder='********'
                 name={state.password.name}
                 label='Contraseña'
-                hasErrror={state.password.hasError}
+                hasErrror={state.password.hasError || authError
+            }
                 messageError={state.password.messageError}
             />
             <View>
