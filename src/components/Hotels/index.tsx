@@ -67,7 +67,7 @@ const Hotels = () => {
 
     return (
             <ScrollView
-                contentContainerStyle={{ paddingBottom: 80, paddingTop: 50 }}
+                contentContainerStyle={{ paddingBottom: 80, paddingTop: 65 }}
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
             >

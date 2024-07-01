@@ -1,24 +1,23 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import { SignInScreen } from "@/src/screens/SignIn";
-import { RoutesNameScreens } from "./nameScreens";
-import { RootStackParamList } from "../types/navigationStack";
-import { SignUpScreen } from "@/src/screens/SignUp";
-import { ButtonTabNavigation } from "../tabs";
-import { HomeScreen } from "@/src/screens/Home";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/src/redux/configureStore";
+import {createStackNavigator} from "@react-navigation/stack";
+import {SignInScreen} from "@/src/screens/SignIn";
+import {RoutesNameScreens} from "./nameScreens";
+import {RootStackParamList} from "../types/navigationStack";
+import {SignUpScreen} from "@/src/screens/SignUp";
+import {ButtonTabNavigation} from "../tabs";
+import {HomeScreen} from "@/src/screens/Home";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import {Ionicons} from "@expo/vector-icons";
 import {InputFilter} from "@/src/components/InputFilter";
+import {View} from "react-native";
 
 const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
 export const StackNavigator = () => {
-    const dispatch: AppDispatch = useDispatch();
     return (
         <InstanceStackNavigation.Navigator
             initialRouteName={RoutesNameScreens.Home}
-            screenOptions={({ navigation }) => ({
+            screenOptions={({navigation}) => ({
+                headerTitleAlign: "center",
                 headerTitleStyle: {
                     fontWeight: "bold",
                 },
