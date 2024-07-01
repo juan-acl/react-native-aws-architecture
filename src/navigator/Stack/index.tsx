@@ -66,7 +66,7 @@ export const StackNavigator = () => {
             />
             <InstanceStackNavigation.Screen
                 options={{
-                    title: "Confirmar Email",
+                    title: "Confirmación",
                 }}
                 name={RoutesNameScreens.ConfirmEmail}
                 component={ConfirmEmailScreen}

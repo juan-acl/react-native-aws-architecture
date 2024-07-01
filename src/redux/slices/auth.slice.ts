@@ -17,6 +17,7 @@ interface UserInformation {
 interface UserAuthState {
     isSignedIn: boolean;
     errorAuth: boolean;
+    userEmail: string;
     userInformation: UserInformation | null;
 }
 
@@ -30,6 +31,7 @@ const initialState: UserAuthState = {
     isSignedIn: false,
     userInformation: null,
     errorAuth: false,
+    userEmail: "",
 };
 
 /**************************
@@ -53,6 +55,9 @@ const authSlice = createSlice({
         setAuthError(state, action: PayloadAction<boolean>) {
             state.errorAuth = action.payload;
         },
+        setUserEmail(state, action: PayloadAction<string>) {
+            state.userEmail = action.payload;
+        }
     },
 });
 
@@ -260,5 +265,5 @@ export const SignIn = createAsyncThunk(
 );
 
 export const authReducer = authSlice.reducer;
-export const {setSignIn, setSignOut, setAuthError} = authSlice.actions;
+export const {setSignIn, setSignOut, setAuthError, setUserEmail} = authSlice.actions;
 

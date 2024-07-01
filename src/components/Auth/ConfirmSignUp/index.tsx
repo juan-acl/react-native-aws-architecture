@@ -1,9 +1,18 @@
-import React, { useRef, useState } from 'react';
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
+import React, {useRef, useState} from 'react';
+import {
+    View,
+    TextInput,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    NativeSyntheticEvent,
+    TextInputKeyPressEventData
+} from 'react-native';
 
 const ConfirmationCodeScreen = () => {
     const [code, setCode] = useState(['', '', '', '', '', '']);
     const inputs = useRef<(TextInput | null)[]>([]);
+    const [isCodeValid, setIsCodeValid] = useState<boolean>(false);
 
     const handleChangeText = (text: string, index: number) => {
         const newCode = [...code];
@@ -14,6 +23,8 @@ const ConfirmationCodeScreen = () => {
         if (text.length === 1 && index < inputs.current.length - 1) {
             inputs.current[index + 1]?.focus();
         }
+        let validation = newCode.every((digit) => digit.length === 1);
+        setIsCodeValid(validation);
     };
 
     const handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>, index: number) => {
@@ -32,7 +43,7 @@ const ConfirmationCodeScreen = () => {
         <View style={styles.container}>
             <Text style={styles.title}>Verificación de correo electrónico</Text>
             <Text style={styles.infoText}>
-                Ingrese el código de confirmación que se le envió a su correo electrónico.
+                Ingrese el código de confirmación que se le envió al correo electrónico.
             </Text>
             <View style={styles.codeContainer}>
                 {code.map((digit, index) => (
@@ -46,12 +57,14 @@ const ConfirmationCodeScreen = () => {
                         onChangeText={(text) => handleChangeText(text, index)}
                         onKeyPress={(e) => handleKeyPress(e, index)}
                         placeholder={'-'}
-                        // Optionally add autoFocus to the first input for faster entry
                     />
                 ))}
             </View>
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Confirmar</Text>
+            <TouchableOpacity
+                style={ isCodeValid ? styles.button : styles.button_disabled}
+                onPress={handleSubmit}
+                disabled={!isCodeValid} >
+                <Text style={styles.buttonText}>Crear cuenta</Text>
             </TouchableOpacity>
         </View>
     );
@@ -64,6 +77,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f2f2f2',
         padding: 20,
+    },
+    button_disabled: {
+        marginTop: 20,
+        padding: 20,
+        borderRadius: 15,
+        justifyContent: "center",
+        alignItems: "center",
+        width: '100%',
+        backgroundColor: "#ccc",
     },
     title: {
         textAlign: "center",
@@ -94,10 +116,10 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 20,
+        padding: 20,
         backgroundColor: '#543313',
-        padding: 15,
-        borderRadius: 5,
-        width: '50%',
+        borderRadius: 15,
+        width: '100%',
     },
     buttonText: {
         textAlign: 'center',

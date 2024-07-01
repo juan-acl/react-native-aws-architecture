@@ -5,7 +5,7 @@ import { FormState, useForm } from '@/src/hooks/useForm';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { RoutesNameScreens } from '@/src/navigator/stack/nameScreens';
 import { RootStackParamList } from '@/src/navigator/types/navigationStack';
-import { SignUp } from "@/src/redux/slices/auth.slice"
+import { SignUp, setUserEmail } from "@/src/redux/slices/auth.slice"
 import { AppDispatch } from "@/src/redux/configureStore";
 import { useDispatch } from "react-redux";
 
@@ -70,22 +70,21 @@ export const Register = () => {
 
     const register = async () => {
         try {
-            navigate.navigate(RoutesNameScreens.ConfirmEmail)
+            const response = await dispatch(SignUp({
+                emailParams: state.email.value,
+                passwordParams: state.password.value,
+                nameParams: state.name.value,
+                lastNameParams: state.lastName.value,
+                phoneNumberParams: state.phone.value,
+                addressParams: state.address.value,
+            }))
+            if (SignUp.fulfilled.match(response)) {
+                dispatch(setUserEmail(state.email.value))
+                navigate.navigate(RoutesNameScreens.SignIn)
+            } else {
+                console.log("Es la respuesta " + SignUp.rejected.match(response))
 
-            // const response = await dispatch(SignUp({
-            //     emailParams: state.email.value,
-            //     passwordParams: state.password.value,
-            //     nameParams: state.name.value,
-            //     lastNameParams: state.lastName.value,
-            //     phoneNumberParams: state.phone.value,
-            //     addressParams: state.address.value,
-            // }))
-            // if (SignUp.fulfilled.match(response)) {
-            //     navigate.navigate(RoutesNameScreens.SignIn)
-            // } else {
-            //     console.log("Es la respuesta " + SignUp.rejected.match(response))
-            //
-            // }
+            }
         } catch (e) {
             console.log(e)
         }
@@ -164,7 +163,7 @@ export const Register = () => {
                     <TouchableOpacity
                         onPress={register}
                         style={!isValidaFormState ? styles.button_disabled : styles.button_register}
-                        disabled={isValidaFormState}>
+                        disabled={!isValidaFormState}>
                         <Text style={styles.text_register}> Registrarse </Text>
                     </TouchableOpacity>
                 </View>
