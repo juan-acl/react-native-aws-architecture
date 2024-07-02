@@ -78,13 +78,9 @@ export const Register = () => {
                 phoneNumberParams: state.phone.value,
                 addressParams: state.address.value,
             }))
-            if (SignUp.fulfilled.match(response)) {
-                dispatch(setUserEmail(state.email.value))
-                navigate.navigate(RoutesNameScreens.ConfirmEmail)
-            } else {
-                console.log("Es la respuesta " + SignUp.rejected.match(response))
-
-            }
+            if (!SignUp.fulfilled.match(response)) return
+            dispatch(setUserEmail(state.email.value))
+            navigate.navigate(RoutesNameScreens.ConfirmEmail)
         } catch (e) {
             console.log(e)
         }

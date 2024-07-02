@@ -1,42 +1,45 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import {View, Text, StyleSheet, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import hotel_icon from "@/assets/images/hotels-home.png";
-import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {Ionicons} from '@expo/vector-icons';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 interface CardProps {
     nameHotel: string;
     address: string;
     phone: string;
+    showActionSheet: () => void;
 }
 
-export const Card: React.FC<CardProps> = ({ nameHotel, address, phone }: CardProps) => {
+export const Card: React.FC<CardProps> = ({nameHotel, address, phone, showActionSheet}: CardProps) => {
     return (
-        <View style={styles.container}>
-            <ImageBackground
-                source={hotel_icon}
-                style={styles.card}
-                imageStyle={styles.image}
-            >
-                <TouchableOpacity style={styles.iconContainer}>
-                    <Ionicons
-                        name={"heart"}
-                        size={30}
-                        color={"red"}
-                        style={styles.icon}
-                    />
-                </TouchableOpacity>
-                <View style={styles.container_text}>
-                    <View style={styles.leftContainer}>
-                        <Text style={styles.text}>{nameHotel}</Text>
-                        <Text style={styles.text}>{address}</Text>
+        <TouchableWithoutFeedback onPress={showActionSheet} >
+            <View style={styles.container}>
+                <ImageBackground
+                    source={hotel_icon}
+                    style={styles.card}
+                    imageStyle={styles.image}
+                >
+                    <TouchableOpacity style={styles.iconContainer}>
+                        <Ionicons
+                            name={"heart"}
+                            size={30}
+                            color={"red"}
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
+                    <View style={styles.container_text}>
+                        <View style={styles.leftContainer}>
+                            <Text style={styles.text}>{nameHotel}</Text>
+                            <Text style={styles.text}>{address}</Text>
+                        </View>
+                        <View style={styles.rightContainer}>
+                            <Text style={styles.text}>{phone}</Text>
+                        </View>
                     </View>
-                    <View style={styles.rightContainer}>
-                        <Text style={styles.text}>{phone}</Text>
-                    </View>
-                </View>
-            </ImageBackground>
-        </View>
+                </ImageBackground>
+            </View>
+        </TouchableWithoutFeedback >
     );
 };
 

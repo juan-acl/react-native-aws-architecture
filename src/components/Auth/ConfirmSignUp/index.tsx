@@ -1,19 +1,19 @@
 import React, {useRef, useState} from 'react';
 import {
-    View,
-    TextInput,
+    NativeSyntheticEvent,
     StyleSheet,
     Text,
+    TextInput,
+    TextInputKeyPressEventData,
     TouchableOpacity,
-    NativeSyntheticEvent,
-    TextInputKeyPressEventData
+    View
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/src/redux/configureStore';
-import {ConfirmSignUp} from '@/src/redux/slices/auth.slice';
-import {useNavigation, NavigationProp} from "@react-navigation/native";
+import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {RootStackParamList} from '@/src/navigator/types/navigationStack';
 import {RoutesNameScreens} from '@/src/navigator/stack/nameScreens';
+import {ConfirmSignUp} from '@/src/redux/slices/auth.slice';
 
 const ConfirmationCodeScreen = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -52,7 +52,7 @@ const ConfirmationCodeScreen = () => {
             if (!ConfirmSignUp.fulfilled.match(response)) return;
             navigation.navigate(RoutesNameScreens.SignIn)
         } catch (error: any) {
-            console.log("Error en la codeConfirmation" + error.message);
+            console.log("Error en codeConfirmation" + error.message);
         }
     };
 
