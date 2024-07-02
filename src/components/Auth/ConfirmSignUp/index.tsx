@@ -8,8 +8,17 @@ import {
     NativeSyntheticEvent,
     TextInputKeyPressEventData
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '@/src/redux/configureStore';
+import {ConfirmSignUp} from '@/src/redux/slices/auth.slice';
+import {useNavigation, NavigationProp} from "@react-navigation/native";
+import {RootStackParamList} from '@/src/navigator/types/navigationStack';
+import {RoutesNameScreens} from '@/src/navigator/stack/nameScreens';
 
 const ConfirmationCodeScreen = () => {
+    const dispatch: AppDispatch = useDispatch();
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const userEmail = useSelector((state: RootState) => state.reducer.auth.userEmail)
     const [code, setCode] = useState(['', '', '', '', '', '']);
     const inputs = useRef<(TextInput | null)[]>([]);
     const [isCodeValid, setIsCodeValid] = useState<boolean>(false);
@@ -33,10 +42,18 @@ const ConfirmationCodeScreen = () => {
         }
     };
 
-    const handleSubmit = () => {
-        const confirmationCode = code.join('');
-        // Aquí debes implementar la lógica para enviar el código al servidor para la verificación
-        console.log('Código de confirmación ingresado:', confirmationCode);
+    const handleSubmit = async () => {
+        try {
+            const confirmationCode = code.join('');
+            const response = await dispatch(ConfirmSignUp({
+                emailParams: userEmail,
+                emailCodeConfirmation: confirmationCode
+            }));
+            if (!ConfirmSignUp.fulfilled.match(response)) return;
+            navigation.navigate(RoutesNameScreens.SignIn)
+        } catch (error: any) {
+            console.log("Error en la codeConfirmation" + error.message);
+        }
     };
 
     return (
@@ -61,9 +78,9 @@ const ConfirmationCodeScreen = () => {
                 ))}
             </View>
             <TouchableOpacity
-                style={ isCodeValid ? styles.button : styles.button_disabled}
+                style={isCodeValid ? styles.button : styles.button_disabled}
                 onPress={handleSubmit}
-                disabled={!isCodeValid} >
+                disabled={!isCodeValid}>
                 <Text style={styles.buttonText}>Crear cuenta</Text>
             </TouchableOpacity>
         </View>

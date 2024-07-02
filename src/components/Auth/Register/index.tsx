@@ -1,13 +1,13 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { Input } from '../../Input';
-import { FormState, useForm } from '@/src/hooks/useForm';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RoutesNameScreens } from '@/src/navigator/stack/nameScreens';
-import { RootStackParamList } from '@/src/navigator/types/navigationStack';
-import { SignUp, setUserEmail } from "@/src/redux/slices/auth.slice"
-import { AppDispatch } from "@/src/redux/configureStore";
-import { useDispatch } from "react-redux";
+import {Text, View, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
+import {Input} from '../../Input';
+import {FormState, useForm} from '@/src/hooks/useForm';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {RoutesNameScreens} from '@/src/navigator/stack/nameScreens';
+import {RootStackParamList} from '@/src/navigator/types/navigationStack';
+import {SignUp, setUserEmail} from "@/src/redux/slices/auth.slice"
+import {AppDispatch} from "@/src/redux/configureStore";
+import {useDispatch} from "react-redux";
 
 interface RegisterOnChangeProps {
     value: string;
@@ -62,10 +62,10 @@ export const Register = () => {
         },
     }
 
-    const { state, onChange, isValidaFormState } = useForm(initialState);
+    const {state, onChange, isValidaFormState} = useForm(initialState);
 
-    const changeValue = ({ value, name }: RegisterOnChangeProps) => {
-        onChange({ value, name });
+    const changeValue = ({value, name}: RegisterOnChangeProps) => {
+        onChange({value, name});
     }
 
     const register = async () => {
@@ -80,7 +80,7 @@ export const Register = () => {
             }))
             if (SignUp.fulfilled.match(response)) {
                 dispatch(setUserEmail(state.email.value))
-                navigate.navigate(RoutesNameScreens.SignIn)
+                navigate.navigate(RoutesNameScreens.ConfirmEmail)
             } else {
                 console.log("Es la respuesta " + SignUp.rejected.match(response))
 
@@ -92,7 +92,7 @@ export const Register = () => {
 
     return (
         <KeyboardAvoidingView
-            style={{ flex: 1, justifyContent: 'center', marginTop: 70 }}
+            style={{flex: 1, justifyContent: 'center', marginTop: 70}}
             behavior='padding'
             keyboardVerticalOffset={64}
         >

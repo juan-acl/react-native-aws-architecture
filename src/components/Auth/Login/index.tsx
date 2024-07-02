@@ -76,7 +76,7 @@ export const Login = () => {
                 name={state.password.name}
                 label='Contraseña'
                 hasErrror={state.password.hasError || authError
-            }
+                }
                 messageError={state.password.messageError}
             />
             <View>

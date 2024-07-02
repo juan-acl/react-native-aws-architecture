@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AUTH_SLICE} from "../nameSlices";
-import {AuthError, fetchUserAttributes, signIn, SignInInput, signOut, signUp,} from "aws-amplify/auth";
+import {AuthError, fetchUserAttributes, signIn, SignInInput, signOut, signUp, confirmSignUp} from "aws-amplify/auth";
 import {setIsLoading} from "./loader.slice";
 import {ALERT_TYPE} from "react-native-alert-notification";
 import {DialogAlert} from "./dialogAlert.slice";
@@ -65,6 +65,7 @@ enum AsyncThunkTypes {
     SIGN_IN = "auth/signIn",
     SIGN_OUT = "auth/signOut",
     SIGN_UP = "auth/signUp",
+    CONFIRM_SIGN_UP = "auth/confirmSignUp",
 }
 
 interface SignInPayload {
@@ -90,11 +91,16 @@ enum AuthFlowErrorTypes {
     USER_OR_PASSWORD_INCORRECT = "Incorrect username or password.",
 }
 
-interface EstatusAndMessage {
+interface StatusAndMessage {
     error: boolean;
     message: string;
     title: string;
-    textButton?: string | "Cerrar";
+    textButton?: string;
+}
+
+interface ConfirmSignUpPayloadParams {
+    emailParams: string;
+    emailCodeConfirmation: string;
 }
 
 /**********************
@@ -152,6 +158,33 @@ export const SignUp = createAsyncThunk(
     }
 );
 
+export const ConfirmSignUp = createAsyncThunk(
+    AsyncThunkTypes.CONFIRM_SIGN_UP,
+    async ({emailParams, emailCodeConfirmation}: ConfirmSignUpPayloadParams, thunkAPI) => {
+        try {
+            thunkAPI.dispatch(setIsLoading({isLoading: true}));
+            await confirmSignUp({username: emailParams, confirmationCode: emailCodeConfirmation});
+            thunkAPI.dispatch(setUserEmail(emailParams));
+            thunkAPI.dispatch(DialogAlert({
+                typeAlert: ALERT_TYPE.SUCCESS,
+                title: 'Confirmación Exitosa',
+                message: 'Cuenta creada exitosamente',
+                textButton: 'Ok'
+            }));
+        } catch (error: any) {
+            thunkAPI.dispatch(DialogAlert({
+                typeAlert: ALERT_TYPE.DANGER,
+                title: 'Error en la confirmación',
+                message: 'Error en la confirmación',
+                textButton: 'Cerrar'
+            }));
+            return thunkAPI.rejectWithValue(error.message);
+        } finally {
+            thunkAPI.dispatch(setIsLoading({isLoading: false}));
+        }
+    }
+)
+
 export const SignIn = createAsyncThunk(
     AsyncThunkTypes.SIGN_IN,
     async (
@@ -198,7 +231,7 @@ export const SignIn = createAsyncThunk(
                 textButton: 'Ok'
             }));
         } catch (error: AuthError | any) {
-            let statusAndMessage: EstatusAndMessage = {
+            let statusAndMessage: StatusAndMessage = {
                 error: false,
                 message: "",
                 title: "",
