@@ -14,11 +14,13 @@ export interface Hotel {
 interface HotelState {
     hotels: Hotel[];
     filterText: string;
+    currentHotel: Hotel | null;
 }
 
 const initialState: HotelState = {
     hotels: [],
-    filterText: ""
+    filterText: "",
+    currentHotel: null,
 }
 
 const hotelSlice = createSlice({
