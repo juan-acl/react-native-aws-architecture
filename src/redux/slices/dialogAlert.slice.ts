@@ -6,6 +6,7 @@ interface DialogAlertState {
     title: string;
     message: string;
     textButton?: string;
+    afterClose?: () => void;
 }
 
 enum AsyncThunkTypes {
@@ -14,12 +15,16 @@ enum AsyncThunkTypes {
 
 export const DialogAlert = createAsyncThunk(
     AsyncThunkTypes.DIALOG_ALERT,
-    async ({typeAlert, title, message, textButton}: DialogAlertState) => {
+    async ({typeAlert, title, message, textButton, afterClose}: DialogAlertState) => {
         Dialog.show({
             type: typeAlert,
             title,
             textBody: message,
             button: textButton,
+            onPressButton: () => {
+                afterClose && afterClose();
+                Dialog.hide();
+            }
         })
     }
 )

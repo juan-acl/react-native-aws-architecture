@@ -82,7 +82,7 @@ export const Login = () => {
                     name={state.email.name}
                     label='Correo electronico'
                     autocapitalize={'none'}
-                    hasErrror={state.email.hasError || authError}
+                    hasError={state.email.hasError || authError}
                     messageError={state.email.messageError}
                 />
                 <Input
@@ -92,7 +92,7 @@ export const Login = () => {
                     placeholder='********'
                     name={state.password.name}
                     label='Contraseña'
-                    hasErrror={state.password.hasError || authError
+                    hasError={state.password.hasError || authError
                     }
                     messageError={state.password.messageError}
                 />

@@ -22,20 +22,20 @@ interface InputProps {
     secureTextEntry?: boolean;
     typeInput?: KeyboardTypeOptions
     label?: string;
-    hasErrror?: boolean;
+    hasError?: boolean;
     messageError?: string;
     maxLength?: number;
     autocapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 }
 
 export const Input = (
-    { placeholder, value, changeValue, name, secureTextEntry, messageError, hasErrror, label, typeInput, autocapitalize, maxLength }: InputProps) => {
+    { placeholder, value, changeValue, name, secureTextEntry, messageError, hasError, label, typeInput, autocapitalize, maxLength }: InputProps) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
             <View style={styles.container}>
                 {label && <Text style={styles.label}>{label}</Text>}
                 <TextInput
-                    style={[styles.input, hasErrror && styles.errorInput]}
+                    style={[styles.input, hasError && styles.errorInput]}
                     placeholder={placeholder}
                     value={value}
                     secureTextEntry={secureTextEntry}
@@ -45,7 +45,7 @@ export const Input = (
                     maxLength={typeInput === 'numeric' ? maxLength : undefined}
                     autoCapitalize={autocapitalize}
                 />
-                {hasErrror && <Text style={styles.errorText}>{messageError}</Text>}
+                {hasError && <Text style={styles.errorText}>{messageError}</Text>}
             </View>
         </TouchableWithoutFeedback>
     )

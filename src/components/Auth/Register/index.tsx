@@ -104,7 +104,7 @@ export const Register = () => {
                     name={state.email.name}
                     label='Correo electronico'
                     autocapitalize='none'
-                    hasErrror={state.email.hasError}
+                    hasError={state.email.hasError}
                     messageError={state.email.messageError}
                 />
                 <Input
@@ -113,7 +113,7 @@ export const Register = () => {
                     placeholder='Nombre completo'
                     name={state.name.name}
                     label='Nombre'
-                    hasErrror={state.name.hasError}
+                    hasError={state.name.hasError}
                     messageError={state.name.messageError}
                 />
                 <Input
@@ -122,7 +122,7 @@ export const Register = () => {
                     placeholder='Apellido completo'
                     name={state.lastName.name}
                     label='Apellido'
-                    hasErrror={state.lastName.hasError}
+                    hasError={state.lastName.hasError}
                     messageError={state.lastName.messageError}
                 />
                 <Input
@@ -132,7 +132,7 @@ export const Register = () => {
                     placeholder='********'
                     name={state.password.name}
                     label='Contraseña'
-                    hasErrror={state.password.hasError}
+                    hasError={state.password.hasError}
                     messageError={state.password.messageError}
                 />
                 <Input
@@ -143,7 +143,7 @@ export const Register = () => {
                     label='Telefono'
                     typeInput='numeric'
                     maxLength={8}
-                    hasErrror={state.phone.hasError}
+                    hasError={state.phone.hasError}
                     messageError={state.phone.messageError}
                 />
                 <Input
@@ -152,7 +152,7 @@ export const Register = () => {
                     placeholder='Ciudad de Guatemala, zona 1, 1 calle 1-01'
                     name={state.address.name}
                     label='Direccion'
-                    hasErrror={state.address.hasError}
+                    hasError={state.address.hasError}
                     messageError={state.address.messageError}
                 />
                 <View style={styles.buttonContainer}>
