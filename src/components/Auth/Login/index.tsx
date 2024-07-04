@@ -13,7 +13,9 @@ import {AppDispatch, RootState} from "@/src/redux/configureStore";
 import {SignIn, setAuthError} from "@/src/redux/slices/auth.slice";
 import {Input} from '../../Input';
 import {FormState, useForm} from "@/src/hooks/useForm";
-import {useFocusEffect} from "@react-navigation/native";
+import {useNavigation, NavigationProp, useFocusEffect} from '@react-navigation/native';
+import {RootStackParamList} from "@/src/navigator/types/navigationStack";
+import {RoutesNameScreens} from "@/src/navigator/stack/nameScreens";
 
 interface RegisterOnChangeProps {
     value: string;
@@ -22,7 +24,8 @@ interface RegisterOnChangeProps {
 
 export const Login = () => {
     const dispatch: AppDispatch = useDispatch();
-    const authError = useSelector((state: RootState) => state.reducer.auth.errorAuth)
+    const authError = useSelector((state: RootState) => state.reducer.auth.errorAuth);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const initialState: FormState = {
         email: {
@@ -51,7 +54,12 @@ export const Login = () => {
 
     const login = async () => {
         try {
-            dispatch(SignIn({emailParams: state.email.value, passwordParams: state.password.value}))
+            const response = await dispatch(SignIn({
+                emailParams: state.email.value,
+                passwordParams: state.password.value
+            }))
+            if (!SignIn.fulfilled.match(response)) return;
+            navigation.navigate(RoutesNameScreens.navigationTab)
         } catch (e) {
             console.log("error signing in", e);
         }
@@ -67,7 +75,6 @@ export const Login = () => {
                 style={styles.container}
                 behavior='position'
             >
-
                 <Input
                     changeValue={changeValue}
                     value={state.email.value}

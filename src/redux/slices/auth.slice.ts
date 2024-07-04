@@ -190,7 +190,7 @@ export const SignIn = createAsyncThunk(
     async (
         { emailParams, passwordParams }: SignInPayload,
         thunkAPI
-    ): Promise<void> => {
+    ) => {
         try {
             thunkAPI.dispatch(setIsLoading({ isLoading: true }));
             const { username, password }: SignInInput = {
@@ -291,6 +291,7 @@ export const SignIn = createAsyncThunk(
                 message: statusAndMessage.message,
                 textButton: statusAndMessage.textButton
             }));
+            return thunkAPI.rejectWithValue(error.message);
         } finally {
             thunkAPI.dispatch(setIsLoading({ isLoading: false }));
         }
