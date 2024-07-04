@@ -1,9 +1,9 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {AUTH_SLICE} from "../nameSlices";
-import {AuthError, fetchUserAttributes, signIn, SignInInput, signOut, signUp, confirmSignUp} from "aws-amplify/auth";
-import {setIsLoading} from "./loader.slice";
-import {ALERT_TYPE} from "react-native-alert-notification";
-import {DialogAlert} from "./dialogAlert.slice";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AUTH_SLICE } from "../nameSlices";
+import { AuthError, fetchUserAttributes, signIn, SignInInput, signOut, signUp, confirmSignUp } from "aws-amplify/auth";
+import { setIsLoading } from "./loader.slice";
+import { ALERT_TYPE } from "react-native-alert-notification";
+import { DialogAlert } from "./dialogAlert.slice";
 
 interface UserInformation {
     sub?: string;
@@ -34,7 +34,7 @@ const initialState: UserAuthState = {
     userEmail: "",
 };
 
-/**************************
+/*****************************
  * Create Slice and Reducers *
  * **************************/
 
@@ -103,21 +103,21 @@ interface ConfirmSignUpPayloadParams {
     emailCodeConfirmation: string;
 }
 
-/**********************
+/***************************
  * Custom Actions reducers *
- **********************/
+ ***************************/
 
 export const SignOut = createAsyncThunk(
     AsyncThunkTypes.SIGN_OUT,
     async (_, thunk) => {
         try {
-            thunk.dispatch(setIsLoading({isLoading: true}));
+            thunk.dispatch(setIsLoading({ isLoading: true }));
             await signOut();
             thunk.dispatch(setSignOut());
         } catch (error) {
             return thunk.rejectWithValue(error);
         } finally {
-            thunk.dispatch(setIsLoading({isLoading: false}));
+            thunk.dispatch(setIsLoading({ isLoading: false }));
         }
     }
 );
@@ -136,7 +136,7 @@ export const SignUp = createAsyncThunk(
         thunkAPI
     ) => {
         try {
-            thunkAPI.dispatch(setIsLoading({isLoading: true}));
+            thunkAPI.dispatch(setIsLoading({ isLoading: true }));
             await signUp({
                 username: emailParams,
                 password: passwordParams,
@@ -153,17 +153,17 @@ export const SignUp = createAsyncThunk(
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
         } finally {
-            thunkAPI.dispatch(setIsLoading({isLoading: false}));
+            thunkAPI.dispatch(setIsLoading({ isLoading: false }));
         }
     }
 );
 
 export const ConfirmSignUp = createAsyncThunk(
     AsyncThunkTypes.CONFIRM_SIGN_UP,
-    async ({emailParams, emailCodeConfirmation}: ConfirmSignUpPayloadParams, thunkAPI) => {
+    async ({ emailParams, emailCodeConfirmation }: ConfirmSignUpPayloadParams, thunkAPI) => {
         try {
-            thunkAPI.dispatch(setIsLoading({isLoading: true}));
-            await confirmSignUp({username: emailParams, confirmationCode: emailCodeConfirmation});
+            thunkAPI.dispatch(setIsLoading({ isLoading: true }));
+            await confirmSignUp({ username: emailParams, confirmationCode: emailCodeConfirmation });
             thunkAPI.dispatch(setUserEmail(emailParams));
             thunkAPI.dispatch(DialogAlert({
                 typeAlert: ALERT_TYPE.SUCCESS,
@@ -180,7 +180,7 @@ export const ConfirmSignUp = createAsyncThunk(
             }));
             return thunkAPI.rejectWithValue(error.message);
         } finally {
-            thunkAPI.dispatch(setIsLoading({isLoading: false}));
+            thunkAPI.dispatch(setIsLoading({ isLoading: false }));
         }
     }
 )
@@ -188,12 +188,12 @@ export const ConfirmSignUp = createAsyncThunk(
 export const SignIn = createAsyncThunk(
     AsyncThunkTypes.SIGN_IN,
     async (
-        {emailParams, passwordParams}: SignInPayload,
+        { emailParams, passwordParams }: SignInPayload,
         thunkAPI
     ): Promise<void> => {
         try {
-            thunkAPI.dispatch(setIsLoading({isLoading: true}));
-            const {username, password}: SignInInput = {
+            thunkAPI.dispatch(setIsLoading({ isLoading: true }));
+            const { username, password }: SignInInput = {
                 username: emailParams,
                 password: passwordParams,
             };
@@ -207,7 +207,7 @@ export const SignIn = createAsyncThunk(
                 }),
             ]);
             let attributesUser = await fetchUserAttributes();
-            const {email, name, family_name, address, sub, phone_number} =
+            const { email, name, family_name, address, sub, phone_number } =
                 attributesUser;
             const userInformation = {
                 sub,
@@ -292,11 +292,11 @@ export const SignIn = createAsyncThunk(
                 textButton: statusAndMessage.textButton
             }));
         } finally {
-            thunkAPI.dispatch(setIsLoading({isLoading: false}));
+            thunkAPI.dispatch(setIsLoading({ isLoading: false }));
         }
     }
 );
 
 export const authReducer = authSlice.reducer;
-export const {setSignIn, setSignOut, setAuthError, setUserEmail} = authSlice.actions;
+export const { setSignIn, setSignOut, setAuthError, setUserEmail } = authSlice.actions;
 
