@@ -1,8 +1,8 @@
 import React from 'react';
-import {TextInput, Keyboard, TouchableWithoutFeedback, StyleSheet} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {setFilterText} from "@/src/redux/slices/hotel.slice";
-import {AppDispatch} from "@/src/redux/configureStore";
+import { TextInput, Keyboard, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setFilterText } from "@/src/redux/slices/hotel.slice";
+import { AppDispatch } from "@/src/redux/configureStore";
 
 export const InputFilter = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -11,8 +11,8 @@ export const InputFilter = () => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <TextInput
                 placeholder="Buscar"
-                onFocus={() => dispatch(setFilterText({filterText: ""}))}
-                onChangeText={(text) => dispatch(setFilterText({filterText: text}))}
+                onFocus={() => dispatch(setFilterText({ filterText: "" }))}
+                onChangeText={(text) => dispatch(setFilterText({ filterText: text }))}
                 style={styles.textInput}
             />
         </TouchableWithoutFeedback>
@@ -29,5 +29,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         height: "100%",
         textAlign: "center",
+        zIndex: -1, position: 'relative',
     },
 });

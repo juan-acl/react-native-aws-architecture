@@ -5,4 +5,6 @@ export const enum RoutesNameScreens {
     Hotels = "Hotels_Screen",
     ConfirmEmail = "ConfirmEmail_Screen",
     navigationTab = "Navigation_Hotels_Tabs",
+    Profile = "Profile_Screen",
+    DrawerMain = "DrawerMain_Screen",
 }

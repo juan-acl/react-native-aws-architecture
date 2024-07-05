@@ -8,6 +8,8 @@ export type RootStackParamList = {
     [RoutesNameScreens.navigationTab]: undefined;
     [RoutesNameScreens.ConfirmEmail]: undefined;
     [RoutesNameScreens.Hotels]: undefined;
+    [RoutesNameScreens.Profile]: undefined;
+    [RoutesNameScreens.DrawerMain]: undefined;
 }
 
 export type HomeProps = NativeStackScreenProps<RootStackParamList, RoutesNameScreens.Home>

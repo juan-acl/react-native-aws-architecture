@@ -1,17 +1,17 @@
-import {createStackNavigator} from "@react-navigation/stack";
-import {SignInScreen} from "@/src/screens/SignIn";
-import {RoutesNameScreens} from "./nameScreens";
-import {RootStackParamList} from "../types/navigationStack";
-import {SignUpScreen} from "@/src/screens/SignUp";
-import {ButtonTabNavigation} from "../tabs";
-import {HomeScreen} from "@/src/screens/Home";
-import {HotelsScreen} from "@/src/screens/Hotels";
-import {TouchableOpacity} from "react-native-gesture-handler";
-import {Ionicons} from "@expo/vector-icons";
-import {InputFilter} from "@/src/components/InputFilter";
-import {useSelector} from "react-redux";
-import {RootState} from "@/src/redux/configureStore";
-import {ConfirmEmailScreen} from "@/src/screens/ConfirmEmail";
+import { createStackNavigator } from "@react-navigation/stack";
+import { SignInScreen } from "@/src/screens/SignIn";
+import { RoutesNameScreens } from "./nameScreens";
+import { RootStackParamList } from "../types/navigationStack";
+import { SignUpScreen } from "@/src/screens/SignUp";
+import { ButtonTabNavigation } from "../tabs";
+import { HomeScreen } from "@/src/screens/Home";
+import { HotelsScreen } from "@/src/screens/Hotels";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/redux/configureStore";
+import { ConfirmEmailScreen } from "@/src/screens/ConfirmEmail";
+import { DrawerNavigation } from "../drawer";
 
 const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
@@ -19,8 +19,8 @@ export const StackNavigator = () => {
     const isSignIn = useSelector((state: RootState) => state.reducer.auth.isSignedIn);
     return (
         <InstanceStackNavigation.Navigator
-            initialRouteName={ !isSignIn ? RoutesNameScreens.Home : RoutesNameScreens.navigationTab}
-            screenOptions={({navigation}) => ({
+            initialRouteName={!isSignIn ? RoutesNameScreens.Home : RoutesNameScreens.navigationTab}
+            screenOptions={({ navigation }) => ({
                 headerTitleAlign: "center",
                 headerTitleStyle: {
                     fontWeight: "bold",
@@ -93,10 +93,10 @@ export const StackNavigator = () => {
             <InstanceStackNavigation.Screen
                 options={{
                     title: "",
-                    headerTitle: () => <InputFilter/>,
+                    // headerTitle: () => <InputFilter />,
                 }}
                 name={RoutesNameScreens.navigationTab}
-                component={ButtonTabNavigation}
+                component={DrawerNavigation}
             />
             <InstanceStackNavigation.Screen
                 options={{

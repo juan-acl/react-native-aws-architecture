@@ -7,6 +7,8 @@ import {Authenticator} from '@aws-amplify/ui-react-native';
 import {AlertNotificationRoot} from "react-native-alert-notification";
 import {PersistGate} from 'redux-persist/integration/react'
 import {persistor} from "./src/redux/configureStore";
+import 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import "./global.css";
 
 const Content: React.FC = () => {
@@ -16,7 +18,9 @@ const Content: React.FC = () => {
                 <Authenticator.Provider>
                     <NativeBaseProvider>
                         <AlertNotificationRoot>
+                            <GestureHandlerRootView>
                             <RootNavigation/>
+                            </GestureHandlerRootView>
                         </AlertNotificationRoot>
                     </NativeBaseProvider>
                 </Authenticator.Provider>
