@@ -3,7 +3,6 @@ import { SignInScreen } from "@/src/screens/SignIn";
 import { RoutesNameScreens } from "./nameScreens";
 import { RootStackParamList } from "../types/navigationStack";
 import { SignUpScreen } from "@/src/screens/SignUp";
-import { ButtonTabNavigation } from "../tabs";
 import { HomeScreen } from "@/src/screens/Home";
 import { HotelsScreen } from "@/src/screens/Hotels";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -93,7 +92,6 @@ export const StackNavigator = () => {
             <InstanceStackNavigation.Screen
                 options={{
                     title: "",
-                    // headerTitle: () => <InputFilter />,
                 }}
                 name={RoutesNameScreens.navigationTab}
                 component={DrawerNavigation}

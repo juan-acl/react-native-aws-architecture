@@ -9,9 +9,19 @@ const InstanceDrawerNavigation = createDrawerNavigator<RootStackParamList>();
 
 export const DrawerNavigation = () => {
     return (
-        <InstanceDrawerNavigation.Navigator initialRouteName={RoutesNameScreens.DrawerMain} >
+        <InstanceDrawerNavigation.Navigator
+            initialRouteName={RoutesNameScreens.DrawerMain}
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#543313",
+                    height: 63,
+                },
+                headerTintColor: "#fff",
+            }}
+        >
             <InstanceDrawerNavigation.Screen
                 options={{
+                    headerTitleAlign: "center",
                     title: "Hoteles",
                     headerTitle: () => <InputFilter />,
                 }}

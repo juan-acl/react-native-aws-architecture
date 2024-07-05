@@ -23,12 +23,9 @@ const styles = StyleSheet.create({
     textInput: {
         backgroundColor: "#ccc",
         borderRadius: 20,
-        padding: 10,
-        marginTop: 10,
         width: 200,
         marginLeft: 10,
-        height: "100%",
+        height: "82%",
         textAlign: "center",
-        zIndex: -1, position: 'relative',
     },
 });
