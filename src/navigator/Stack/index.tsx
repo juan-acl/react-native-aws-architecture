@@ -5,12 +5,13 @@ import {RootStackParamList} from "../types/navigationStack";
 import {SignUpScreen} from "@/src/screens/SignUp";
 import {ButtonTabNavigation} from "../tabs";
 import {HomeScreen} from "@/src/screens/Home";
+import {HotelsScreen} from "@/src/screens/Hotels";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {Ionicons} from "@expo/vector-icons";
 import {InputFilter} from "@/src/components/InputFilter";
 import {useSelector} from "react-redux";
 import {RootState} from "@/src/redux/configureStore";
-import { ConfirmEmailScreen } from "@/src/screens/ConfirmEmail";
+import {ConfirmEmailScreen} from "@/src/screens/ConfirmEmail";
 
 const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
@@ -18,7 +19,7 @@ export const StackNavigator = () => {
     const isSignIn = useSelector((state: RootState) => state.reducer.auth.isSignedIn);
     return (
         <InstanceStackNavigation.Navigator
-            initialRouteName={RoutesNameScreens.Home}
+            initialRouteName={ !isSignIn ? RoutesNameScreens.Home : RoutesNameScreens.navigationTab}
             screenOptions={({navigation}) => ({
                 headerTitleAlign: "center",
                 headerTitleStyle: {
@@ -50,6 +51,24 @@ export const StackNavigator = () => {
                     ),
             })}
         >
+            <InstanceStackNavigation.Screen
+                options={{
+                    headerShown: true,
+                    title: "Hoteles",
+                    headerTitleStyle: {
+                        backgroundColor: "#ccc",
+                        borderRadius: 20,
+                        padding: 12,
+                        margin: 10,
+                        marginTop: 10,
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                    },
+                }}
+                name={RoutesNameScreens.Hotels}
+                component={HotelsScreen}
+            />
             <InstanceStackNavigation.Screen
                 options={{
                     headerShown: false,

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/src/redux/configureStore";
-import {SignIn, setAuthError} from "@/src/redux/slices/auth.slice";
+import {SignIn, setAuthError, SignOut} from "@/src/redux/slices/auth.slice";
 import {Input} from '../../Input';
 import {FormState, useForm} from "@/src/hooks/useForm";
 import {useNavigation, NavigationProp, useFocusEffect} from '@react-navigation/native';
@@ -47,6 +47,7 @@ export const Login = () => {
     useFocusEffect(
         useCallback(() => {
             dispatch(setAuthError(false))
+            // dispatch(SignOut())
         }, [])
     )
 

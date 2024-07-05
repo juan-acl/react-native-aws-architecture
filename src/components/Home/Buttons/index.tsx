@@ -12,7 +12,7 @@ const Buttons = (props: HomeProps) => {
     };
 
     const goToHotels = () => {
-        navigation.navigate(RoutesNameScreens.navigationTab);
+        navigation.navigate(RoutesNameScreens.Hotels);
     };
 
     const goToSignUp = () => {

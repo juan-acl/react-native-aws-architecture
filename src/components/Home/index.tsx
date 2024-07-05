@@ -15,7 +15,6 @@ const Home = (props: HomeProps) => {
             </View>
         </ImageBackground>
     )
-
 }
 
 export default Home;
