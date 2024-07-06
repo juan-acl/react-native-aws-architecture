@@ -16,6 +16,9 @@ export const DrawerNavigation = () => {
                 headerTransparent: true,
                 headerTitleAlign: "center",
                 headerLeft: () => <DrawerIcon navigation={navigation} />,
+                headerLeftContainerStyle:  {
+                    padding: 10,
+                },
                 headerStyle: {
                     height: 63,
                 },
