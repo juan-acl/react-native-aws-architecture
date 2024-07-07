@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet, ImageBackground, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import hotel_icon from "@/assets/images/hotels-home.png";
-import {useSelector, useDispatch} from "react-redux";
-import {RootState, AppDispatch} from "@/src/redux/configureStore";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "@/src/redux/configureStore";
 import { DialogAlert } from '@/src/redux/slices/dialogAlert.slice';
 import { ALERT_TYPE } from "react-native-alert-notification";
-import {NavigationProp, useNavigation} from "@react-navigation/native";
-import {RootStackParamList} from "@/src/navigator/types/navigationStack";
-import {RoutesNameScreens} from "@/src/navigator/stack/nameScreens";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "@/src/navigator/types/navigationStack";
+import { RoutesNameScreens } from "@/src/navigator/stack/nameScreens";
 
 interface CardProps {
     nameHotel: string;
@@ -16,14 +16,14 @@ interface CardProps {
     showActionSheet?: () => void;
 }
 
-export const Card: React.FC<CardProps> = ({nameHotel, address, phone, showActionSheet}: CardProps) => {
+export const Card: React.FC<CardProps> = ({ nameHotel, address, phone, showActionSheet }: CardProps) => {
     const isSignedIn = useSelector((state: RootState) => state.reducer.auth.isSignedIn);
     const dispatch: AppDispatch = useDispatch();
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const openActionSheet = () => {
-        if(!showActionSheet) return;
-        if(!isSignedIn) {
+        if (!showActionSheet) return;
+        if (!isSignedIn) {
             dispatch(DialogAlert({
                 typeAlert: ALERT_TYPE.WARNING,
                 message: "Debes iniciar sesión para poder realizar esta acción",

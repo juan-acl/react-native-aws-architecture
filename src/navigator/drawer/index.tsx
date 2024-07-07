@@ -1,10 +1,11 @@
-import {ProfileScreen} from "@/src/screens/Profile";
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {RootStackParamList} from "@/src/navigator/types/navigationStack";
-import {RoutesNameScreens} from "@/src/navigator/stack/nameScreens";
-import {ButtonTabNavigation} from "../tabs";
-import {InputFilter} from "@/src/components/InputFilter";
-import {DrawerIcon} from "./drawerIcon";
+import { ProfileScreen } from "@/src/screens/Profile";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { RootStackParamList } from "@/src/navigator/types/navigationStack";
+import { RoutesNameScreens } from "@/src/navigator/stack/nameScreens";
+import { ButtonTabNavigation } from "../tabs";
+import { InputFilter } from "@/src/components/InputFilter";
+import { DrawerIcon } from "./drawerIcon";
+import { ActionSheetHotel } from "@/src/components/Hotels/BottomSheet";
 
 const InstanceDrawerNavigation = createDrawerNavigator<RootStackParamList>();
 
@@ -16,7 +17,7 @@ export const DrawerNavigation = () => {
                 headerTransparent: true,
                 headerTitleAlign: "center",
                 headerLeft: () => <DrawerIcon navigation={navigation} />,
-                headerLeftContainerStyle:  {
+                headerLeftContainerStyle: {
                     padding: 10,
                 },
                 headerStyle: {
@@ -29,7 +30,7 @@ export const DrawerNavigation = () => {
                 options={{
                     headerTitleAlign: "center",
                     title: "Hoteles",
-                    headerTitle: () => <InputFilter/>,
+                    headerTitle: () => <InputFilter />,
                 }}
                 name={RoutesNameScreens.DrawerMain}
                 component={ButtonTabNavigation}

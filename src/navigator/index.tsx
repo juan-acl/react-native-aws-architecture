@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StackNavigator } from "./stack";
 import { useSelector } from "react-redux";
@@ -8,7 +8,6 @@ import { View, StyleSheet } from "react-native";
 
 export const RootNavigation = () => {
     const isLoading = useSelector((state: RootState) => state.reducer.loader.isLoading);
-
     return (
         <>
             <NavigationContainer independent={true} >
