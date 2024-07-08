@@ -16,6 +16,6 @@ export const getHotels = async () => {
     const response = await body.json();
     return response;
   } catch (e) {
-    console.log("POST call failed: ", e);
+    console.log("Get all post failed: ", e);
   }
 };
