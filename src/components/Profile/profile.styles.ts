@@ -5,9 +5,8 @@ export const styles = StyleSheet.create({
     padding: 30,
     alignItems: "center",
     display: "flex",
+    justifyContent: "center",
     flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
     marginTop: 63,
   },
   groupButtons: {
@@ -57,7 +56,7 @@ export const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     padding: 6,
-    elevation: 3,
+    elevation: 30,
   },
   body: {
     backgroundColor: "white",
@@ -70,7 +69,7 @@ export const styles = StyleSheet.create({
   },
   RectangleShapeView: {
     marginTop: 20,
-    width: "80%",
+    width: "90%",
     height: 80,
     backgroundColor: "white",
     color: "black",
@@ -78,5 +77,9 @@ export const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     elevation: 3,
+  },
+  Flex: {
+    flex: 1,
+    flexDirection: "row",
   },
 });
