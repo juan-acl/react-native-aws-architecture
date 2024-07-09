@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView } from '
 import { Input } from '../../Input';
 import { FormState, useForm } from '@/src/hooks/useForm';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RoutesNameScreens } from '@/src/navigator/stack/nameScreens';
+import { RoutesNameScreens } from '@/src/navigator/stack/nameScreensStack';
 import { RootStackParamList } from '@/src/navigator/types/navigationStack';
 import { SignUp, setUserEmail } from "@/src/redux/slices/auth.slice"
 import { AppDispatch } from "@/src/redux/configureStore";

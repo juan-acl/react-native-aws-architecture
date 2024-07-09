@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import {
     View,
     TouchableWithoutFeedback,
@@ -7,14 +7,14 @@ import {
     Text,
     KeyboardAvoidingView
 } from "react-native";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/src/redux/configureStore";
-import {SignIn, setAuthError} from "@/src/redux/slices/auth.slice";
-import {Input} from '../../Input';
-import {FormState, useForm} from "@/src/hooks/useForm";
-import {useNavigation, NavigationProp, useFocusEffect} from '@react-navigation/native';
-import {RootStackParamList} from "@/src/navigator/types/navigationStack";
-import {RoutesNameScreens} from "@/src/navigator/stack/nameScreens";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/src/redux/configureStore";
+import { SignIn, setAuthError } from "@/src/redux/slices/auth.slice";
+import { Input } from '../../Input';
+import { FormState, useForm } from "@/src/hooks/useForm";
+import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
+import { RootStackParamList } from "@/src/navigator/types/navigationStack";
+import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
 import { RegisterOnChangeProps } from "types/auth";
 import { styles } from "./login.styles";
 
@@ -47,7 +47,7 @@ export const Login = () => {
         }, [])
     )
 
-    const {state, onChange, isValidaFormState} = useForm(initialState);
+    const { state, onChange, isValidaFormState } = useForm(initialState);
 
     const login = async () => {
         try {
@@ -62,8 +62,8 @@ export const Login = () => {
         }
     };
 
-    const changeValue = ({value, name}: RegisterOnChangeProps) => {
-        onChange({value, name});
+    const changeValue = ({ value, name }: RegisterOnChangeProps) => {
+        onChange({ value, name });
     }
 
     return (

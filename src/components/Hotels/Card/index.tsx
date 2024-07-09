@@ -7,7 +7,7 @@ import { DialogAlert } from '@/src/redux/slices/dialogAlert.slice';
 import { ALERT_TYPE } from "react-native-alert-notification";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
-import { RoutesNameScreens } from "@/src/navigator/stack/nameScreens";
+import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
 import { styles } from './card.styles';
 
 interface CardProps {

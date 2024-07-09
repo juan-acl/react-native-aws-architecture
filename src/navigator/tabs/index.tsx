@@ -6,17 +6,25 @@ import {Favorite} from "@/src/components/Hotels/Favorite";
 import {Reservation_Screen} from "@/src/screens/Reservations";
 import Icon from "react-native-vector-icons/FontAwesome";
 
+interface RouteName {
+    [key: string]: string;
+}
+
 const InstanceButtonTabNavigation = createBottomTabNavigator<RootButtonTabParamList>();
 
-const getTabBarIcon = (routeName: string, color: string, size: number) => {
+const getIconName = (routeName: string) => {
     let iconName = "";
-    let mapIconName = {
+    let mapIconName: RouteName = {
         [RoutesNameScreensHotelsTabs.Hotels]: "home",
         [RoutesNameScreensHotelsTabs.Favorite]: "heart",
         [RoutesNameScreensHotelsTabs.Reservaciones]: "book",
     }
-    // @ts-ignore
-    iconName = mapIconName[routeName]
+    iconName = mapIconName[routeName];
+    return iconName;
+}
+
+const getTabBarIcon = (routeName: string, color: string, size: number) => {
+    let iconName = getIconName(routeName);
     return <Icon name={iconName} size={size} color={color} style={{marginTop: 10, marginBottom: -5}}/>;
 };
 

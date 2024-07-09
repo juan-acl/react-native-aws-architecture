@@ -1,8 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 
-export const DrawerIcon = ({ navigation }) => {
+interface DrawerIconProps {
+    navigation: DrawerNavigationProp<RootStackParamList>;
+}
+
+export const DrawerIcon: React.FC<DrawerIconProps> = ({ navigation }) => {
     return (
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
             <View style={styles.iconContainer}>

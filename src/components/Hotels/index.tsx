@@ -8,8 +8,6 @@ import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { RootState } from "@/src/redux/configureStore";
 import { setFilterText } from "@/src/redux/slices/hotel.slice";
-import { useDisclose } from "native-base";
-import { ActionSheetHotel } from "./BottomSheet";
 import BottomSheet from '@gorhom/bottom-sheet';
 
 interface FetchHotelsQuery {

@@ -1,11 +1,11 @@
 import React from "react";
-import {View, Text, Pressable} from "react-native";
-import {styles} from "../styles";
-import {HomeProps} from "@/src/navigator/types/navigationStack";
-import {RoutesNameScreens} from "@/src/navigator/stack/nameScreens";
+import { View, Text, Pressable } from "react-native";
+import { styles } from "../styles";
+import { HomeProps } from "@/src/navigator/types/navigationStack";
+import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
 
 const Buttons = (props: HomeProps) => {
-    const {navigation} = props;
+    const { navigation } = props;
 
     const goToSignIn = () => {
         navigation.navigate(RoutesNameScreens.SignIn);

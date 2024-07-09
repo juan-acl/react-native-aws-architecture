@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '@/src/redux/configureStore';
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import {RootStackParamList} from '@/src/navigator/types/navigationStack';
-import {RoutesNameScreens} from '@/src/navigator/stack/nameScreens';
+import {RoutesNameScreens} from '@/src/navigator/stack/nameScreensStack';
 import {ConfirmSignUp} from '@/src/redux/slices/auth.slice';
 import { styles } from './confirmSigUp.styles';
 

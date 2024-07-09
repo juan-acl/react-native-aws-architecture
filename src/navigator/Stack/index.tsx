@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { SignInScreen } from "@/src/screens/SignIn";
-import { RoutesNameScreens } from "./nameScreens";
+import { RoutesNameScreens } from "./nameScreensStack";
 import { RootStackParamList } from "../types/navigationStack";
 import { SignUpScreen } from "@/src/screens/SignUp";
 import { HomeScreen } from "@/src/screens/Home";
