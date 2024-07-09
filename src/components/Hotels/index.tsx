@@ -9,26 +9,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import { RootState } from "@/src/redux/configureStore";
 import { setFilterText } from "@/src/redux/slices/hotel.slice";
 import BottomSheet from '@gorhom/bottom-sheet';
-
-interface FetchHotelsQuery {
-    data: fetchHotel;
-    error: string;
-    isLoading: boolean;
-}
-
-interface fetchHotel {
-    code: number;
-    count: number;
-    hotels: Hotel[];
-}
-
-interface HotelMap {
-    [key: string]: any;
-}
+import { FetchHotelsQuery, HotelMap } from "types/hotel";
+import { ActionSheetHotel } from "./BottomSheet";
 
 const Hotels = () => {
     const bottomSheetRef = useRef<BottomSheet>(null);
-    const [openBottonSheet, setOpenBottonSheet] = useState(false);
     const filterText = useSelector((state: RootState) => state.reducer.hotels.filterText);
     const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
     const dispatch = useDispatch();
@@ -74,7 +59,7 @@ const Hotels = () => {
     }, []);
 
     return (
-        <>
+        <View>
             <ScrollView
                 contentContainerStyle={{ paddingBottom: 80, paddingTop: 65 }}
                 showsHorizontalScrollIndicator={false}
@@ -86,9 +71,9 @@ const Hotels = () => {
                             phone={hotel?.phone} />
                     ))
                 }
-                {/* <ActionSheetHotel bottomSheetRef={bottomSheetRef} /> */}
             </ScrollView>
-        </>
+            <ActionSheetHotel bottomSheetRef={bottomSheetRef} />
+        </View>
     );
 }
 
