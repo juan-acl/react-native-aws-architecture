@@ -68,7 +68,8 @@ const Hotels = () => {
                 {hotels?.length === 0 ? <Text style={{ marginTop: 70 }}> Not found your search </Text> :
                     hotels?.map((hotel, index) => (
                         <Card showActionSheet={handleOpenPress} key={index} address={hotel?.address} nameHotel={hotel?.name}
-                            phone={hotel?.phone} />
+                            phone={hotel?.phone}
+                        />
                     ))
                 }
             </ScrollView>
