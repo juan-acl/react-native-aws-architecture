@@ -1,4 +1,5 @@
 export interface RegisterOnChangeProps {
-    value: string;
-    name: string;
+  value: string;
+  name: string;
 }
+

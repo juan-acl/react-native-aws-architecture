@@ -1,10 +1,13 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { ActionSheetHotel } from "../Hotels/BottomSheet";
-
+import React from "react";
+import { View, Text } from "react-native";
+import { styles } from "./profile.styles";
 
 export const Profile: React.FC = () => {
-    return (
-        <ActionSheetHotel />
-    )
-}
+  return (
+    <View style={styles.container}>
+      <View style={styles.subcontainer}>
+        <Text style={styles.text}>It´s a profile component</Text>
+      </View>
+    </View>
+  );
+};
