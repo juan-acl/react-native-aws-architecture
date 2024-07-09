@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
 import { Hotel } from "@/src/redux/slices/hotel.slice";
 import { Card } from "./Card";
@@ -59,7 +59,7 @@ const Hotels = () => {
     }, []);
 
     return (
-        <View>
+        <>
             <ScrollView
                 contentContainerStyle={{ paddingBottom: 80, paddingTop: 65 }}
                 showsHorizontalScrollIndicator={false}
@@ -74,7 +74,7 @@ const Hotels = () => {
                 }
             </ScrollView>
             <ActionSheetHotel bottomSheetRef={bottomSheetRef} />
-        </View>
+        </>
     );
 }
 

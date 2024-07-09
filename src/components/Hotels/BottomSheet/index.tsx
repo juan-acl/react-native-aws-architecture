@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Text } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { styles } from "./bottomSheet.styles";
 
@@ -10,7 +10,7 @@ interface Props {
 export const ActionSheetHotel: React.FC<Props> = ({
   bottomSheetRef,
 }: Props) => {
-  const snapPoints = useMemo(() => [0.1, "50%", "90%"], []);
+  const snapPoints = useMemo(() => [0.1, "50%", "92%"], []);
 
   return (
     <>
@@ -18,7 +18,7 @@ export const ActionSheetHotel: React.FC<Props> = ({
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         enablePanDownToClose={true}
-        index={1}
+        index={0}
       >
         <BottomSheetView style={styles.contentContainer}>
           <Text>Awesome 🎉</Text>
