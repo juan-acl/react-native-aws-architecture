@@ -1,13 +1,14 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
-import {Input} from '../../Input';
-import {FormState, useForm} from '@/src/hooks/useForm';
-import {useNavigation, NavigationProp} from '@react-navigation/native';
-import {RoutesNameScreens} from '@/src/navigator/stack/nameScreens';
-import {RootStackParamList} from '@/src/navigator/types/navigationStack';
-import {SignUp, setUserEmail} from "@/src/redux/slices/auth.slice"
-import {AppDispatch} from "@/src/redux/configureStore";
-import {useDispatch} from "react-redux";
+import { Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Input } from '../../Input';
+import { FormState, useForm } from '@/src/hooks/useForm';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RoutesNameScreens } from '@/src/navigator/stack/nameScreensStack';
+import { RootStackParamList } from '@/src/navigator/types/navigationStack';
+import { SignUp, setUserEmail } from "@/src/redux/slices/auth.slice"
+import { AppDispatch } from "@/src/redux/configureStore";
+import { useDispatch } from "react-redux";
+import { styles } from './register.styles';
 
 interface RegisterOnChangeProps {
     value: string;
@@ -62,10 +63,10 @@ export const Register = () => {
         },
     }
 
-    const {state, onChange, isValidaFormState} = useForm(initialState);
+    const { state, onChange, isValidaFormState } = useForm(initialState);
 
-    const changeValue = ({value, name}: RegisterOnChangeProps) => {
-        onChange({value, name});
+    const changeValue = ({ value, name }: RegisterOnChangeProps) => {
+        onChange({ value, name });
     }
 
     const register = async () => {
@@ -88,7 +89,7 @@ export const Register = () => {
 
     return (
         <KeyboardAvoidingView
-            style={{flex: 1, justifyContent: 'center', marginTop: 70}}
+            style={{ flex: 1, justifyContent: 'center', marginTop: 70 }}
             behavior='padding'
             keyboardVerticalOffset={64}
         >
@@ -167,38 +168,3 @@ export const Register = () => {
         </KeyboardAvoidingView>
     )
 }
-
-const styles = StyleSheet.create({
-    container_register: {
-        flexGrow: 1,
-        justifyContent: "center",
-    },
-    buttonContainer: {
-        width: '90%',
-        alignItems: 'center',
-        marginTop: 20,
-        margin: 20,
-        padding: 1
-    },
-    button_register: {
-        padding: 20,
-        borderRadius: 15,
-        backgroundColor: "#543313",
-        justifyContent: "center",
-        alignItems: "center",
-        width: '100%',
-    },
-    button_disabled: {
-        padding: 20,
-        borderRadius: 15,
-        justifyContent: "center",
-        alignItems: "center",
-        width: '100%',
-        backgroundColor: "#ccc",
-    },
-    text_register: {
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: 17
-    }
-})

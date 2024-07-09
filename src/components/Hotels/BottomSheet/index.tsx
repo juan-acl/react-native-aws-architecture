@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { styles } from "./bottomSheet.styles";
 
 interface Props {
   bottomSheetRef: React.RefObject<BottomSheet>;
@@ -17,7 +18,7 @@ export const ActionSheetHotel: React.FC<Props> = ({
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         enablePanDownToClose={true}
-        index={1} // initially closed
+        index={1}
       >
         <BottomSheetView style={styles.contentContainer}>
           <Text>Awesome 🎉</Text>
@@ -26,11 +27,3 @@ export const ActionSheetHotel: React.FC<Props> = ({
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center", // ensure content is centered
-  },
-});

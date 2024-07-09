@@ -8,29 +8,12 @@ import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { RootState } from "@/src/redux/configureStore";
 import { setFilterText } from "@/src/redux/slices/hotel.slice";
-import { useDisclose } from "native-base";
-import { ActionSheetHotel } from "./BottomSheet";
 import BottomSheet from '@gorhom/bottom-sheet';
-
-interface FetchHotelsQuery {
-    data: fetchHotel;
-    error: string;
-    isLoading: boolean;
-}
-
-interface fetchHotel {
-    code: number;
-    count: number;
-    hotels: Hotel[];
-}
-
-interface HotelMap {
-    [key: string]: any;
-}
+import { FetchHotelsQuery, HotelMap } from "types/hotel";
+import { ActionSheetHotel } from "./BottomSheet";
 
 const Hotels = () => {
     const bottomSheetRef = useRef<BottomSheet>(null);
-    const [openBottonSheet, setOpenBottonSheet] = useState(false);
     const filterText = useSelector((state: RootState) => state.reducer.hotels.filterText);
     const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
     const dispatch = useDispatch();
@@ -41,7 +24,7 @@ const Hotels = () => {
             setHotels(data?.hotels);
             return;
         }
-        const filteredHotels = data?.hotels?.filter((hotel: HotelMap) => {
+        const filteredHotels: Hotel[] = data?.hotels?.filter((hotel: HotelMap) => {
             let arrayFilterParams = ["name", "address", "phone"];
             let filterResult = arrayFilterParams.some((key: string) => {
                 return hotel[key].toLowerCase()?.includes(filterText?.toLowerCase())
@@ -76,7 +59,7 @@ const Hotels = () => {
     }, []);
 
     return (
-        <>
+        <View>
             <ScrollView
                 contentContainerStyle={{ paddingBottom: 80, paddingTop: 65 }}
                 showsHorizontalScrollIndicator={false}
@@ -85,12 +68,13 @@ const Hotels = () => {
                 {hotels?.length === 0 ? <Text style={{ marginTop: 70 }}> Not found your search </Text> :
                     hotels?.map((hotel, index) => (
                         <Card showActionSheet={handleOpenPress} key={index} address={hotel?.address} nameHotel={hotel?.name}
-                            phone={hotel?.phone} />
+                            phone={hotel?.phone}
+                        />
                     ))
                 }
-                {/* <ActionSheetHotel bottomSheetRef={bottomSheetRef} /> */}
             </ScrollView>
-        </>
+            <ActionSheetHotel bottomSheetRef={bottomSheetRef} />
+        </View>
     );
 }
 

@@ -1,26 +1,22 @@
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import {
     View,
     TouchableWithoutFeedback,
     Keyboard,
     TouchableOpacity,
     Text,
-    StyleSheet,
     KeyboardAvoidingView
 } from "react-native";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/src/redux/configureStore";
-import {SignIn, setAuthError, SignOut} from "@/src/redux/slices/auth.slice";
-import {Input} from '../../Input';
-import {FormState, useForm} from "@/src/hooks/useForm";
-import {useNavigation, NavigationProp, useFocusEffect} from '@react-navigation/native';
-import {RootStackParamList} from "@/src/navigator/types/navigationStack";
-import {RoutesNameScreens} from "@/src/navigator/stack/nameScreens";
-
-interface RegisterOnChangeProps {
-    value: string;
-    name: string;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/src/redux/configureStore";
+import { SignIn, setAuthError } from "@/src/redux/slices/auth.slice";
+import { Input } from '../../Input';
+import { FormState, useForm } from "@/src/hooks/useForm";
+import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
+import { RootStackParamList } from "@/src/navigator/types/navigationStack";
+import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
+import { RegisterOnChangeProps } from "types/auth";
+import { styles } from "./login.styles";
 
 export const Login = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -51,7 +47,7 @@ export const Login = () => {
         }, [])
     )
 
-    const {state, onChange, isValidaFormState} = useForm(initialState);
+    const { state, onChange, isValidaFormState } = useForm(initialState);
 
     const login = async () => {
         try {
@@ -66,8 +62,8 @@ export const Login = () => {
         }
     };
 
-    const changeValue = ({value, name}: RegisterOnChangeProps) => {
-        onChange({value, name});
+    const changeValue = ({ value, name }: RegisterOnChangeProps) => {
+        onChange({ value, name });
     }
 
     return (
@@ -109,34 +105,3 @@ export const Login = () => {
         </TouchableWithoutFeedback>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        marginTop: 70,
-    },
-    button_login: {
-        padding: 20,
-        borderRadius: 15,
-        backgroundColor: "#543313",
-        marginHorizontal: 20,
-        justifyContent: "center",
-        alignItems: "center",
-        margin: 20
-    },
-    button_disabled: {
-        padding: 20,
-        borderRadius: 15,
-        marginHorizontal: 20,
-        justifyContent: "center",
-        alignItems: "center",
-        margin: 20,
-        backgroundColor: "#ccc",
-    },
-    text_login: {
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: 17
-    }
-})
