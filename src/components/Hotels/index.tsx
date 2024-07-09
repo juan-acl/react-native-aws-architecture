@@ -24,7 +24,7 @@ const Hotels = () => {
             setHotels(data?.hotels);
             return;
         }
-        const filteredHotels = data?.hotels?.filter((hotel: HotelMap) => {
+        const filteredHotels: Hotel[] = data?.hotels?.filter((hotel: HotelMap) => {
             let arrayFilterParams = ["name", "address", "phone"];
             let filterResult = arrayFilterParams.some((key: string) => {
                 return hotel[key].toLowerCase()?.includes(filterText?.toLowerCase())
