@@ -5,9 +5,10 @@ import { HeaderBackground } from "./imageBackground";
 import { Avatar } from "./imageBackground";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/redux/configureStore";
+import { UserInformation } from "@/src/types/auth";
 
 export const Profile: React.FC = () => {
-  const userProfile = useSelector(
+  const userProfile: UserInformation | null = useSelector(
     (state: RootState) => state.reducer.auth.userInformation
   );
   return (
