@@ -15,12 +15,22 @@ const hotelSlice = createSlice({
     setHotels(state, action: PayloadAction<{ hotels: Hotel[] }>) {
       state.hotels = action.payload.hotels;
     },
+    setHotelInformationBottomSheet(state, action: PayloadAction<Hotel>) {
+      state.currentHotel = action.payload;
+    },
+    setCleanCurrentHotel(state, _) {
+      state.currentHotel = null;
+    },
     setFilterText(state, action: PayloadAction<{ filterText: string }>) {
       state.filterText = action.payload.filterText;
     },
   },
 });
 
-export const { setHotels, setFilterText } = hotelSlice.actions;
+export const {
+  setHotels,
+  setFilterText,
+  setHotelInformationBottomSheet,
+  setCleanCurrentHotel,
+} = hotelSlice.actions;
 export const hotelReducer = hotelSlice.reducer;
-

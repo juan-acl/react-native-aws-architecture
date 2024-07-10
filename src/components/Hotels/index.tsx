@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ScrollView, Text } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
 import { Card } from "./Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { setFilterText } from "@/src/redux/slices/hotel.slice";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { FetchHotelsQuery, HotelMap, Hotel } from "types/hotel";
 import { ActionSheetHotel } from "./BottomSheet";
+import { styles } from "./styles";
 
 const Hotels = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -67,15 +68,15 @@ const Hotels = () => {
         showsVerticalScrollIndicator={false}
       >
         {hotels?.length === 0 ? (
-          <Text style={{ marginTop: 70 }}> Not found your search </Text>
+          <View style={styles.continerText}>
+            <Text style={styles.textNotFoundSearch}> Sin resultados </Text>
+          </View>
         ) : (
           hotels?.map((hotel, index) => (
             <Card
               showActionSheet={handleOpenPress}
               key={index}
-              address={hotel?.address}
-              nameHotel={hotel?.name}
-              phone={hotel?.phone}
+              hotelInformation={hotel}
             />
           ))
         )}
@@ -86,4 +87,3 @@ const Hotels = () => {
 };
 
 export default Hotels;
-

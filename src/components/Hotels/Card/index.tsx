@@ -14,19 +14,17 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
 import { styles } from "./card.styles";
+import { Hotel } from "@/src/types/hotel";
+import { setHotelInformationBottomSheet } from "@/src/redux/slices/hotel.slice";
 
 interface CardProps {
-  nameHotel: string;
-  address: string;
-  phone: string;
+  hotelInformation: Hotel;
   showActionSheet?: () => void;
 }
 
 export const Card: React.FC<CardProps> = ({
-  nameHotel,
-  address,
-  phone,
   showActionSheet,
+  hotelInformation,
 }: CardProps) => {
   const isSignedIn = useSelector(
     (state: RootState) => state.reducer.auth.isSignedIn
@@ -51,6 +49,7 @@ export const Card: React.FC<CardProps> = ({
       return;
     }
     showActionSheet();
+    dispatch(setHotelInformationBottomSheet(hotelInformation));
   };
 
   return (
@@ -63,11 +62,11 @@ export const Card: React.FC<CardProps> = ({
         >
           <View style={styles.container_text}>
             <View style={styles.leftContainer}>
-              <Text style={styles.text}>{nameHotel}</Text>
-              <Text style={styles.text}>{address}</Text>
+              <Text style={styles.text}>{hotelInformation?.name}</Text>
+              <Text style={styles.text}>{hotelInformation?.address}</Text>
             </View>
             <View style={styles.rightContainer}>
-              <Text style={styles.text}>{phone}</Text>
+              <Text style={styles.text}>{hotelInformation?.phone}</Text>
             </View>
           </View>
         </ImageBackground>

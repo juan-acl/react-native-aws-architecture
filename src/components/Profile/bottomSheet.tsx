@@ -1,9 +1,9 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import { Text, View, Pressable, TouchableOpacity } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { styles } from "./profile.styles";
 import { Input } from "@/src/components/Input";
 import { FormState, useForm } from "@/src/hooks/useForm";
+import { styles } from "./profile.styles";
 
 interface Props {
   bottomSheetRef: React.RefObject<BottomSheet>;
