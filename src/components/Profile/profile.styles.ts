@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  flexBottomSheet: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+  },
   headerContent: {
     padding: 30,
     alignItems: "center",
@@ -13,6 +18,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     gap: 10,
+  },
+  contentContainerBottomSheet: {
+    flex: 1,
+    alignItems: "center",
   },
   avatar: {
     width: 112,
@@ -33,12 +42,13 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 20,
     marginTop: 10,
+    fontSize: 17,
   },
   SubjectText: {
     color: "black",
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "Helvetica",
-    marginLeft: 20,
+    marginLeft: 17,
     marginTop: 10,
   },
   userInfo: {
@@ -68,7 +78,7 @@ export const styles = StyleSheet.create({
   RectangleShapeView: {
     marginTop: 20,
     width: "90%",
-    height: 80,
+    height: "20%",
     backgroundColor: "white",
     color: "black",
     borderRadius: 10,

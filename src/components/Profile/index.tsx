@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Pressable, Text, View, ScrollView } from "react-native";
 import { styles } from "./profile.styles";
 import { HeaderBackground } from "./imageBackground";
@@ -12,8 +12,11 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { ActionSheetUpdateProfile } from "./bottomSheet";
 
 export const Profile: React.FC = () => {
+  const bottomSheetRef = useRef<BottomSheet>(null);
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const userProfile: UserInformation | null = useSelector(
@@ -27,10 +30,12 @@ export const Profile: React.FC = () => {
     navigation.navigate(RoutesNameScreens.Home);
   };
 
-  const updateProfileUser = () => [console.log("Presionado")];
+  const updateProfileUser = () => {
+    bottomSheetRef.current?.expand();
+  };
 
   return (
-    <>
+    <React.Fragment>
       <HeaderBackground />
       <View style={styles.headerContent}>
         <Text style={styles.name}>¡Bienvenido!</Text>
@@ -72,6 +77,7 @@ export const Profile: React.FC = () => {
           </View>
         </ScrollView>
       </View>
-    </>
+      <ActionSheetUpdateProfile bottomSheetRef={bottomSheetRef} />
+    </React.Fragment>
   );
 };
