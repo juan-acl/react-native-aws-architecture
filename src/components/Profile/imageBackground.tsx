@@ -14,5 +14,10 @@ export const HeaderBackground: React.FC = () => {
 };
 
 export const Avatar: React.FC = () => {
-  return <ImageBackground source={avatar} style={styles.avatar} />;
+  return (
+    <ImageBackground
+      source={avatar}
+      style={{ width: 105, height: 105, marginLeft: 2 }}
+    />
+  );
 };

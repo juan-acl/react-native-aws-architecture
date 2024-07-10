@@ -49,7 +49,6 @@ export const Login = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(setAuthError(false));
-      // dispatch(SignOut())
     }, [])
   );
 
@@ -112,4 +111,3 @@ export const Login = () => {
     </TouchableWithoutFeedback>
   );
 };
-

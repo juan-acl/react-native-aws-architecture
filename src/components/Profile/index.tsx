@@ -37,7 +37,9 @@ export const Profile: React.FC = () => {
         <Text style={styles.userInfo}>
           {userProfile?.name + " " + userProfile?.family_name}
         </Text>
-        <Avatar />
+        <View style={styles.avatar}>
+          <Avatar />
+        </View>
       </View>
       <View style={styles.body}>
         <ScrollView contentContainerStyle={styles.body}>

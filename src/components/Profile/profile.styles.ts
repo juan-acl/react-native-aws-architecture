@@ -15,13 +15,11 @@ export const styles = StyleSheet.create({
     gap: 10,
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 63,
+    width: 112,
+    height: 110,
+    borderRadius: 110,
     borderWidth: 2,
     borderColor: "white",
-    marginBottom: 10,
-    margin: 2,
   },
   name: {
     fontSize: 22,

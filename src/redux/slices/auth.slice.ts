@@ -12,7 +12,17 @@ import {
 import { setIsLoading } from "./loader.slice";
 import { ALERT_TYPE } from "react-native-alert-notification";
 import { DialogAlert } from "./dialogAlert.slice";
-import { UserInformation, UserAuthState, LoginPayload } from "@/src/types/auth";
+import {
+  UserAuthState,
+  LoginPayload,
+  AsyncThunkTypes,
+  SignInPayload,
+  SignUpPayload,
+  AuthFlowTypes,
+  AuthFlowErrorTypes,
+  StatusAndMessage,
+  ConfirmSignUpPayloadParams,
+} from "@/src/types/auth";
 
 const initialState: UserAuthState = {
   isSignedIn: false,
@@ -47,48 +57,6 @@ const authSlice = createSlice({
     },
   },
 });
-
-enum AsyncThunkTypes {
-  SIGN_IN = "auth/signIn",
-  SIGN_OUT = "auth/signOut",
-  SIGN_UP = "auth/signUp",
-  CONFIRM_SIGN_UP = "auth/confirmSignUp",
-}
-
-interface SignInPayload {
-  emailParams: string;
-  passwordParams: any;
-}
-
-interface SignUpPayload {
-  emailParams: string;
-  passwordParams: any;
-  nameParams: string;
-  lastNameParams: string;
-  phoneNumberParams: string;
-  addressParams: string;
-}
-
-enum AuthFlowTypes {
-  USER_PASSWORD_AUTH = "USER_PASSWORD_AUTH",
-}
-
-enum AuthFlowErrorTypes {
-  USER_NOT_EXIST = "User does not exist.",
-  USER_OR_PASSWORD_INCORRECT = "Incorrect username or password.",
-}
-
-interface StatusAndMessage {
-  error: boolean;
-  message: string;
-  title: string;
-  textButton?: string;
-}
-
-interface ConfirmSignUpPayloadParams {
-  emailParams: string;
-  emailCodeConfirmation: string;
-}
 
 /***************************
  * Custom Actions reducers *
