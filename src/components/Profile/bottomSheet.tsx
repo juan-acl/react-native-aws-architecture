@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { Text, View, Pressable, TouchableOpacity } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { styles } from "./profile.styles";
@@ -7,6 +7,7 @@ import { FormState, useForm } from "@/src/hooks/useForm";
 
 interface Props {
   bottomSheetRef: React.RefObject<BottomSheet>;
+  onChangeBottomSheet: (value: number) => void;
 }
 
 interface RegisterOnChangeProps {
@@ -16,8 +17,9 @@ interface RegisterOnChangeProps {
 
 export const ActionSheetUpdateProfile: React.FC<Props> = ({
   bottomSheetRef,
+  onChangeBottomSheet,
 }: Props) => {
-  const snapPoints = useMemo(() => [0.1, "50%", "93.5%"], []);
+  const snapPoints = useMemo(() => [0.1, "50%", "100%"], []);
   const initialState: FormState = {
     email: {
       value: "",
@@ -65,11 +67,11 @@ export const ActionSheetUpdateProfile: React.FC<Props> = ({
 
   const { state, onChange, isValidaFormState } = useForm(initialState);
 
-  const changeValue = ({ value, name }: RegisterOnChangeProps) => {
+  const changeValue = ({ value, name }: RegisterOnChangeProps): void => {
     onChange({ value, name });
   };
 
-  const confirmUpdateProfile = () => {
+  const confirmUpdateProfile = (): void => {
     let log = "Presionado la confirmacion";
     console.log(log);
   };
@@ -80,6 +82,7 @@ export const ActionSheetUpdateProfile: React.FC<Props> = ({
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         enablePanDownToClose={true}
+        onChange={onChangeBottomSheet}
         index={0}
       >
         <BottomSheetView style={styles.contentContainerBottomSheet}>
