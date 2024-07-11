@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View, FlatList } from "react-native";
 import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
 import { Card } from "./Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,8 +32,8 @@ const Hotels = () => {
       return;
     }
     const filteredHotels: Hotel[] = data?.hotels?.filter((hotel: HotelMap) => {
-      let arrayFilterParams = ["name", "address", "phone"];
-      let filterResult = arrayFilterParams.some((key: string) => {
+      let arrayPropertiesForFilter = ["name", "address", "phone"];
+      let filterResult = arrayPropertiesForFilter.some((key: string) => {
         return hotel[key].toLowerCase()?.includes(filterText?.toLowerCase());
       });
       return filterResult;
@@ -68,28 +68,27 @@ const Hotels = () => {
 
   return (
     <>
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 80, paddingTop: 65 }}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-      >
-        {hotels?.length === 0 ? (
-          <View style={styles.continerText}>
-            <Text style={styles.textNotFoundSearch}> Sin resultados </Text>
-          </View>
-        ) : (
-          hotels?.map((hotel, index) => (
+      {hotels?.length === 0 ? (
+        <View style={styles.continerText}>
+          <Text style={styles.textNotFoundSearch}>
+            No hay hoteles para mostrar.
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={hotels}
+          keyExtractor={(hotel) => hotel.id.toString()}
+          renderItem={({ item, index }: { item: Hotel; index: number }) => (
             <Card
               showActionSheet={handleOpenPress}
               key={index}
-              hotelInformation={hotel}
+              hotelInformation={item}
             />
-          ))
-        )}
-      </ScrollView>
+          )}
+        />
+      )}
       <ActionSheetHotel bottomSheetRef={bottomSheetRef} />
     </>
   );
 };
-
 export default Hotels;

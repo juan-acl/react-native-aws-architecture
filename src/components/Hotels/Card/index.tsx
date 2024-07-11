@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { View, Text, ImageBackground, Pressable } from "react-native";
 import hotel_icon from "@/assets/images/hotels-home.png";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/src/redux/configureStore";
@@ -53,7 +48,7 @@ export const Card: React.FC<CardProps> = ({
   };
 
   return (
-    <TouchableWithoutFeedback onPress={openActionSheet}>
+    <Pressable onPress={openActionSheet}>
       <View style={styles.container}>
         <ImageBackground
           source={hotel_icon}
@@ -71,7 +66,7 @@ export const Card: React.FC<CardProps> = ({
           </View>
         </ImageBackground>
       </View>
-    </TouchableWithoutFeedback>
+    </Pressable>
   );
 };
 

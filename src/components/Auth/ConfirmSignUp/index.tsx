@@ -24,7 +24,7 @@ const ConfirmationCodeScreen = () => {
     const [isCodeValid, setIsCodeValid] = useState<boolean>(false);
 
     const handleChangeText = (text: string, index: number) => {
-        const newCode = [...code];
+        const newCode: string[] = [...code];
         newCode[index] = text;
         setCode(newCode);
 
