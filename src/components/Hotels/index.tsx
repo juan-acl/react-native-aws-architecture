@@ -10,9 +10,14 @@ import { setFilterText } from "@/src/redux/slices/hotel.slice";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { FetchHotelsQuery, HotelMap, Hotel } from "types/hotel";
 import { ActionSheetHotel } from "./BottomSheet";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "@/src/navigator/types/navigationStack";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
 import { styles } from "./styles";
 
 const Hotels = () => {
+  const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const filterText = useSelector(
     (state: RootState) => state.reducer.hotels.filterText
@@ -56,9 +61,10 @@ const Hotels = () => {
     }, [])
   );
 
-  const handleOpenPress = useCallback(() => {
+  const handleOpenPress = () => {
+    dispatch(setHeaderShow({ show: false }));
     bottomSheetRef.current?.expand();
-  }, []);
+  };
 
   return (
     <>

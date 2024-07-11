@@ -5,6 +5,7 @@ import { HotelState, Hotel } from "@/src/types/hotel";
 const initialState: HotelState = {
   hotels: [],
   filterText: "",
+  headerShow: true,
   currentHotel: null,
 };
 
@@ -21,6 +22,9 @@ const hotelSlice = createSlice({
     setCleanCurrentHotel(state, _) {
       state.currentHotel = null;
     },
+    setHeaderShow(state, action: PayloadAction<{ show: boolean }>) {
+      state.headerShow = action.payload.show;
+    },
     setFilterText(state, action: PayloadAction<{ filterText: string }>) {
       state.filterText = action.payload.filterText;
     },
@@ -32,5 +36,6 @@ export const {
   setFilterText,
   setHotelInformationBottomSheet,
   setCleanCurrentHotel,
+  setHeaderShow,
 } = hotelSlice.actions;
 export const hotelReducer = hotelSlice.reducer;

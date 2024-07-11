@@ -5,10 +5,15 @@ import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
 import { ButtonTabNavigation } from "../tabs";
 import { InputFilter } from "@/src/components/InputFilter";
 import { DrawerIcon } from "./drawerIcon";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/redux/configureStore";
 
 const InstanceDrawerNavigation = createDrawerNavigator<RootStackParamList>();
 
 export const DrawerNavigation = () => {
+  const headerShown = useSelector(
+    (state: RootState) => state.reducer.hotels.headerShow
+  );
   return (
     <InstanceDrawerNavigation.Navigator
       initialRouteName={RoutesNameScreens.DrawerMain}
@@ -29,6 +34,7 @@ export const DrawerNavigation = () => {
         options={{
           headerTitleAlign: "center",
           title: "Hoteles",
+          headerShown,
           headerTitle: () => <InputFilter />,
         }}
         name={RoutesNameScreens.DrawerMain}

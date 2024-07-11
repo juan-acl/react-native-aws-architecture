@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
-import { Pressable, Text, View, ScrollView, Button } from "react-native";
+import { Pressable, Text, View, ScrollView } from "react-native";
 import { styles } from "./profile.styles";
 import { HeaderBackground } from "./imageBackground";
 import { Avatar } from "./imageBackground";
@@ -24,7 +24,7 @@ export const Profile: React.FC = () => {
   const userProfile: UserInformation | null = useSelector(
     (state: RootState) => state.reducer.auth.userInformation
   );
-  const phone_number = userProfile?.phone_number?.split("+502");
+  const [phone_number] = useState(userProfile?.phone_number?.split("+502"));
 
   const logOut = async () => {
     const response = await dispatch(SignOut());

@@ -5,6 +5,10 @@ import { styles } from "./bottomSheet.styles";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "@/src/redux/configureStore";
 import { setCleanCurrentHotel } from "@/src/redux/slices/hotel.slice";
+import { useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { RootStackParamList } from "@/src/navigator/types/navigationStack";
+import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
 
 interface Props {
   bottomSheetRef: React.RefObject<BottomSheet>;
@@ -14,10 +18,11 @@ export const ActionSheetHotel: React.FC<Props> = ({
   bottomSheetRef,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const hotelInformation = useSelector(
     (state: RootState) => state.reducer.hotels.currentHotel
   );
-  const snapPoints = useMemo(() => [0.1, "50%", "92%"], []);
+  const snapPoints = useMemo(() => [0.1, "50%", "100%"], []);
 
   /**
    * This function handles changes in the bottom sheet state and updates the header visibility accordingly.
@@ -31,6 +36,11 @@ export const ActionSheetHotel: React.FC<Props> = ({
     if (index === 0) {
       dispatch(setCleanCurrentHotel({}));
     }
+    if (index === 2) {
+      dispatch(setHeaderShow({ show: false }));
+      return;
+    }
+    dispatch(setHeaderShow({ show: true }));
   }, []);
 
   return (

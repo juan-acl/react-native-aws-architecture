@@ -17,6 +17,7 @@ export interface HotelMap {
 export interface HotelState {
   hotels: Hotel[];
   filterText: string;
+  headerShow: boolean;
   currentHotel: Hotel | null;
 }
 
@@ -29,4 +30,3 @@ export interface Hotel {
   phone: string;
   active: boolean;
 }
-
