@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ScrollView, Text, View, FlatList } from "react-native";
+import { Text, View, FlatList } from "react-native";
 import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
 import { Card } from "./Card";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,7 @@ const Hotels = () => {
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const filterText = useSelector(
-    (state: RootState) => state.reducer.hotels.filterText
+    (state: RootState) => state.reducer.hotels.filterText,
   );
   const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
   const dispatch = useDispatch();
@@ -44,13 +44,13 @@ const Hotels = () => {
   useFocusEffect(
     useCallback(() => {
       setHotels(data?.hotels);
-    }, [data])
+    }, [data]),
   );
 
   useFocusEffect(
     useCallback(() => {
       onChangeText();
-    }, [filterText])
+    }, [filterText]),
   );
 
   useFocusEffect(
@@ -58,7 +58,7 @@ const Hotels = () => {
       return () => {
         dispatch(setFilterText({ filterText: "" }));
       };
-    }, [])
+    }, []),
   );
 
   const handleOpenPress = () => {
@@ -77,7 +77,7 @@ const Hotels = () => {
       ) : (
         <FlatList
           data={hotels}
-          keyExtractor={(hotel) => hotel.id.toString()}
+          keyExtractor={(hotel: Hotel) => hotel.id.toString()}
           renderItem={({ item, index }: { item: Hotel; index: number }) => (
             <Card
               showActionSheet={handleOpenPress}
