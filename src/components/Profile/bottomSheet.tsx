@@ -1,9 +1,12 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Text, View, Pressable, TouchableOpacity } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Input } from "@/src/components/Input";
 import { FormState, useForm } from "@/src/hooks/useForm";
 import { styles } from "./profile.styles";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/redux/configureStore";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface Props {
   bottomSheetRef: React.RefObject<BottomSheet>;
@@ -19,15 +22,11 @@ export const ActionSheetUpdateProfile: React.FC<Props> = ({
   bottomSheetRef,
   onChangeBottomSheet,
 }: Props) => {
+  const userInformation = useSelector(
+    (state: RootState) => state.reducer.auth.userInformation,
+  );
   const snapPoints = useMemo(() => [0.1, "50%", "100%"], []);
   const initialState: FormState = {
-    email: {
-      value: "",
-      hasError: false,
-      name: "email",
-      messageError: "",
-      isFormInvalid: false,
-    },
     password: {
       value: "",
       hasError: false,
@@ -36,28 +35,21 @@ export const ActionSheetUpdateProfile: React.FC<Props> = ({
       isFormInvalid: false,
     },
     name: {
-      value: "",
+      value: userInformation?.name || "",
       hasError: false,
       name: "name",
       messageError: "",
       isFormInvalid: false,
     },
     lastName: {
-      value: "",
+      value: userInformation?.family_name || "",
       hasError: false,
       name: "lastName",
       messageError: "",
       isFormInvalid: false,
     },
-    phone: {
-      value: "",
-      hasError: false,
-      name: "phone",
-      messageError: "",
-      isFormInvalid: false,
-    },
     address: {
-      value: "",
+      value: userInformation?.address || "",
       hasError: false,
       name: "address",
       messageError: "",
