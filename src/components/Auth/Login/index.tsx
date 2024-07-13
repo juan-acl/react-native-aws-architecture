@@ -3,9 +3,9 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  TouchableOpacity,
   Text,
   KeyboardAvoidingView,
+  Pressable,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/src/redux/configureStore";
@@ -24,8 +24,8 @@ import { styles } from "./login.styles";
 
 export const Login = () => {
   const dispatch: AppDispatch = useDispatch();
-  const authError = useSelector(
-    (state: RootState) => state.reducer.auth.errorAuth
+  const authenticationErrorMessage = useSelector(
+    (state: RootState) => state.reducer.auth.errorAuth,
   );
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
@@ -49,7 +49,7 @@ export const Login = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(setAuthError(false));
-    }, [])
+    }, []),
   );
 
   const { state, onChange, isValidaFormState } = useForm(initialState);
@@ -60,7 +60,7 @@ export const Login = () => {
         SignIn({
           emailParams: state.email.value,
           passwordParams: state.password.value,
-        })
+        }),
       );
       if (!SignIn.fulfilled.match(response)) return;
       navigation.navigate(RoutesNameScreens.navigationTab);
@@ -83,7 +83,7 @@ export const Login = () => {
           name={state.email.name}
           label="Correo electronico"
           autocapitalize={"none"}
-          hasError={state.email.hasError || authError}
+          hasError={state.email.hasError || authenticationErrorMessage}
           messageError={state.email.messageError}
         />
         <Input
@@ -93,11 +93,11 @@ export const Login = () => {
           placeholder="********"
           name={state.password.name}
           label="Contraseña"
-          hasError={state.password.hasError || authError}
+          hasError={state.password.hasError || authenticationErrorMessage}
           messageError={state.password.messageError}
         />
         <View>
-          <TouchableOpacity
+          <Pressable
             onPress={login}
             style={
               !isValidaFormState ? styles.button_disabled : styles.button_login
@@ -105,7 +105,7 @@ export const Login = () => {
             disabled={!isValidaFormState}
           >
             <Text style={styles.text_login}> Iniciar sesion </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>

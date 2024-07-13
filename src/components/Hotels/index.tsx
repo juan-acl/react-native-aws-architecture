@@ -33,10 +33,10 @@ const Hotels = () => {
     }
     const filteredHotels: Hotel[] = data?.hotels?.filter((hotel: HotelMap) => {
       let arrayPropertiesForFilter = ["name", "address", "phone"];
-      let filterResult = arrayPropertiesForFilter.some((key: string) => {
+      let filterHotelsResult = arrayPropertiesForFilter.some((key: string) => {
         return hotel[key].toLowerCase()?.includes(filterText?.toLowerCase());
       });
-      return filterResult;
+      return filterHotelsResult;
     });
     setHotels(filteredHotels);
   };
@@ -77,7 +77,7 @@ const Hotels = () => {
       ) : (
         <FlatList
           data={hotels}
-          keyExtractor={(hotel: Hotel) => hotel.id.toString()}
+          keyExtractor={(hotel: Hotel): string => hotel.id.toString()}
           renderItem={({ item, index }: { item: Hotel; index: number }) => (
             <Card
               showActionSheet={handleOpenPress}

@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/src/redux/configureStore";
 import { UserInformation } from "@/src/types/auth";
 import { SignOut } from "@/src/redux/slices/auth.slice";
-import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
@@ -18,11 +17,12 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export const Profile: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const [expandBottomSheet, setExpandBottomSheet] = useState<boolean>(false);
+  const [isVisibleBottomSheet, setIsVisibleBottomSheet] =
+    useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const userProfile: UserInformation | null = useSelector(
-    (state: RootState) => state.reducer.auth.userInformation
+    (state: RootState) => state.reducer.auth.userInformation,
   );
   const [phone_number] = useState(userProfile?.phone_number?.split("+502"));
 
@@ -32,8 +32,8 @@ export const Profile: React.FC = () => {
     navigation.navigate(RoutesNameScreens.Home);
   };
 
-  const updateProfileUser = () => {
-    setExpandBottomSheet(true);
+  const openBottomSheetUpdateUser = () => {
+    setIsVisibleBottomSheet(true);
     navigation.setOptions({ headerShown: false });
     bottomSheetRef.current?.expand();
   };
@@ -41,25 +41,28 @@ export const Profile: React.FC = () => {
   /**
    * This function handles changes in the bottom sheet state and updates the header visibility accordingly.
    *
-   * @param {number} index
-   * - The index representing the bottom sheet state.
+   * @param {number} stateVisibleBottomSheet
+   * - The stateVisibleBottomSheet representing the bottom sheet state.
    * - 1 or 2: Bottom sheet is open.
    * - -1: Bottom sheet is closed.
    */
-  const onChangeBottomSheet = useCallback((index: number) => {
-    if (index === -1) {
-      setExpandBottomSheet(false);
-      return;
-    }
-    setExpandBottomSheet(true);
-    if (index === 2) return;
-    navigation.setOptions({ headerShown: true });
-  }, []);
+  const onChangeVisibleBottomSheet = useCallback(
+    (stateVisibleBottomSheet: number) => {
+      if (stateVisibleBottomSheet === -1) {
+        setIsVisibleBottomSheet(false);
+        return;
+      }
+      setIsVisibleBottomSheet(true);
+      if (stateVisibleBottomSheet === 2) return;
+      navigation.setOptions({ headerShown: true });
+    },
+    [],
+  );
 
   const onCloseBottomSheet = () => {
-    if (!expandBottomSheet) return;
+    if (!isVisibleBottomSheet) return;
     navigation.setOptions({ headerShown: true });
-    setExpandBottomSheet(false);
+    setIsVisibleBottomSheet(false);
     bottomSheetRef.current?.close();
   };
 
@@ -106,18 +109,18 @@ export const Profile: React.FC = () => {
               </View>
             </Pressable>
             <View style={styles.groupButtons}>
-              <TouchableOpacity style={styles.btn} onPress={updateProfileUser}>
+              <Pressable style={styles.btn} onPress={openBottomSheetUpdateUser}>
                 <Text style={styles.text}>Actualizar perfil</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.btn} onPress={logOut}>
+              </Pressable>
+              <Pressable style={styles.btn} onPress={logOut}>
                 <Text style={styles.text}>Cerrar Sesion</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </ScrollView>
         </View>
       </TouchableWithoutFeedback>
       <ActionSheetUpdateProfile
-        onChangeBottomSheet={onChangeBottomSheet}
+        onChangeBottomSheet={onChangeVisibleBottomSheet}
         bottomSheetRef={bottomSheetRef}
       />
     </>
