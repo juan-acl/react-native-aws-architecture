@@ -1,3 +1,14 @@
+import BottomSheet from "@gorhom/bottom-sheet";
+
+export interface PropsBottomSheetHoteles {
+  bottomSheetRef: React.RefObject<BottomSheet>;
+}
+
+export interface RegisterOnChangeProps {
+  value: string;
+  name: string;
+}
+
 export interface FetchHotelsQuery {
   data: fetchHotel;
   error: string;

@@ -11,19 +11,14 @@ import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
 import { FormState, useForm } from "@/src/hooks/useForm";
 import { styles } from "./bottomSheet.styles";
+import {
+  PropsBottomSheetHoteles,
+  RegisterOnChangeProps,
+} from "@/src/types/hotel";
 
-interface Props {
-  bottomSheetRef: React.RefObject<BottomSheet>;
-}
-
-interface RegisterOnChangeProps {
-  value: string;
-  name: string;
-}
-
-export const ActionSheetHotel: React.FC<Props> = ({
+export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   bottomSheetRef,
-}: Props) => {
+}: PropsBottomSheetHoteles) => {
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const hotelInformation = useSelector(
