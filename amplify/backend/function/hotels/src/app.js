@@ -13,6 +13,7 @@ const {
   GetCommand,
   PutCommand,
   QueryCommand,
+  UpdateCommand,
   ScanCommand,
 } = require("@aws-sdk/lib-dynamodb");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
@@ -61,39 +62,60 @@ const convertUrlType = (param, type) => {
 };
 
 app.post(path + "/getHotelById", async (req, res) => {
-  try{
-    const { idHotel } = req.body
-    if(!idHotel) return res.json({ code: 400, message: "IdHotel is required!"});
+  try {
+    const { idHotel } = req.body;
+    if (!idHotel)
+      return res.json({ code: 400, message: "IdHotel is required!" });
     const params = {
       TableName: tableName,
       Key: {
-        id: idHotel
-      }
-    }
+        id: idHotel,
+      },
+    };
     const command = new GetCommand(params);
     const response = await ddbDocClient.send(command);
-    return res.json({ code: 200, message: "Hotel", hotel: response.Item })
-  }catch(error) {
-    return res.json({ code: 500, message: "Internal server error" + error})
+    return res.json({ code: 200, message: "Hotel", hotel: response.Item });
+  } catch (error) {
+    return res.json({ code: 500, message: "Internal server error" + error });
   }
-})
+});
 
 app.post(path + "/createHotel", async (req, res) => {
-  try{
-    if(!req.body) return res.json({code: 400, message: "Data hotel not provided"})
+  try {
+    if (!req.body)
+      return res.json({ code: 400, message: "Data hotel not provided" });
     const params = {
       TableName: tableName,
       Item: {
-        ...req.body
-      }
-    }
+        ...req.body,
+      },
+    };
     const command = new PutCommand(params);
     await ddbDocClient.send(command);
-    return res.json({code: 200, message: "Hotel created successful"});
-  }catch (error) {
-    return res.json({code: 500, message: "Internal server error" + error})
+    return res.json({ code: 200, message: "Hotel created successful" });
+  } catch (error) {
+    return res.json({ code: 500, message: "Internal server error" + error });
   }
-})
+});
+
+app.post(path + "/deletehotel", async () => {
+  try {
+    if (!req.body.id) return res.json({ code: 400, message: "Id is require" });
+    const paramsDeleteHotel = {
+      TableName: tableName,
+      Key: {
+        id: req.body.id,
+      },
+      Item: { ...req.body },
+    };
+    const command = new UpdateCommand(paramsDeleteHotel);
+    const response = await ddbDocClient.send(command);
+    return res.json({ code: 400, message: "Hotels updated", hotel: response });
+  } catch (error) {
+    console.log("Error deletehotel: " + error);
+    return res.json({ code: 400, message: "Ocurred error in deletehotel" });
+  }
+});
 
 app.post(path + "/getHotels", async function (req, res) {
   try {
