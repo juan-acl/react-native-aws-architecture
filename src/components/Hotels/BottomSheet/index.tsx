@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useEffect } from "react";
 import { Text, Pressable, View } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useSelector, useDispatch } from "react-redux";
@@ -85,16 +85,22 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
    * - 1 or 2: Bottom sheet is open.
    * - 0: Bottom sheet is closed.
    */
-  const onChangeVisibleBottomSheet = useCallback((index: number) => {
-    if (index === 0) {
-      dispatch(setCleanCurrentHotel({}));
-    }
-    if (index === 2) {
-      dispatch(setHeaderShow({ show: false }));
-      return;
-    }
-    dispatch(setHeaderShow({ show: true }));
-  }, []);
+  const onChangeVisibleBottomSheet = useCallback(
+    async (stateShowVisibleBottomSheet: number) => {
+      console.log(stateShowVisibleBottomSheet);
+      if (
+        stateShowVisibleBottomSheet === -1 ||
+        stateShowVisibleBottomSheet === 0
+      ) {
+        await dispatch(setCleanCurrentHotel());
+      }
+      if (stateShowVisibleBottomSheet == 2) {
+        dispatch(setHeaderShow({ show: false }));
+        return;
+      }
+    },
+    [],
+  );
 
   return (
     <>

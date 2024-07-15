@@ -32,7 +32,7 @@ const initialState: UserAuthState = {
 };
 
 /*****************************
- * Create Slice and Reducers *
+ * Create Slice and Reducer *
  * **************************/
 
 const authSlice = createSlice({
@@ -74,7 +74,7 @@ export const SignOut = createAsyncThunk(
     } finally {
       thunk.dispatch(setIsLoading({ isLoading: false }));
     }
-  }
+  },
 );
 
 export const SignUp = createAsyncThunk(
@@ -88,7 +88,7 @@ export const SignUp = createAsyncThunk(
       phoneNumberParams,
       addressParams,
     }: SignUpPayload,
-    thunkAPI
+    thunkAPI,
   ) => {
     try {
       thunkAPI.dispatch(setIsLoading({ isLoading: true }));
@@ -110,14 +110,14 @@ export const SignUp = createAsyncThunk(
     } finally {
       thunkAPI.dispatch(setIsLoading({ isLoading: false }));
     }
-  }
+  },
 );
 
 export const ConfirmSignUp = createAsyncThunk(
   AsyncThunkTypes.CONFIRM_SIGN_UP,
   async (
     { emailParams, emailCodeConfirmation }: ConfirmSignUpPayloadParams,
-    thunkAPI
+    thunkAPI,
   ) => {
     try {
       thunkAPI.dispatch(setIsLoading({ isLoading: true }));
@@ -132,7 +132,7 @@ export const ConfirmSignUp = createAsyncThunk(
           title: "Confirmación Exitosa",
           message: "Cuenta creada exitosamente",
           textButton: "Ok",
-        })
+        }),
       );
     } catch (error: any) {
       thunkAPI.dispatch(
@@ -141,13 +141,13 @@ export const ConfirmSignUp = createAsyncThunk(
           title: "Error en la confirmación",
           message: "Error en la confirmación",
           textButton: "Cerrar",
-        })
+        }),
       );
       return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(setIsLoading({ isLoading: false }));
     }
-  }
+  },
 );
 
 export const SignIn = createAsyncThunk(
@@ -184,7 +184,7 @@ export const SignIn = createAsyncThunk(
           isSignedIn: signInResponse.isSignedIn,
           userInformation,
           statusMessage: "",
-        })
+        }),
       );
       thunkAPI.dispatch(
         DialogAlert({
@@ -192,7 +192,7 @@ export const SignIn = createAsyncThunk(
           title: "Login Succesfull",
           message: "Sign in successfull",
           textButton: "Ok",
-        })
+        }),
       );
     } catch (error: AuthError | any) {
       let statusAndMessage: StatusAndMessage = {
@@ -247,13 +247,13 @@ export const SignIn = createAsyncThunk(
           title: statusAndMessage.title,
           message: statusAndMessage.message,
           textButton: statusAndMessage.textButton,
-        })
+        }),
       );
       return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(setIsLoading({ isLoading: false }));
     }
-  }
+  },
 );
 
 export const authReducer = authSlice.reducer;

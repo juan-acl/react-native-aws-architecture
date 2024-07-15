@@ -1,5 +1,9 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 
+export const enum AsyncThunkTypes {
+  CREAN_CURRENT_HOTEL = "hotel/creanCurrentHotel",
+}
+
 export interface PropsBottomSheetHoteles {
   bottomSheetRef: React.RefObject<BottomSheet>;
 }

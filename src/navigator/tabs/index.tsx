@@ -48,6 +48,7 @@ export const ButtonTabNavigation = () => {
       screenOptions={({ route }) => ({
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
+          display: !headerShown ? "none" : undefined,
           margin: 20,
           borderRadius: 21,
           backgroundColor: "#543313",
