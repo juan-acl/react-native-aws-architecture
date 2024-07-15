@@ -27,6 +27,8 @@ export const styles = StyleSheet.create({
   contentContainerBottomSheet: {
     flex: 1,
     alignItems: "center",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   avatar: {
     width: 112,
@@ -96,4 +98,3 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
-

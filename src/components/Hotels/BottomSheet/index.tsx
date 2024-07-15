@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect } from "react";
+import React, { useMemo, useCallback } from "react";
 import { Text, Pressable, View } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useSelector, useDispatch } from "react-redux";
@@ -80,27 +80,25 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   /**
    * This function handles changes in the bottom sheet state and updates the header visibility accordingly.
    *
-   * @param {number} index
-   * - The index representing the bottom sheet state.
+   * @param {number} stateShowVisibleBottomSheet
+   * - The stateShowVisibleBottomSheet representing the bottom sheet state.
    * - 1 or 2: Bottom sheet is open.
    * - 0: Bottom sheet is closed.
    */
-  const onChangeVisibleBottomSheet = useCallback(
-    async (stateShowVisibleBottomSheet: number) => {
-      console.log(stateShowVisibleBottomSheet);
-      if (
-        stateShowVisibleBottomSheet === -1 ||
-        stateShowVisibleBottomSheet === 0
-      ) {
-        await dispatch(setCleanCurrentHotel());
-      }
-      if (stateShowVisibleBottomSheet == 2) {
-        dispatch(setHeaderShow({ show: false }));
-        return;
-      }
-    },
-    [],
-  );
+  const onChangeVisibleBottomSheet = async (
+    stateShowVisibleBottomSheet: number,
+  ) => {
+    if (stateShowVisibleBottomSheet === 2) {
+      dispatch(setHeaderShow({ show: false }));
+      return;
+    }
+    if (
+      stateShowVisibleBottomSheet === -1 ||
+      stateShowVisibleBottomSheet === 0
+    ) {
+      await dispatch(setCleanCurrentHotel());
+    }
+  };
 
   return (
     <>
@@ -109,12 +107,10 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         index={0}
+        backgroundStyle={{ backgroundColor: "gray" }}
         onChange={onChangeVisibleBottomSheet}
       >
         <BottomSheetView style={styles.contentContainerBottomSheet}>
-          <Text style={{ ...styles.headtText, fontSize: 20 }}>
-            Actualicemos tu perfil
-          </Text>
           <View style={styles.flexBottomSheet}>
             <Pressable style={styles.RectangleShapeView}>
               <Input

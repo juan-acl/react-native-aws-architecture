@@ -78,11 +78,17 @@ const Hotels = () => {
         <FlatList
           data={hotels}
           keyExtractor={(hotel: Hotel): string => hotel.id.toString()}
-          renderItem={({ item, index }: { item: Hotel; index: number }) => (
+          renderItem={({
+            item: hotel,
+            index,
+          }: {
+            item: Hotel;
+            index: number;
+          }) => (
             <Card
               showActionSheet={handleOpenPress}
               key={index}
-              hotelInformation={item}
+              hotelInformation={hotel}
             />
           )}
         />
