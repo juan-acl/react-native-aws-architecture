@@ -111,40 +111,11 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
         onChange={onChangeVisibleBottomSheet}
       >
         <BottomSheetView style={styles.contentContainerBottomSheet}>
+          <View style={styles.continerImageHotel}>
+            <Text style={{ color: "#fff" }}>Imagen de hotel</Text>
+          </View>
           <View style={styles.flexBottomSheet}>
-            <Pressable style={styles.RectangleShapeView}>
-              <Input
-                changeValue={changeValue}
-                value={state.name.value}
-                placeholder="Nombre completo"
-                name={state.name.name}
-                label="Nombre"
-                hasError={state.name.hasError}
-                messageError={state.name.messageError}
-              />
-            </Pressable>
-            <Pressable style={styles.RectangleShapeView}>
-              <Input
-                changeValue={changeValue}
-                value={state.lastName.value}
-                placeholder="Apellido completo"
-                name={state.lastName.name}
-                label="Apellido"
-                hasError={state.lastName.hasError}
-                messageError={state.lastName.messageError}
-              />
-            </Pressable>
-            <Pressable style={styles.RectangleShapeView}>
-              <Input
-                changeValue={changeValue}
-                value={state.address.value}
-                placeholder="Ciudad de Guatemala, zona 1, 1 calle 1-01"
-                name={state.address.name}
-                label="Direccion"
-                hasError={state.address.hasError}
-                messageError={state.address.messageError}
-              />
-            </Pressable>
+            <Text style={styles.containerDetailsHotel}>Detalles del hotel</Text>
           </View>
         </BottomSheetView>
       </BottomSheet>
