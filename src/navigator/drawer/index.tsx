@@ -18,6 +18,7 @@ export const DrawerNavigation = () => {
     <InstanceDrawerNavigation.Navigator
       initialRouteName={RoutesNameScreens.DrawerMain}
       screenOptions={({ navigation }) => ({
+        headerShow: headerShown,
         headerTransparent: true,
         headerTitleAlign: "center",
         headerLeft: () => <DrawerIcon navigation={navigation} />,
