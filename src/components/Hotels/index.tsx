@@ -77,6 +77,9 @@ const Hotels = () => {
       ) : (
         <FlatList
           data={hotels}
+          ListFooterComponent={<View style={{ marginBottom: 75 }} />}
+          ListHeaderComponent={<View style={{ marginTop: 40 }} />}
+          scrollToOverflowEnabled={false}
           keyExtractor={(hotel: Hotel): string => hotel.id.toString()}
           renderItem={({
             item: hotel,
