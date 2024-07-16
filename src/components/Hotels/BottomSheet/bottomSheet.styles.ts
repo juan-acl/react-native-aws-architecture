@@ -2,15 +2,27 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   continerImageHotel: {
-    width: "100%",
-    height: "100%",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000",
+    borderBottomRightRadius: 50,
+    borderBottomLeftRadius: 50,
+    overflow: "hidden",
   },
   containerDetailsHotel: {
+    fontFamily: "Helvetica",
+    fontWeight: "600",
     color: "#fff",
+    marginLeft: 20,
+    marginTop: 10,
+    fontSize: 23,
+  },
+  nameParamsHotel: {
+    color: "black",
+    fontSize: 20,
+    fontFamily: "Helvetica",
+    marginLeft: 17,
+    marginTop: 10,
   },
   contentContainer: {
     flex: 1,

@@ -1,81 +1,29 @@
-import React, { useMemo, useCallback } from "react";
-import { Text, Pressable, View } from "react-native";
+import React, { useMemo } from "react";
+import { ImageBackground, Text, View, Dimensions } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "@/src/redux/configureStore";
 import { setCleanCurrentHotel } from "@/src/redux/slices/hotel.slice";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { Input } from "@/src/components/Input";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
-import { FormState, useForm } from "@/src/hooks/useForm";
 import { styles } from "./bottomSheet.styles";
-import {
-  PropsBottomSheetHoteles,
-  RegisterOnChangeProps,
-} from "@/src/types/hotel";
+import { PropsBottomSheetHoteles } from "@/src/types/hotel";
+import hotelBottomSheet from "@/assets/images/hotelBottomSheet.jpeg";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   bottomSheetRef,
 }: PropsBottomSheetHoteles) => {
+  const insets = useSafeAreaInsets();
+  const dimensionScreen = Dimensions.get("window");
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const hotelInformation = useSelector(
     (state: RootState) => state.reducer.hotels.currentHotel,
   );
   const snapPoints = useMemo(() => [0.1, "50%", "100%"], []);
-
-  const initialState: FormState = {
-    email: {
-      value: "",
-      hasError: false,
-      name: "email",
-      messageError: "",
-      isFormInvalid: false,
-    },
-    password: {
-      value: "",
-      hasError: false,
-      name: "password",
-      messageError: "",
-      isFormInvalid: false,
-    },
-    name: {
-      value: "",
-      hasError: false,
-      name: "name",
-      messageError: "",
-      isFormInvalid: false,
-    },
-    lastName: {
-      value: "",
-      hasError: false,
-      name: "lastName",
-      messageError: "",
-      isFormInvalid: false,
-    },
-    phone: {
-      value: "",
-      hasError: false,
-      name: "phone",
-      messageError: "",
-      isFormInvalid: false,
-    },
-    address: {
-      value: "",
-      hasError: false,
-      name: "address",
-      messageError: "",
-      isFormInvalid: false,
-    },
-  };
-
-  const { state, onChange, isValidaFormState } = useForm(initialState);
-
-  const changeValue = ({ value, name }: RegisterOnChangeProps): void => {
-    onChange({ value, name });
-  };
 
   /**
    * This function handles changes in the bottom sheet state and updates the header visibility accordingly.
@@ -106,16 +54,31 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         enablePanDownToClose={true}
+        backgroundStyle={{ backgroundColor: "#4b4b4b" }}
         index={0}
-        backgroundStyle={{ backgroundColor: "gray" }}
         onChange={onChangeVisibleBottomSheet}
       >
         <BottomSheetView style={styles.contentContainerBottomSheet}>
-          <View style={styles.continerImageHotel}>
-            <Text style={{ color: "#fff" }}>Imagen de hotel</Text>
+          <View
+            style={{
+              ...styles.continerImageHotel,
+              width: dimensionScreen.width,
+              height: dimensionScreen.height,
+            }}
+          >
+            <ImageBackground
+              source={hotelBottomSheet}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
           </View>
           <View style={styles.flexBottomSheet}>
-            <Text style={styles.containerDetailsHotel}>Detalles del hotel</Text>
+            <Text style={styles.containerDetailsHotel}>
+              {hotelInformation?.name}
+            </Text>
+            <Text style={styles.nameParamsHotel}>Habitaciones</Text>
           </View>
         </BottomSheetView>
       </BottomSheet>
