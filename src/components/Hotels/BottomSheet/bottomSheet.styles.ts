@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  containerHeader: {
+    flex: 1,
+    flexDirection: "row",
+    margin: 10,
+    gap: 10
+  },
   continerImageHotel: {
     flex: 1,
     justifyContent: "center",

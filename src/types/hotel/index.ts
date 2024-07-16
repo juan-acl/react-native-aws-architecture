@@ -4,6 +4,11 @@ export const enum AsyncThunkTypes {
   CREAN_CURRENT_HOTEL = "hotel/creanCurrentHotel",
 }
 
+export interface PropsHeader {
+  onClickAddFavorite: () => void;
+  onClickShare: () => void;
+}
+
 export interface PropsBottomSheetHoteles {
   bottomSheetRef: React.RefObject<BottomSheet>;
 }

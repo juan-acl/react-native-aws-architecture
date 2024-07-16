@@ -8,20 +8,19 @@ import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
-import { styles } from "./bottomSheet.styles";
 import { PropsBottomSheetHoteles } from "@/src/types/hotel";
 import hotelBottomSheet from "@/assets/images/hotelBottomSheet.jpeg";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Header } from "./header";
+import { styles } from "./bottomSheet.styles";
 
 export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   bottomSheetRef,
 }: PropsBottomSheetHoteles) => {
-  const insets = useSafeAreaInsets();
   const dimensionScreen = Dimensions.get("window");
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const hotelInformation = useSelector(
-    (state: RootState) => state.reducer.hotels.currentHotel,
+    (state: RootState) => state.reducer.hotels.currentHotel
   );
   const snapPoints = useMemo(() => [0.1, "50%", "100%"], []);
 
@@ -34,7 +33,7 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
    * - 0: Bottom sheet is closed.
    */
   const onChangeVisibleBottomSheet = async (
-    stateShowVisibleBottomSheet: number,
+    stateShowVisibleBottomSheet: number
   ) => {
     if (stateShowVisibleBottomSheet === 2) {
       dispatch(setHeaderShow({ show: false }));
@@ -48,12 +47,19 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
     }
   };
 
+  const addHotelToFavorite = () => {
+    console.log("Add hotel to favorite");
+  };
+
+  const shareHotel = () => {
+    console.log("Share hotel");
+  };
+
   return (
     <>
       <BottomSheet
         ref={bottomSheetRef}
         snapPoints={snapPoints}
-        enablePanDownToClose={true}
         backgroundStyle={{ backgroundColor: "#4b4b4b" }}
         index={0}
         onChange={onChangeVisibleBottomSheet}
@@ -73,6 +79,19 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
                 height: "100%",
               }}
             />
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                zIndex: 1,
+              }}
+            >
+              <Header
+                onClickAddFavorite={addHotelToFavorite}
+                onClickShare={shareHotel}
+              />
+            </View>
           </View>
           <View style={styles.flexBottomSheet}>
             <Text style={styles.containerDetailsHotel}>
