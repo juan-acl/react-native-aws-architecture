@@ -14,14 +14,27 @@ export const DrawerNavigation = () => {
   const headerShown = useSelector(
     (state: RootState) => state.reducer.hotels.headerShow,
   );
+  const currentScreenTab = useSelector(
+    (state: RootState) => state.reducer.hotels.currentScreenTabNavigation,
+  );
+  console.log("mmmm", currentScreenTab);
   return (
     <InstanceDrawerNavigation.Navigator
       initialRouteName={RoutesNameScreens.DrawerMain}
-      screenOptions={({ navigation }) => ({
+      screenOptions={({ navigation, route }) => ({
         headerShow: headerShown,
         headerTransparent: true,
         headerTitleAlign: "center",
-        headerLeft: () => <DrawerIcon navigation={navigation} />,
+        headerRight: () => {
+          let component =
+            route.name === "DrawerMain_Screen" ? (
+              <DrawerIcon navigation={navigation} iconName="add" />
+            ) : null;
+          return component;
+        },
+        headerLeft: () => (
+          <DrawerIcon navigation={navigation} iconName="menu" />
+        ),
         headerLeftContainerStyle: {
           padding: 10,
         },

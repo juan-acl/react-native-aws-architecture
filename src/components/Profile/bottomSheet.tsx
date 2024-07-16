@@ -1,12 +1,10 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Text, View, Pressable, TouchableOpacity } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Input } from "@/src/components/Input";
 import { FormState, useForm } from "@/src/hooks/useForm";
 import { styles } from "./profile.styles";
-import { useSelector } from "react-redux";
-import { RootState } from "@/src/redux/configureStore";
-import { useFocusEffect } from "@react-navigation/native";
+import { useAppSelector } from "@/src/redux/configureStore";
 
 interface Props {
   bottomSheetRef: React.RefObject<BottomSheet>;
@@ -22,8 +20,8 @@ export const ActionSheetUpdateProfile: React.FC<Props> = ({
   bottomSheetRef,
   onChangeBottomSheet,
 }: Props) => {
-  const userInformation = useSelector(
-    (state: RootState) => state.reducer.auth.userInformation,
+  const userInformation = useAppSelector(
+    (state) => state.reducer.auth.userInformation,
   );
   const snapPoints = useMemo(() => [0.1, "50%", "100%"], []);
   const initialState: FormState = {

@@ -34,6 +34,7 @@ export interface HotelState {
   filterText: string;
   headerShow: boolean;
   currentHotel: Hotel | null;
+  currentScreenTabNavigation: string;
 }
 
 export interface Hotel {

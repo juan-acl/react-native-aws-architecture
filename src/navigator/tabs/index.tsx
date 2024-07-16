@@ -5,8 +5,9 @@ import { RootButtonTabParamList } from "../types/navigationButtonTabs";
 import { Favorite } from "@/src/components/Hotels/Favorite";
 import { Reservation_Screen } from "@/src/screens/Reservations";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useSelector } from "react-redux";
-import { RootState } from "@/src/redux/configureStore";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/src/redux/configureStore";
+import { setCurrentTabNavigation } from "@/src/redux/slices/hotel.slice";
 
 interface RouteName {
   [key: string]: string;

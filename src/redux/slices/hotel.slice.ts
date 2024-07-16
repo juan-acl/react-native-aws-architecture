@@ -8,6 +8,7 @@ const initialState: HotelState = {
   filterText: "",
   headerShow: true,
   currentHotel: null,
+  currentScreenTabNavigation: "",
 };
 
 const hotelSlice = createSlice({
@@ -25,6 +26,13 @@ const hotelSlice = createSlice({
     },
     setHeaderShow(state, action: PayloadAction<{ show: boolean }>) {
       state.headerShow = action.payload.show;
+    },
+    setCurrentTabNavigation(
+      state,
+      action: PayloadAction<{ currentScreenTabNavigation: string }>,
+    ) {
+      state.currentScreenTabNavigation =
+        action.payload.currentScreenTabNavigation;
     },
     setFilterText(state, action: PayloadAction<{ filterText: string }>) {
       state.filterText = action.payload.filterText;
@@ -45,5 +53,6 @@ export const {
   setFilterText,
   setHotelInformationBottomSheet,
   setHeaderShow,
+  setCurrentTabNavigation,
 } = hotelSlice.actions;
 export const hotelReducer = hotelSlice.reducer;
