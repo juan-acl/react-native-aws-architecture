@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { RootState } from "@/src/redux/configureStore";
-import { setFilterText } from "@/src/redux/slices/hotel.slice";
+import {
+  setCurrentTabNavigation,
+  setFilterText,
+} from "@/src/redux/slices/hotel.slice";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { FetchHotelsQuery, HotelMap, Hotel } from "types/hotel";
 import { ActionSheetHotel } from "./BottomSheet";
@@ -55,8 +58,12 @@ const Hotels = () => {
 
   useFocusEffect(
     useCallback(() => {
+      dispatch(
+        setCurrentTabNavigation({ currentScreenTabNavigation: "hotels" }),
+      );
       return () => {
         dispatch(setFilterText({ filterText: "" }));
+        dispatch(setCurrentTabNavigation({ currentScreenTabNavigation: "" }));
       };
     }, []),
   );

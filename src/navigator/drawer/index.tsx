@@ -6,7 +6,7 @@ import { ButtonTabNavigation } from "../tabs";
 import { InputFilter } from "@/src/components/InputFilter";
 import { DrawerIcon } from "./drawerIcon";
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/redux/configureStore";
+import { RootState, useAppSelector } from "@/src/redux/configureStore";
 
 const InstanceDrawerNavigation = createDrawerNavigator<RootStackParamList>();
 
@@ -14,10 +14,9 @@ export const DrawerNavigation = () => {
   const headerShown = useSelector(
     (state: RootState) => state.reducer.hotels.headerShow,
   );
-  const currentScreenTab = useSelector(
-    (state: RootState) => state.reducer.hotels.currentScreenTabNavigation,
+  const currentScreenTabNavigation = useAppSelector(
+    (state) => state.reducer.hotels.currentScreenTabNavigation,
   );
-  console.log("mmmm", currentScreenTab);
   return (
     <InstanceDrawerNavigation.Navigator
       initialRouteName={RoutesNameScreens.DrawerMain}
@@ -27,7 +26,7 @@ export const DrawerNavigation = () => {
         headerTitleAlign: "center",
         headerRight: () => {
           let component =
-            route.name === "DrawerMain_Screen" ? (
+            route.name === "DrawerMain_Screen" && currentScreenTabNavigation ? (
               <DrawerIcon navigation={navigation} iconName="add" />
             ) : null;
           return component;
