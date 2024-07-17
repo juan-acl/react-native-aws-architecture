@@ -21,6 +21,7 @@ const express = require("express");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const dbDocClient = DynamoDBDocumentClient.from(ddbClient);
+const { HotelDTO } = require("./utils");
 
 let tableName = "reservations";
 if (process.env.ENV && process.env.ENV !== "NONE") {
@@ -60,6 +61,106 @@ app.post(path + "/getReservatrions", async (req, res) => {
     return res.json({ code: 200, reservations: response.Items });
   } catch (error) {
     return res.json({ code: 500, message: error.message });
+  }
+});
+
+app.post(path + "/insert", async (req, res) => {
+  try {
+    const propertiesRequired = [
+      "id",
+      "sk",
+      "name",
+      "address",
+      "phone",
+      "email",
+      "image",
+    ];
+    const properties = Object.keys(req.body);
+    const isValid = propertiesRequired.every((property) =>
+      properties.includes(property)
+    );
+    if (!isValid) {
+      return res.json({
+        code: 400,
+        message: `Properties required: ${propertiesRequired.join(", ")}`,
+      });
+    }
+    const hotelObjetc = {
+      id: req.body.id,
+      sk: { S: req.body.sk },
+      name: { S: req.body.name },
+      address: { S: req.body.address },
+      phone: { S: req.body.phone },
+      email: { S: req.body.email },
+      image: { S: req.body.image },
+    };
+    const params = {
+      TableName: tableName,
+      Item: hotelObjetc,
+    };
+    const command = new PutCommand(params);
+    await dbDocClient.send(command);
+    return res.json({ code: 200, message: "Items inserted successfully." });
+  } catch (error) {
+    return res.json({ code: 500, message: error.message });
+  }
+});
+
+app.post(path + "/getRoomsByHotel", async (req, res) => {
+  try {
+    const { idHotel, sk } = req.body;
+    if (!idHotel || !sk)
+      return res.json({ code: 400, message: "All params are required!" });
+    const params = {
+      TableName: tableName,
+      KeyConditionExpression: "id = :pk",
+      FilterExpression: "sk =:sk",
+      ExpressionAttributeValues: {
+        ":pk": req.body.idHotel,
+        ":sk": { S: req.body.sk },
+      },
+    };
+
+    try {
+      const command = new QueryCommand(params);
+      const result = await dbDocClient.send(command);
+      const hotelMapping = HotelDTO(result.Items);
+      return res.json({ code: 200, hotels: hotelMapping, result });
+    } catch (error) {
+      console.error("Error getting rooms:", error);
+      throw error;
+    }
+  } catch (error) {
+    return res.json({ code: 500, message: error.message });
+  }
+});
+
+app.post(path + "/item", async (req, res) => {
+  const { pk, sk, id } = req.body; // Asegúrate de enviar los parámetros pk y sk en la solicitud
+
+  if (!pk || !sk || !id) {
+    return res
+      .status(400)
+      .json({ code: 400, message: "pk and sk are required" });
+  }
+
+  const params = {
+    TableName: tableName,
+    Key: {
+      id,
+    },
+  };
+
+  try {
+    const command = new GetCommand(params);
+    const result = await dbDocClient.send(command);
+    if (!result.Item) {
+      return res.status(404).json({ code: 404, message: "Item not found" });
+    }
+    return res.json({ code: 200, item: result.Item });
+  } catch (error) {
+    console.error("Error getting item:", error);
+    return res.status(500).json({ code: 500, message: error.message });
   }
 });
 
