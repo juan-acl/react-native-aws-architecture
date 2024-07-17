@@ -23,7 +23,7 @@ const Hotels = () => {
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const filterText = useSelector(
-    (state: RootState) => state.reducer.hotels.filterText,
+    (state: RootState) => state.reducer.hotels.filterText
   );
   const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
   const dispatch = useDispatch();
@@ -36,9 +36,13 @@ const Hotels = () => {
     }
     const filteredHotels: Hotel[] = data?.hotels?.filter((hotel: HotelMap) => {
       let arrayPropertiesForFilter = ["name", "address", "phone"];
-      let filterHotelsResult = arrayPropertiesForFilter.some((key: string) => {
-        return hotel[key].toLowerCase()?.includes(filterText?.toLowerCase());
-      });
+      let filterHotelsResult = arrayPropertiesForFilter.some(
+        (property: string) => {
+          return hotel[property]
+            .toLowerCase()
+            ?.includes(filterText?.toLowerCase());
+        }
+      );
       return filterHotelsResult;
     });
     setHotels(filteredHotels);
@@ -47,25 +51,25 @@ const Hotels = () => {
   useFocusEffect(
     useCallback(() => {
       setHotels(data?.hotels);
-    }, [data]),
+    }, [data])
   );
 
   useFocusEffect(
     useCallback(() => {
       onChangeText();
-    }, [filterText]),
+    }, [filterText])
   );
 
   useFocusEffect(
     useCallback(() => {
       dispatch(
-        setCurrentTabNavigation({ currentScreenTabNavigation: "hotels" }),
+        setCurrentTabNavigation({ currentScreenTabNavigation: "hotels" })
       );
       return () => {
         dispatch(setFilterText({ filterText: "" }));
         dispatch(setCurrentTabNavigation({ currentScreenTabNavigation: "" }));
       };
-    }, []),
+    }, [])
   );
 
   const handleOpenPress = () => {

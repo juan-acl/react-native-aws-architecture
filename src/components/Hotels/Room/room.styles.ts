@@ -2,16 +2,25 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "column",
+    backgroundColor: "white",
+    width: "100%",
+    height: "100%",
   },
   backgroundImage: {
-    width: "50%",
-    height: "50%",
+    width: "100%",
+    height: "70%",
   },
   informationRoom: {
-    backgroundColor: "white",
-    width: "50%",
-    height: "50%",
+    flex: 1,
+    gap: 10,
+    flexDirection: "row",
+  },
+  headtText: {
+    fontFamily: "Helvetica",
+    color: "grey",
+    fontWeight: "600",
+    marginLeft: 20,
+    marginTop: 10,
+    fontSize: 17,
   },
 });
