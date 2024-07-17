@@ -11,6 +11,7 @@ import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
 import { PropsBottomSheetHoteles } from "@/src/types/hotel";
 import hotelBottomSheet from "@/assets/images/hotelBottomSheet.jpeg";
 import { Header } from "./header";
+import { Room } from "../Room";
 import { styles } from "./bottomSheet.styles";
 
 export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
@@ -98,6 +99,7 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
               {hotelInformation?.name}
             </Text>
             <Text style={styles.nameParamsHotel}>Habitaciones</Text>
+            <Room />
           </View>
         </BottomSheetView>
       </BottomSheet>
