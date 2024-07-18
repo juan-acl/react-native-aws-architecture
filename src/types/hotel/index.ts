@@ -43,7 +43,7 @@ export interface HotelState {
 }
 
 export interface Hotel {
-  id: number;
+  PK: number;
   name: string;
   address: string;
   createAt: string;

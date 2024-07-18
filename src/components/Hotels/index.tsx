@@ -91,7 +91,7 @@ const Hotels = () => {
           ListFooterComponent={<View style={{ marginBottom: 75 }} />}
           ListHeaderComponent={<View style={{ marginTop: 40 }} />}
           scrollToOverflowEnabled={false}
-          keyExtractor={(hotel: Hotel): string => hotel.id.toString()}
+          keyExtractor={(hotel: Hotel): string => hotel.PK.toString()}
           renderItem={({
             item: hotel,
             index,

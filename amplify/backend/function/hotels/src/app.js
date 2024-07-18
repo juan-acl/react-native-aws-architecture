@@ -25,7 +25,7 @@ const { HotelDTO } = require("./utils/dto");
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
-let tableName = "hotels";
+let tableName = "hoteleria";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + "-" + process.env.ENV;
 }
@@ -123,7 +123,7 @@ app.post(path + "/insert", async (req, res) => {
       image: { S: req.body.image },
     };
     const params = {
-      TableName: "hoteleria-dev",
+      TableName: tableName,
       Item: hotelObjetc,
     };
     const command = new PutCommand(params);
@@ -137,7 +137,7 @@ app.post(path + "/insert", async (req, res) => {
 app.post(path + "/getHotels", async function (req, res) {
   try {
     const params = {
-      TableName: "hoteleria-dev",
+      TableName: tableName,
       IndexName: "hotelNameIndex",
       KeyConditionExpression: "SK = :skPrefix",
       ExpressionAttributeValues: {
