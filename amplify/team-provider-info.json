@@ -15,15 +15,15 @@
       "function": {
         "reservations": {
           "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
-          "s3Key": "amplify-builds/reservations-6a4255675859396a4439-build.zip"
+          "s3Key": "amplify-builds/reservations-47503544666a616d7371-build.zip"
         },
         "hotels": {
           "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
-          "s3Key": "amplify-builds/hotels-5476694f6a55486c6557-build.zip"
+          "s3Key": "amplify-builds/hotels-6d74695179386b6c5650-build.zip"
         },
         "invoice": {
           "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
-          "s3Key": "amplify-builds/invoice-5746495765482b547349-build.zip"
+          "s3Key": "amplify-builds/invoice-30566e6c4c6b58376257-build.zip"
         }
       },
       "storage": {

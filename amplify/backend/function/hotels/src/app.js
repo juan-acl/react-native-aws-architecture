@@ -8,13 +8,9 @@ See the License for the specific language governing permissions and limitations 
 
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const {
-  DeleteCommand,
   DynamoDBDocumentClient,
-  GetCommand,
   PutCommand,
   QueryCommand,
-  UpdateCommand,
-  ScanCommand,
 } = require("@aws-sdk/lib-dynamodb");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const bodyParser = require("body-parser");
@@ -30,17 +26,7 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + "-" + process.env.ENV;
 }
 
-const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "id";
-const partitionKeyType = "S";
-const sortKeyName = "";
-const sortKeyType = "";
-const hasSortKey = sortKeyName !== "";
 const path = "/hotels";
-const UNAUTH = "UNAUTH";
-const hashKeyPath = "/:" + partitionKeyName;
-const sortKeyPath = hasSortKey ? "/:" + sortKeyName : "";
-
 // declare a new express app
 const app = express();
 app.use(bodyParser.json());
@@ -53,54 +39,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-// convert url string param to expected Type
-const convertUrlType = (param, type) => {
-  switch (type) {
-    case "N":
-      return Number.parseInt(param);
-    default:
-      return param;
-  }
-};
-
-app.post(path + "/getHotelById", async (req, res) => {
-  try {
-    const { idHotel } = req.body;
-    if (!idHotel)
-      return res.json({ code: 400, message: "IdHotel is required!" });
-    const params = {
-      TableName: tableName,
-      Key: {
-        id: idHotel,
-      },
-    };
-    const command = new GetCommand(params);
-    const response = await ddbDocClient.send(command);
-    return res.json({ code: 200, message: "Hotel", hotel: response.Item });
-  } catch (error) {
-    return res.json({ code: 500, message: "Internal server error" + error });
-  }
-});
-
 app.post(path + "/createHotel", async (req, res) => {
-  try {
-    if (!req.body)
-      return res.json({ code: 400, message: "Data hotel not provided" });
-    const params = {
-      TableName: tableName,
-      Item: {
-        ...req.body,
-      },
-    };
-    const command = new PutCommand(params);
-    await ddbDocClient.send(command);
-    return res.json({ code: 200, message: "Hotel created successful" });
-  } catch (error) {
-    return res.json({ code: 500, message: "Internal server error" + error });
-  }
-});
-
-app.post(path + "/insert", async (req, res) => {
   try {
     const propertiesRequired = ["name", "address", "phone", "email", "image"];
     const properties = Object.keys(req.body);
@@ -128,7 +67,10 @@ app.post(path + "/insert", async (req, res) => {
     };
     const command = new PutCommand(params);
     await ddbDocClient.send(command);
-    return res.json({ code: 200, message: "Items inserted successfully." });
+    return res.json({
+      code: 200,
+      message: "Item hotel inserted successfully.",
+    });
   } catch (error) {
     return res.json({ code: 500, message: error.message });
   }

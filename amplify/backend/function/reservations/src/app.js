@@ -21,23 +21,14 @@ const express = require("express");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const dbDocClient = DynamoDBDocumentClient.from(ddbClient);
-const { HotelDTO } = require("./utils");
+const { ReservationHotelDTO } = require("./utils/dto");
 
 let tableName = "reservations";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + "-" + process.env.ENV;
 }
 
-const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "id";
-const partitionKeyType = "S";
-const sortKeyName = "";
-const sortKeyType = "";
-const hasSortKey = sortKeyName !== "";
 const path = "/reservations";
-const UNAUTH = "UNAUTH";
-const hashKeyPath = "/:" + partitionKeyName;
-const sortKeyPath = hasSortKey ? "/:" + sortKeyName : "";
 
 // declare a new express app
 const app = express();
@@ -51,16 +42,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.post(path + "/getReservatrions", async (req, res) => {
+app.all(path + "/testing", async (req, res) => {
   try {
-    const params = {
-      TableName: tableName,
-    };
-    const command = new ScanCommand(params);
-    const response = await dbDocClient.send(command);
-    return res.json({ code: 200, reservations: response.Items });
+    return res.json({ success: "testing" });
   } catch (error) {
-    return res.json({ code: 500, message: error.message });
+    console.log(error);
+    res.json({ error: error });
   }
 });
 
@@ -124,7 +111,7 @@ app.post(path + "/getRoomsByHotel", async (req, res) => {
     try {
       const command = new QueryCommand(params);
       const result = await dbDocClient.send(command);
-      const hotelMapping = HotelDTO(result.Items);
+      const hotelMapping = ReservationHotelDTO(result.Items);
       return res.json({ code: 200, hotels: hotelMapping, result });
     } catch (error) {
       console.error("Error getting rooms:", error);
@@ -132,35 +119,6 @@ app.post(path + "/getRoomsByHotel", async (req, res) => {
     }
   } catch (error) {
     return res.json({ code: 500, message: error.message });
-  }
-});
-
-app.post(path + "/item", async (req, res) => {
-  const { pk, sk, id } = req.body; // Asegúrate de enviar los parámetros pk y sk en la solicitud
-
-  if (!pk || !sk || !id) {
-    return res
-      .status(400)
-      .json({ code: 400, message: "pk and sk are required" });
-  }
-
-  const params = {
-    TableName: tableName,
-    Key: {
-      id,
-    },
-  };
-
-  try {
-    const command = new GetCommand(params);
-    const result = await dbDocClient.send(command);
-    if (!result.Item) {
-      return res.status(404).json({ code: 404, message: "Item not found" });
-    }
-    return res.json({ code: 200, item: result.Item });
-  } catch (error) {
-    console.error("Error getting item:", error);
-    return res.status(500).json({ code: 500, message: error.message });
   }
 });
 

@@ -1,4 +1,4 @@
-exports.HotelDTO = (data) => {
+exports.ReservationHotelDTO = (data) => {
   let dataModel = data.map((hotel) => {
     return {
       id: hotel?.id,
