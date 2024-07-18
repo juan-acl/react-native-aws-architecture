@@ -19,6 +19,8 @@ const {
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const bodyParser = require("body-parser");
 const express = require("express");
+const { v4 } = require("uuid");
+const { HotelDTO } = require("./utils/dto");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -98,14 +100,58 @@ app.post(path + "/createHotel", async (req, res) => {
   }
 });
 
+app.post(path + "/insert", async (req, res) => {
+  try {
+    const propertiesRequired = ["name", "address", "phone", "email", "image"];
+    const properties = Object.keys(req.body);
+    const isValid = propertiesRequired.every((property) =>
+      properties.includes(property)
+    );
+    if (!isValid) {
+      return res.json({
+        code: 400,
+        message: `Properties required: ${propertiesRequired.join(", ")}`,
+      });
+    }
+    const hotelObjetc = {
+      PK: v4(),
+      SK: "HOTEL#",
+      name: { S: req.body.name },
+      address: { S: req.body.address },
+      phone: { S: req.body.phone },
+      email: { S: req.body.email },
+      image: { S: req.body.image },
+    };
+    const params = {
+      TableName: "hoteleria-dev",
+      Item: hotelObjetc,
+    };
+    const command = new PutCommand(params);
+    await ddbDocClient.send(command);
+    return res.json({ code: 200, message: "Items inserted successfully." });
+  } catch (error) {
+    return res.json({ code: 500, message: error.message });
+  }
+});
+
 app.post(path + "/getHotels", async function (req, res) {
   try {
     const params = {
-      TableName: tableName,
+      TableName: "hoteleria-dev",
+      IndexName: "hotelNameIndex",
+      KeyConditionExpression: "SK = :skPrefix",
+      ExpressionAttributeValues: {
+        ":skPrefix": "HOTEL#",
+      },
     };
-    const command = new ScanCommand(params);
+    const command = new QueryCommand(params);
     const response = await ddbDocClient.send(command);
-    res.json({ code: 200, count: response.Count, hotels: response.Items });
+    const dataMapping = HotelDTO(response.Items);
+    return res.json({
+      code: 200,
+      count: response.Count,
+      hotels: dataMapping,
+    });
   } catch (err) {
     res.statusCode = 500;
     res.json({ error: "Could not load items: " + err.message });
