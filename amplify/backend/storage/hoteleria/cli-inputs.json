@@ -1,0 +1,26 @@
+{
+  "resourceName": "hoteleria",
+  "tableName": "hoteleria",
+  "partitionKey": {
+    "fieldName": "PK",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "SK",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "hotelNameIndex",
+      "partitionKey": {
+        "fieldName": "SK",
+        "fieldType": "string"
+      },
+      "sortKey": {
+        "fieldName": "PK",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}

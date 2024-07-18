@@ -23,6 +23,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "invoice": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "reservations": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
@@ -32,6 +39,16 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
+    "hoteleria": {
+      "Arn": "string",
+      "Name": "string",
+      "PartitionKeyName": "string",
+      "PartitionKeyType": "string",
+      "Region": "string",
+      "SortKeyName": "string",
+      "SortKeyType": "string",
+      "StreamArn": "string"
+    },
     "hotels": {
       "Arn": "string",
       "Name": "string",

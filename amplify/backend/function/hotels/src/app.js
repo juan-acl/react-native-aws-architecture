@@ -98,25 +98,6 @@ app.post(path + "/createHotel", async (req, res) => {
   }
 });
 
-app.post(path + "/deletehotel", async () => {
-  try {
-    if (!req.body.id) return res.json({ code: 400, message: "Id is require" });
-    const paramsDeleteHotel = {
-      TableName: tableName,
-      Key: {
-        id: req.body.id,
-      },
-      Item: { ...req.body },
-    };
-    const command = new UpdateCommand(paramsDeleteHotel);
-    const response = await ddbDocClient.send(command);
-    return res.json({ code: 400, message: "Hotels updated", hotel: response });
-  } catch (error) {
-    console.log("Error deletehotel: " + error);
-    return res.json({ code: 400, message: "Ocurred error in deletehotel" });
-  }
-});
-
 app.post(path + "/getHotels", async function (req, res) {
   try {
     const params = {

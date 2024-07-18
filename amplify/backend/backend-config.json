@@ -17,6 +17,14 @@
           ],
           "category": "function",
           "resourceName": "hotels"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "invoice"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -86,6 +94,25 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "invoice": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "hoteleria"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "reservations": {
       "build": true,
       "dependsOn": [
@@ -123,6 +150,22 @@
         }
       ]
     },
+    "AMPLIFY_function_invoice_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "invoice"
+        }
+      ]
+    },
+    "AMPLIFY_function_invoice_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "invoice"
+        }
+      ]
+    },
     "AMPLIFY_function_reservations_deploymentBucketName": {
       "usedBy": [
         {
@@ -141,6 +184,10 @@
     }
   },
   "storage": {
+    "hoteleria": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "hotels": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"

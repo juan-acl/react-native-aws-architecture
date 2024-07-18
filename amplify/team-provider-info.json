@@ -19,12 +19,17 @@
         },
         "hotels": {
           "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
-          "s3Key": "amplify-builds/hotels-71546c7a2f773267706d-build.zip"
+          "s3Key": "amplify-builds/hotels-5a6f7457487558783958-build.zip"
+        },
+        "invoice": {
+          "deploymentBucketName": "amplify-hoteleria-dev-d9c64-deployment",
+          "s3Key": "amplify-builds/invoice-5746495765482b547349-build.zip"
         }
       },
       "storage": {
         "hotels": {},
-        "reservations": {}
+        "reservations": {},
+        "hoteleria": {}
       },
       "api": {
         "hoteleria": {}
