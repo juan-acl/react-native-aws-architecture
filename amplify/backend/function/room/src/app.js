@@ -18,6 +18,7 @@ const {
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const bodyParser = require("body-parser");
 const express = require("express");
+const { RoomDTO } = require("./utils/dto");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -47,6 +48,14 @@ app.all(path + "/testing", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ error: error });
+  }
+});
+
+app.post(path + "/createRoom", async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.json({ code: 500, error });
   }
 });
 
