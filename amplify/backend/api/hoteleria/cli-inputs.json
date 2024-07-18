@@ -21,6 +21,13 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/room": {
+      "name": "/room",
+      "lambdaFunction": "room",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
