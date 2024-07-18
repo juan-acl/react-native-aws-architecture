@@ -23,7 +23,7 @@ const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const dbDocClient = DynamoDBDocumentClient.from(ddbClient);
 const { ReservationHotelDTO } = require("./utils/dto");
 
-let tableName = "reservations";
+let tableName = "hoteleria";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + "-" + process.env.ENV;
 }
