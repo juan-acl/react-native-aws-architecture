@@ -18,7 +18,8 @@ const {
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const bodyParser = require("body-parser");
 const express = require("express");
-const { RoomDTO } = require("./utils/dto");
+const { RoomDTO } = require("./utils/dtoRoom");
+const { v4 } = require("uuid");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -53,6 +54,74 @@ app.all(path + "/testing", async (req, res) => {
 
 app.post(path + "/createRoom", async (req, res) => {
   try {
+    const propertiesRoomRequired = [
+      "PK",
+      "SK",
+      "name",
+      "description",
+      "price",
+      "type",
+      "image",
+      "available",
+    ];
+    const properties = Object.keys(req.body);
+    const isValid = propertiesRoomRequired.every((property) =>
+      properties.includes(property)
+    );
+    if (!isValid) {
+      return res.json({
+        code: 400,
+        message: `Properties required: ${propertiesRoomRequired.join(", ")}`,
+      });
+    }
+    const roomObjetc = {
+      PK: req.body.PK,
+      SK: "ROOM#" + v4,
+      name: { S: req.body.name },
+      description: { S: req.body.description },
+      price: { N: req.body.price },
+      type: { S: req.body.type },
+      image: { S: req.body.image },
+      available: { BOOL: req.body.available },
+    };
+    const params = {
+      TableName: tableName,
+      Item: roomObjetc,
+    };
+    const command = new PutCommand(params);
+    await ddbDocClient.send(command);
+    return res.json({
+      code: 200,
+      message: "Item room inserted successfully.",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({ code: 500, error });
+  }
+});
+
+app.post(path + "/getRoomsByHotel", async (req, res) => {
+  try {
+    const { pk } = req.body;
+    if (!pk)
+      return res.json({ code: 400, message: "Property PK is required." });
+    const params = {
+      TableName: tableName,
+      IndexName: "hotelNameIndex",
+      KeyConditionExpression: "PK = :pk and begins_with(SK, :skPrefix)",
+      ExpressionAttributeValues: {
+        ":pk": pk,
+        ":skPrefix": "ROOM#",
+      },
+    };
+    const command = new QueryCommand(params);
+    const response = await ddbDocClient.send(command);
+    const mappingRoom = RoomDTO(response.Items);
+    return res.json({
+      code: 200,
+      count: response.Count,
+      rooms: mappingRoom,
+    });
   } catch (error) {
     console.log(error);
     return res.json({ code: 500, error });

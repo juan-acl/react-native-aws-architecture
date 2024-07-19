@@ -16,7 +16,7 @@ const awsServerlessExpressMiddleware = require("aws-serverless-express/middlewar
 const bodyParser = require("body-parser");
 const express = require("express");
 const { v4 } = require("uuid");
-const { HotelDTO } = require("./utils/dto");
+const { HotelDTO } = require("./utils/dtoHotel");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -97,14 +97,6 @@ app.post(path + "/getHotels", async function (req, res) {
   } catch (err) {
     res.statusCode = 500;
     res.json({ error: "Could not load items: " + err.message });
-  }
-});
-
-app.post(path + "/getRoomsByHotel", async (req, res) => {
-  try {
-  } catch (error) {
-    console.log(error);
-    return res.json({ code: 500, error });
   }
 });
 
