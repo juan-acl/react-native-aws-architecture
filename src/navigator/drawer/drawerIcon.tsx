@@ -14,7 +14,11 @@ export const DrawerIcon: React.FC<DrawerIconProps> = ({
   iconName,
 }) => {
   return (
-    <Pressable onPress={() => navigation.toggleDrawer()}>
+    <Pressable
+      onPress={() =>
+        iconName === "add" ? () => {} : navigation.toggleDrawer()
+      }
+    >
       <View style={styles.iconContainer}>
         <Ionicons name={iconName} size={24} color="#fff" />
       </View>

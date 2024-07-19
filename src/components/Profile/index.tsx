@@ -22,7 +22,7 @@ export const Profile: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const userProfile: UserInformation | null = useSelector(
-    (state: RootState) => state.reducer.auth.userInformation,
+    (state: RootState) => state.reducer.auth.userInformation
   );
   const [phone_number] = useState(userProfile?.phone_number?.split("+502"));
 
@@ -48,15 +48,19 @@ export const Profile: React.FC = () => {
    */
   const onChangeVisibleBottomSheet = useCallback(
     (stateVisibleBottomSheet: number) => {
-      if (stateVisibleBottomSheet === -1) {
+      if (stateVisibleBottomSheet === -1 || stateVisibleBottomSheet === 0) {
+        navigation.setOptions({ headerShown: true });
         setIsVisibleBottomSheet(false);
         return;
       }
       setIsVisibleBottomSheet(true);
-      if (stateVisibleBottomSheet === 2) return;
+      if (stateVisibleBottomSheet === 2) {
+        navigation.setOptions({ headerShown: false });
+        return;
+      }
       navigation.setOptions({ headerShown: true });
     },
-    [],
+    []
   );
 
   const onCloseBottomSheet = () => {

@@ -27,6 +27,7 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 }
 
 const path = "/hotels";
+const skPrefixHotel = "HOTEL#";
 // declare a new express app
 const app = express();
 app.use(bodyParser.json());
@@ -54,7 +55,7 @@ app.post(path + "/createHotel", async (req, res) => {
     }
     const hotelObjetc = {
       PK: v4(),
-      SK: "HOTEL#",
+      SK: skPrefixHotel,
       name: req.body.name,
       address: req.body.address,
       phone: req.body.phone,
@@ -83,7 +84,7 @@ app.post(path + "/getHotels", async function (req, res) {
       IndexName: "hotelNameIndex",
       KeyConditionExpression: "SK = :skPrefix",
       ExpressionAttributeValues: {
-        ":skPrefix": "HOTEL#",
+        ":skPrefix": skPrefixHotel,
       },
     };
     const command = new QueryCommand(params);
