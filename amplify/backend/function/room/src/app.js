@@ -55,8 +55,7 @@ app.all(path + "/testing", async (req, res) => {
 app.post(path + "/createRoom", async (req, res) => {
   try {
     const propertiesRoomRequired = [
-      "PK",
-      "SK",
+      "pk",
       "name",
       "description",
       "price",
@@ -75,8 +74,8 @@ app.post(path + "/createRoom", async (req, res) => {
       });
     }
     const roomObjetc = {
-      PK: req.body.PK,
-      SK: "ROOM#" + v4,
+      PK: req.body.pk,
+      SK: "ROOM#" + v4(),
       name: { S: req.body.name },
       description: { S: req.body.description },
       price: { N: req.body.price },
