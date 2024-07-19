@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
   textNotFoundSearch: {
     color: "black",
     fontSize: 20,
-    fontFamily: "Helvetica",
     marginLeft: 17,
     marginTop: 10,
   },

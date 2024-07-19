@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     margin: 10,
-    gap: 10
+    gap: 10,
   },
   continerImageHotel: {
     flex: 1,
@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
   containerDetailsHotel: {
-    fontFamily: "Helvetica",
     fontWeight: "600",
     color: "#fff",
     marginLeft: 20,
@@ -26,7 +25,6 @@ export const styles = StyleSheet.create({
   nameParamsHotel: {
     color: "black",
     fontSize: 20,
-    fontFamily: "Helvetica",
     marginLeft: 17,
     marginTop: 10,
   },
@@ -70,10 +68,8 @@ export const styles = StyleSheet.create({
     fontSize: 22,
     color: "black",
     fontWeight: "600",
-    fontFamily: "Helvetica",
   },
   headtText: {
-    fontFamily: "Helvetica",
     color: "grey",
     fontWeight: "600",
     marginLeft: 20,
@@ -83,7 +79,6 @@ export const styles = StyleSheet.create({
   SubjectText: {
     color: "black",
     fontSize: 20,
-    fontFamily: "Helvetica",
     marginLeft: 17,
     marginTop: 10,
   },

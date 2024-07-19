@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
+import { ModalHotel } from "./ModalHotel";
 import { styles } from "./styles";
 
 const Hotels = () => {
@@ -108,6 +109,7 @@ const Hotels = () => {
         />
       )}
       <ActionSheetHotel bottomSheetRef={bottomSheetRef} />
+      <ModalHotel />
     </>
   );
 };

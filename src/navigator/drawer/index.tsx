@@ -12,10 +12,10 @@ const InstanceDrawerNavigation = createDrawerNavigator<RootStackParamList>();
 
 export const DrawerNavigation = () => {
   const headerShown = useSelector(
-    (state: RootState) => state.reducer.hotels.headerShow,
+    (state: RootState) => state.reducer.hotels.headerShow
   );
   const currentScreenTabNavigation = useAppSelector(
-    (state) => state.reducer.hotels.currentScreenTabNavigation,
+    (state) => state.reducer.hotels.currentScreenTabNavigation
   );
   return (
     <InstanceDrawerNavigation.Navigator

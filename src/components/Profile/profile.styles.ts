@@ -34,10 +34,8 @@ export const styles = StyleSheet.create({
     fontSize: 22,
     color: "black",
     fontWeight: "600",
-    fontFamily: "Helvetica",
   },
   headtText: {
-    fontFamily: "Helvetica",
     color: "grey",
     fontWeight: "600",
     marginLeft: 20,
@@ -47,7 +45,6 @@ export const styles = StyleSheet.create({
   SubjectText: {
     color: "black",
     fontSize: 20,
-    fontFamily: "Helvetica",
     marginLeft: 17,
     marginTop: 10,
   },
@@ -61,7 +58,8 @@ export const styles = StyleSheet.create({
     backgroundColor: "#3B525F",
     borderRadius: 10,
     width: "40%",
-    height: 50,
+    height: "40%",
+    justifyContent: "center",
     alignItems: "center",
     padding: 6,
     elevation: 30,
@@ -73,11 +71,12 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    margin: 10,
+    margin: 5,
+    padding: 5,
   },
   RectangleShapeView: {
     marginTop: 20,
-    width: "90%",
+    width: "100%",
     height: "20%",
     backgroundColor: "white",
     color: "black",

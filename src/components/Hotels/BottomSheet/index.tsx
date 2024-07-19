@@ -23,7 +23,7 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   const hotelInformation = useSelector(
     (state: RootState) => state.reducer.hotels.currentHotel
   );
-  const snapPoints = useMemo(() => [0.1, "50%", "100%"], []);
+  const snapPoints = useMemo(() => [0.00000001, "50%", "100%"], []);
 
   /**
    * This function handles changes in the bottom sheet state and updates the header visibility accordingly.
@@ -63,6 +63,7 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
         snapPoints={snapPoints}
         backgroundStyle={{ backgroundColor: "#4b4b4b" }}
         index={0}
+        enablePanDownToClose={true}
         onChange={onChangeVisibleBottomSheet}
       >
         <BottomSheetView style={styles.contentContainerBottomSheet}>

@@ -9,6 +9,7 @@ const initialState: HotelState = {
   headerShow: true,
   currentHotel: null,
   currentScreenTabNavigation: "",
+  showModalHotel: false,
 };
 
 const hotelSlice = createSlice({
@@ -29,10 +30,16 @@ const hotelSlice = createSlice({
     },
     setCurrentTabNavigation(
       state,
-      action: PayloadAction<{ currentScreenTabNavigation: string }>,
+      action: PayloadAction<{ currentScreenTabNavigation: string }>
     ) {
       state.currentScreenTabNavigation =
         action.payload.currentScreenTabNavigation;
+    },
+    setShowModalHotel(
+      state,
+      action: PayloadAction<{ showModalHotel: boolean }>
+    ) {
+      state.showModalHotel = action.payload.showModalHotel;
     },
     setFilterText(state, action: PayloadAction<{ filterText: string }>) {
       state.filterText = action.payload.filterText;
@@ -45,7 +52,7 @@ export const setCleanCurrentHotel = createAsyncThunk(
   async (_, thunkAPI) => {
     thunkAPI.dispatch(setHeaderShow({ show: true }));
     thunkAPI.dispatch(hotelSlice.actions.setCleanCurrentHotel(null));
-  },
+  }
 );
 
 export const {
@@ -54,5 +61,6 @@ export const {
   setHotelInformationBottomSheet,
   setHeaderShow,
   setCurrentTabNavigation,
+  setShowModalHotel,
 } = hotelSlice.actions;
 export const hotelReducer = hotelSlice.reducer;

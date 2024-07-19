@@ -40,10 +40,14 @@ export interface HotelState {
   headerShow: boolean;
   currentHotel: Hotel | null;
   currentScreenTabNavigation: string;
+  showModalHotel: boolean;
 }
 
 export interface Hotel {
   PK: number;
+  SK: string;
+  image: string;
+  email: string;
   name: string;
   address: string;
   createAt: string;

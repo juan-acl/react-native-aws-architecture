@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   headtText: {
-    fontFamily: "Helvetica",
     color: "grey",
     fontWeight: "600",
     marginLeft: 20,
