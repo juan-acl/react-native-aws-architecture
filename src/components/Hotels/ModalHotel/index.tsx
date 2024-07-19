@@ -1,7 +1,9 @@
 import { Button, Modal, Stack, FormControl, Input } from "native-base";
-import { StyleSheet, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/src/redux/configureStore";
 import { setShowModalHotel } from "@/src/redux/slices/hotel.slice";
+import { styles } from "./modal.styles";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 export const ModalHotel = () => {
   const showModal = useAppSelector(
@@ -12,6 +14,15 @@ export const ModalHotel = () => {
   const onCloseModal = () => {
     dispatch(setShowModalHotel({ showModalHotel: false }));
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (!showModal) return;
+        dispatch(setShowModalHotel({ showModalHotel: false }));
+      };
+    }, [dispatch, showModal])
+  );
 
   return (
     <>
@@ -57,7 +68,9 @@ export const ModalHotel = () => {
               >
                 Cancel
               </Button>
-              <Button onPress={() => {}}>Save</Button>
+              <Button style={styles.button} onPress={() => {}}>
+                Save
+              </Button>
             </Button.Group>
           </Modal.Footer>
         </Modal.Content>
@@ -65,38 +78,5 @@ export const ModalHotel = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  modalContent: {
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  modalHeader: {
-    backgroundColor: "#4a90e2",
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  modalBody: {
-    backgroundColor: "#f0f0f0",
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  modalFooter: {
-    backgroundColor: "#f0f0f0",
-  },
-  container: {
-    flex: 1,
-    padding: 24,
-    backgroundColor: "grey",
-  },
-  sheetContainer: {
-    marginHorizontal: 24,
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-});
 
 export default ModalHotel;
