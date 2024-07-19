@@ -55,11 +55,11 @@ app.post(path + "/createHotel", async (req, res) => {
     const hotelObjetc = {
       PK: v4(),
       SK: "HOTEL#",
-      name: { S: req.body.name },
-      address: { S: req.body.address },
-      phone: { S: req.body.phone },
-      email: { S: req.body.email },
-      image: { S: req.body.image },
+      name: req.body.name,
+      address: req.body.address,
+      phone: req.body.phone,
+      email: req.body.email,
+      image: req.body.image,
     };
     const params = {
       TableName: tableName,

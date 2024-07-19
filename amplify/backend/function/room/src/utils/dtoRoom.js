@@ -3,12 +3,12 @@ exports.RoomDTO = (rooms) => {
     return {
       PK: room?.PK || null,
       SK: room?.SK || null,
-      name: room?.name?.S || null,
-      description: room?.description?.S || null,
-      price: room?.price?.N || null,
-      type: room?.type?.S || null,
-      image: room?.image?.S || null,
-      available: room?.available?.BOOL || null,
+      name: room?.name || null,
+      description: room?.description || null,
+      price: room?.price || null,
+      type: room?.type || null,
+      image: room?.image || null,
+      available: room?.available || null,
     };
   });
 };

@@ -24,6 +24,7 @@ const { v4 } = require("uuid");
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
+const sortKeyPrefix = "ROOM#";
 let tableName = "hoteleria";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + "-" + process.env.ENV;
@@ -61,7 +62,6 @@ app.post(path + "/createRoom", async (req, res) => {
       "price",
       "type",
       "image",
-      "available",
     ];
     const properties = Object.keys(req.body);
     const isValid = propertiesRoomRequired.every((property) =>
@@ -75,13 +75,13 @@ app.post(path + "/createRoom", async (req, res) => {
     }
     const roomObjetc = {
       PK: req.body.pk,
-      SK: "ROOM#" + v4(),
-      name: { S: req.body.name },
-      description: { S: req.body.description },
-      price: { N: req.body.price },
-      type: { S: req.body.type },
-      image: { S: req.body.image },
-      available: { BOOL: req.body.available },
+      SK: sortKeyPrefix + v4(),
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      type: req.body.type,
+      image: req.body.image,
+      available: true,
     };
     const params = {
       TableName: tableName,
@@ -106,11 +106,10 @@ app.post(path + "/getRoomsByHotel", async (req, res) => {
       return res.json({ code: 400, message: "Property PK is required." });
     const params = {
       TableName: tableName,
-      IndexName: "hotelNameIndex",
-      KeyConditionExpression: "PK = :pk and begins_with(SK, :skPrefix)",
+      KeyConditionExpression: "PK = :pk AND begins_with(SK, :skPrefix)",
       ExpressionAttributeValues: {
         ":pk": pk,
-        ":skPrefix": "ROOM#",
+        ":skPrefix": sortKeyPrefix,
       },
     };
     const command = new QueryCommand(params);
