@@ -29,6 +29,7 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 }
 
 const path = "/reservations";
+const skPrefixReservation = "RESERVATION#";
 
 // declare a new express app
 const app = express();
@@ -48,77 +49,6 @@ app.all(path + "/testing", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ error: error });
-  }
-});
-
-app.post(path + "/insert", async (req, res) => {
-  try {
-    const propertiesRequired = [
-      "id",
-      "sk",
-      "name",
-      "address",
-      "phone",
-      "email",
-      "image",
-    ];
-    const properties = Object.keys(req.body);
-    const isValid = propertiesRequired.every((property) =>
-      properties.includes(property)
-    );
-    if (!isValid) {
-      return res.json({
-        code: 400,
-        message: `Properties required: ${propertiesRequired.join(", ")}`,
-      });
-    }
-    const hotelObjetc = {
-      id: req.body.id,
-      sk: { S: req.body.sk },
-      name: { S: req.body.name },
-      address: { S: req.body.address },
-      phone: { S: req.body.phone },
-      email: { S: req.body.email },
-      image: { S: req.body.image },
-    };
-    const params = {
-      TableName: tableName,
-      Item: hotelObjetc,
-    };
-    const command = new PutCommand(params);
-    await dbDocClient.send(command);
-    return res.json({ code: 200, message: "Items inserted successfully." });
-  } catch (error) {
-    return res.json({ code: 500, message: error.message });
-  }
-});
-
-app.post(path + "/getRoomsByHotel", async (req, res) => {
-  try {
-    const { idHotel, sk } = req.body;
-    if (!idHotel || !sk)
-      return res.json({ code: 400, message: "All params are required!" });
-    const params = {
-      TableName: tableName,
-      KeyConditionExpression: "id = :pk",
-      FilterExpression: "sk =:sk",
-      ExpressionAttributeValues: {
-        ":pk": req.body.idHotel,
-        ":sk": { S: req.body.sk },
-      },
-    };
-
-    try {
-      const command = new QueryCommand(params);
-      const result = await dbDocClient.send(command);
-      const hotelMapping = ReservationHotelDTO(result.Items);
-      return res.json({ code: 200, hotels: hotelMapping, result });
-    } catch (error) {
-      console.error("Error getting rooms:", error);
-      throw error;
-    }
-  } catch (error) {
-    return res.json({ code: 500, message: error.message });
   }
 });
 

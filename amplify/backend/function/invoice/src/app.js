@@ -28,6 +28,7 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 }
 
 const path = "/invoice";
+const skPrefixInvoice = "INVOICE#";
 
 // declare a new express app
 const app = express();
