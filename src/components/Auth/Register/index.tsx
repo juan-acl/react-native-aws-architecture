@@ -85,7 +85,7 @@ export const Register = () => {
           lastNameParams: state.lastName.value,
           phoneNumberParams: state.phone.value,
           addressParams: state.address.value,
-        }),
+        })
       );
       if (!SignUp.fulfilled.match(responseRegister)) return;
       dispatch(setUserEmail(state.email.value));
@@ -181,4 +181,3 @@ export const Register = () => {
     </KeyboardAvoidingView>
   );
 };
-

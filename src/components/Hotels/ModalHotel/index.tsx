@@ -1,9 +1,12 @@
-import { Button, Modal, Stack, FormControl, Input } from "native-base";
+import { Button, Modal, Stack, FormControl } from "native-base";
 import { useAppDispatch, useAppSelector } from "@/src/redux/configureStore";
 import { setShowModalHotel } from "@/src/redux/slices/hotel.slice";
 import { styles } from "./modal.styles";
 import { useFocusEffect } from "@react-navigation/native";
+import { Input } from "@/src/components/Input";
 import { useCallback } from "react";
+import { FormState, useForm } from "@/src/hooks/useForm";
+import { CreateHotelPropsChange } from "@/src/types/hotel";
 
 export const ModalHotel = () => {
   const showModal = useAppSelector(
@@ -24,6 +27,50 @@ export const ModalHotel = () => {
     }, [dispatch, showModal])
   );
 
+  const initialState: FormState = {
+    email: {
+      value: "",
+      hasError: false,
+      name: "email",
+      messageError: "",
+      isFormInvalid: false,
+    },
+    name: {
+      value: "",
+      hasError: false,
+      name: "name",
+      messageError: "",
+      isFormInvalid: false,
+    },
+    image: {
+      value: "",
+      hasError: false,
+      name: "image",
+      messageError: "",
+      isFormInvalid: false,
+    },
+    phone: {
+      value: "",
+      hasError: false,
+      name: "phone",
+      messageError: "",
+      isFormInvalid: false,
+    },
+    address: {
+      value: "",
+      hasError: false,
+      name: "address",
+      messageError: "",
+      isFormInvalid: false,
+    },
+  };
+
+  const { state, onChange, isValidaFormState } = useForm(initialState);
+
+  const changeValue = ({ value, name }: CreateHotelPropsChange) => {
+    onChange({ value, name });
+  };
+
   return (
     <>
       <Stack
@@ -40,23 +87,58 @@ export const ModalHotel = () => {
           <Modal.Body style={styles.modalBody}>
             <FormControl>
               <FormControl.Label>Nombre</FormControl.Label>
-              <Input />
+              <Input
+                placeholder="Nombre"
+                changeValue={changeValue}
+                name={state.name.name}
+                value={state.name.value}
+                hasError={state.name.hasError}
+                messageError={state.name.messageError}
+              />
             </FormControl>
             <FormControl mt="3">
               <FormControl.Label>Direccion</FormControl.Label>
-              <Input />
+              <Input
+                changeValue={changeValue}
+                placeholder="Direccion"
+                value={state.address.value}
+                name={state.address.name}
+                hasError={state.address.hasError}
+                messageError={state.address.messageError}
+              />
             </FormControl>
             <FormControl mt="3">
               <FormControl.Label>Telefono</FormControl.Label>
-              <Input />
+              <Input
+                placeholder="Telefono"
+                value={state.phone.value}
+                changeValue={changeValue}
+                name={state.phone.name}
+                hasError={state.phone.hasError}
+                messageError={state.phone.messageError}
+              />
             </FormControl>
             <FormControl mt="3">
               <FormControl.Label>Correo</FormControl.Label>
-              <Input />
+              <Input
+                placeholder="Correo"
+                value={state.email.value}
+                changeValue={changeValue}
+                name={state.email.name}
+                hasError={state.email.hasError}
+                messageError={state.email.messageError}
+              />
             </FormControl>
             <FormControl mt="3">
               <FormControl.Label>Cargar imagen</FormControl.Label>
-              <Input />
+              <Input
+                placeholder="Cargar imagen"
+                value={state.image.value}
+                changeValue={changeValue}
+                name={state.image.name}
+                hasError={state.image.hasError}
+                messageError={state.image.messageError}
+              />
             </FormControl>
           </Modal.Body>
           <Modal.Footer style={styles.modalFooter}>
