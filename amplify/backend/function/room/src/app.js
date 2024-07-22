@@ -136,7 +136,7 @@ app.post(path + "/getRoomsAvailableByHotel", async (req, res) => {
     }["available"];
     const params = {
       TableName: tableName,
-      IndexName: "availableRoomIndex",
+      IndexName: "PK-available-index",
       KeyConditionExpression: "PK = :pk AND #available = :available",
       ExpressionAttributeNames: {
         "#available": "available",
