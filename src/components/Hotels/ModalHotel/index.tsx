@@ -111,6 +111,8 @@ export const ModalHotel = () => {
               <FormControl.Label>Telefono</FormControl.Label>
               <Input
                 placeholder="Telefono"
+                typeInput="numeric"
+                maxLength={8}
                 value={state.phone.value}
                 changeValue={changeValue}
                 name={state.phone.name}
