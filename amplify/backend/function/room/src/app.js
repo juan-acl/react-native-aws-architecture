@@ -131,9 +131,10 @@ app.post(path + "/getRoomsAvailableByHotel", async (req, res) => {
     const { pk } = req.body;
     if (!pk)
       return res.json({ code: 400, message: "Property PK is required." });
+    let valueStatusRoom = "available";
     const statusRoom = {
       available: 1,
-    }["available"];
+    }[valueStatusRoom];
     const params = {
       TableName: tableName,
       IndexName: "PK-available-index",

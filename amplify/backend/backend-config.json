@@ -160,6 +160,72 @@
       "service": "Lambda"
     }
   },
+  "parameters": {
+    "AMPLIFY_function_hotels_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "hotels"
+        }
+      ]
+    },
+    "AMPLIFY_function_hotels_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "hotels"
+        }
+      ]
+    },
+    "AMPLIFY_function_invoice_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "invoice"
+        }
+      ]
+    },
+    "AMPLIFY_function_invoice_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "invoice"
+        }
+      ]
+    },
+    "AMPLIFY_function_reservations_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reservations"
+        }
+      ]
+    },
+    "AMPLIFY_function_reservations_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reservations"
+        }
+      ]
+    },
+    "AMPLIFY_function_room_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "room"
+        }
+      ]
+    },
+    "AMPLIFY_function_room_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "room"
+        }
+      ]
+    }
+  },
   "storage": {
     "hoteleria": {
       "providerPlugin": "awscloudformation",
