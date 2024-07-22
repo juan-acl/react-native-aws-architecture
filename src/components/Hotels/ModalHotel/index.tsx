@@ -4,29 +4,11 @@ import { setShowModalHotel } from "@/src/redux/slices/hotel.slice";
 import { styles } from "./modal.styles";
 import { useFocusEffect } from "@react-navigation/native";
 import { Input } from "@/src/components/Input";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { FormState, useForm } from "@/src/hooks/useForm";
 import { CreateHotelPropsChange } from "@/src/types/hotel";
 
 export const ModalHotel = () => {
-  const showModal = useAppSelector(
-    (state) => state.reducer.hotels.showModalHotel
-  );
-  const dispatch = useAppDispatch();
-
-  const onCloseModal = () => {
-    dispatch(setShowModalHotel({ showModalHotel: false }));
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        if (!showModal) return;
-        dispatch(setShowModalHotel({ showModalHotel: false }));
-      };
-    }, [dispatch, showModal])
-  );
-
   const initialState: FormState = {
     email: {
       value: "",
@@ -65,7 +47,25 @@ export const ModalHotel = () => {
     },
   };
 
-  const { state, onChange, isValidaFormState } = useForm(initialState);
+  const { state, onChange, clearState } = useForm(initialState);
+  const showModal = useAppSelector(
+    (state) => state.reducer.hotels.showModalHotel
+  );
+  const dispatch = useAppDispatch();
+
+  const onCloseModal = () => {
+    dispatch(setShowModalHotel({ showModalHotel: false }));
+    clearState(Object.keys(initialState));
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (!showModal) return;
+        dispatch(setShowModalHotel({ showModalHotel: false }));
+      };
+    }, [dispatch, showModal])
+  );
 
   const changeValue = ({ value, name }: CreateHotelPropsChange) => {
     onChange({ value, name });

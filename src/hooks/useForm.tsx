@@ -46,6 +46,17 @@ const formReducer = (state: FormState, action: FormAction) => {
           isFormInvalid: data.isFormInvalid,
         },
       };
+    case InputActions.CLEAR_FORM:
+      return {
+        ...state,
+        [data.name]: {
+          ...state[data.name],
+          value: data.value,
+          hasError: data.hasError,
+          messageError: data.messageError,
+          isFormInvalid: data.isFormInvalid,
+        },
+      };
     default:
       return state;
   }
@@ -70,6 +81,21 @@ export const useForm = (initialState: FormState) => {
     });
   };
 
+  const clearState = (arrayNames: string[]) => {
+    arrayNames.forEach((name) => {
+      dispatch({
+        type: InputActions.CLEAR_FORM,
+        data: {
+          name,
+          value: "",
+          hasError: false,
+          messageError: "",
+          isFormInvalid: false,
+        },
+      });
+    });
+  };
+
   const isValidaForm = () => {
     let isValid = true;
     Object.keys(state).forEach((key) => {
@@ -83,6 +109,7 @@ export const useForm = (initialState: FormState) => {
   return {
     state,
     onChange,
+    clearState,
     isValidaFormState: isValidaForm(),
   };
 };
