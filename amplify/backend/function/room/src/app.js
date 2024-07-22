@@ -126,6 +126,37 @@ app.post(path + "/getRoomsByHotel", async (req, res) => {
   }
 });
 
+app.post(path + "/getRoomsAvailableByHotel", async (req, res) => {
+  try {
+    const { pk } = req.body;
+    if (!pk)
+      return res.json({ code: 400, message: "Property PK is required." });
+    const params = {
+      TableName: tableName,
+      IndexName: "availableRoomIndex",
+      KeyConditionExpression: "PK = :pk AND #available = :available",
+      ExpressionAttributeNames: {
+        "#available": "available",
+      },
+      ExpressionAttributeValues: {
+        ":pk": pk,
+        ":available": true,
+      },
+    };
+    const command = new QueryCommand(params);
+    const response = await ddbDocClient.send(command);
+    const mappingRoom = RoomDTO(response.Items);
+    return res.json({
+      code: 200,
+      count: response.Count,
+      rooms: mappingRoom,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({ code: 500, error });
+  }
+});
+
 app.listen(3000, function () {
   console.log("App started");
 });

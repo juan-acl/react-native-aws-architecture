@@ -47,6 +47,7 @@ export interface Hotel {
   PK: number;
   SK: string;
   image: string;
+  rating: number;
   email: string;
   name: string;
   address: string;
