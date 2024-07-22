@@ -131,6 +131,9 @@ app.post(path + "/getRoomsAvailableByHotel", async (req, res) => {
     const { pk } = req.body;
     if (!pk)
       return res.json({ code: 400, message: "Property PK is required." });
+    const statusRoom = {
+      available: 1,
+    }["available"];
     const params = {
       TableName: tableName,
       IndexName: "availableRoomIndex",
@@ -140,7 +143,7 @@ app.post(path + "/getRoomsAvailableByHotel", async (req, res) => {
       },
       ExpressionAttributeValues: {
         ":pk": pk,
-        ":available": true,
+        ":available": statusRoom,
       },
     };
     const command = new QueryCommand(params);
