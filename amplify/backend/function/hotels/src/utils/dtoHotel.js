@@ -2,7 +2,7 @@ exports.HotelDTO = (dataHotel) => {
   let hotelMapping = dataHotel.map((hotel) => {
     return {
       PK: hotel?.PK || null,
-      SK: hotel?.SK || null,
+      SK: hotel?.SK || "HOTEL#",
       name: hotel?.name || null,
       address: hotel?.address || null,
       phone: hotel?.phone || null,

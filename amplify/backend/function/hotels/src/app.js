@@ -93,11 +93,12 @@ app.post(path + "/getHotels", async function (req, res) {
     };
     const command = new QueryCommand(params);
     const response = await ddbDocClient.send(command);
-    const dataMapping = HotelDTO(response.Items);
+    const dataHotelMapping = HotelDTO(response.Items);
     return res.json({
       code: 200,
+      message: "Hotel items loaded successfully.",
       count: response.Count,
-      hotels: dataMapping,
+      hotels: dataHotelMapping,
     });
   } catch (err) {
     res.statusCode = 500;
