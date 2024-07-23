@@ -83,10 +83,13 @@ app.post(path + "/getHotels", async function (req, res) {
       TableName: tableName,
       IndexName: "hotelNameIndex",
       KeyConditionExpression: "SK = :skPrefix",
+      ExpressionAttributeNames: {
+        "#name": "name",
+      },
       ExpressionAttributeValues: {
         ":skPrefix": skPrefixHotel,
       },
-      ProjectionExpression: "PK, name, address, phone, email, image, rating",
+      ProjectionExpression: "PK, #name, address, phone, email, image",
     };
     const command = new QueryCommand(params);
     const response = await ddbDocClient.send(command);
