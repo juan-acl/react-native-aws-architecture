@@ -1,7 +1,16 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 
+export interface CreateHotelParams {
+  name: string;
+  image: string;
+  phone: string;
+  address: string;
+  email: string;
+}
+
 export const enum AsyncThunkTypes {
   CREAN_CURRENT_HOTEL = "hotel/creanCurrentHotel",
+  CREATE_HOTEL = "hotel/creanCurrentHotel",
 }
 
 export interface CreateHotelPropsChange {

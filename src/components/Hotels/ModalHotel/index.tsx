@@ -1,12 +1,12 @@
+import { useCallback } from "react";
 import { Button, Modal, Stack, FormControl } from "native-base";
 import { useAppDispatch, useAppSelector } from "@/src/redux/configureStore";
 import { setShowModalHotel } from "@/src/redux/slices/hotel.slice";
-import { styles } from "./modal.styles";
 import { useFocusEffect } from "@react-navigation/native";
 import { Input } from "@/src/components/Input";
-import { useCallback, useEffect } from "react";
 import { FormState, useForm } from "@/src/hooks/useForm";
 import { CreateHotelPropsChange } from "@/src/types/hotel";
+import { styles } from "./modal.styles";
 
 export const ModalHotel = () => {
   const initialState: FormState = {

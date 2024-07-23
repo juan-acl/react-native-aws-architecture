@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HOTEL_SLICE } from "@/src/redux/nameSlices";
 import { HotelState, Hotel } from "@/src/types/hotel";
-import { AsyncThunkTypes } from "@/src/types/hotel";
+import { AsyncThunkTypes, CreateHotelParams } from "@/src/types/hotel";
+import { useCreateHotelQuery } from "../api/hotel.api";
 
 const initialState: HotelState = {
   hotels: [],
@@ -46,6 +47,17 @@ const hotelSlice = createSlice({
     },
   },
 });
+
+export const createHotel = createAsyncThunk(
+  AsyncThunkTypes.CREATE_HOTEL,
+  async (
+    { name, address, email, phone, image }: CreateHotelParams,
+    thunkAPI
+  ) => {
+    try {
+    } catch (error) {}
+  }
+);
 
 export const setCleanCurrentHotel = createAsyncThunk(
   AsyncThunkTypes.CREAN_CURRENT_HOTEL,
