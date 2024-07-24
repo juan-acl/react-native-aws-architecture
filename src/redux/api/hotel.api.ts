@@ -4,13 +4,11 @@ import { setIsLoading } from "@/src/redux/slices/loader.slice";
 import { HOTELS_API } from "@/src/redux/nameApis";
 
 interface Hotel {
-  id: number;
-  active: boolean;
-  updateAt: number;
-  createAt: number;
+  email: string;
   name: string;
   address: string;
   phone: string;
+  image: string;
 }
 
 export const hotelsApi = createApi({
@@ -31,10 +29,11 @@ export const hotelsApi = createApi({
         }
       },
     }),
-    createHotel: builder.query({
+    createHotel: builder.mutation({
       query: (body: Hotel) => ({
         url: "/hotels/createHotel",
         method: "POST",
+        body,
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
@@ -48,4 +47,4 @@ export const hotelsApi = createApi({
   }),
 });
 
-export const { useFetchHotelsQuery, useCreateHotelQuery } = hotelsApi;
+export const { useFetchHotelsQuery } = hotelsApi;

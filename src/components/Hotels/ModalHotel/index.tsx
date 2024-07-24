@@ -71,6 +71,8 @@ export const ModalHotel = () => {
     onChange({ value, name });
   };
 
+  const saveHotel = () => {};
+
   return (
     <>
       <Stack

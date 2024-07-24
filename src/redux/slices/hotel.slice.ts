@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HOTEL_SLICE } from "@/src/redux/nameSlices";
 import { HotelState, Hotel } from "@/src/types/hotel";
 import { AsyncThunkTypes, CreateHotelParams } from "@/src/types/hotel";
-import { useCreateHotelQuery } from "../api/hotel.api";
+import { hotelsApi } from "../api/hotel.api";
 
 const initialState: HotelState = {
   hotels: [],
@@ -55,6 +55,13 @@ export const createHotel = createAsyncThunk(
     thunkAPI
   ) => {
     try {
+      hotelsApi.endpoints.createHotel.initiate({
+        name,
+        address,
+        email,
+        phone,
+        image,
+      });
     } catch (error) {}
   }
 );
