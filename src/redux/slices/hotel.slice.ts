@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { HOTEL_SLICE } from "@/src/redux/nameSlices";
 import { HotelState, Hotel } from "@/src/types/hotel";
 import { AsyncThunkTypes, CreateHotelParams } from "@/src/types/hotel";
@@ -17,9 +22,6 @@ const hotelSlice = createSlice({
   name: HOTEL_SLICE,
   initialState,
   reducers: {
-    setHotels(state, action: PayloadAction<{ hotels: Hotel[] }>) {
-      state.hotels = action.payload.hotels;
-    },
     setHotelInformationBottomSheet(state, action: PayloadAction<Hotel>) {
       state.currentHotel = action.payload;
     },
@@ -45,6 +47,14 @@ const hotelSlice = createSlice({
     setFilterText(state, action: PayloadAction<{ filterText: string }>) {
       state.filterText = action.payload.filterText;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      hotelsApi.endpoints.fetchHotels.matchFulfilled,
+      (state, action) => {
+        state.hotels = action.payload.hotels;
+      }
+    );
   },
 });
 
@@ -92,11 +102,11 @@ export const setCleanCurrentHotel = createAsyncThunk(
 );
 
 export const {
-  setHotels,
   setFilterText,
   setHotelInformationBottomSheet,
   setHeaderShow,
   setCurrentTabNavigation,
   setShowModalHotel,
 } = hotelSlice.actions;
+export const setHotels = createAction<{ hotels: Hotel[] }>("setHotels");
 export const hotelReducer = hotelSlice.reducer;
