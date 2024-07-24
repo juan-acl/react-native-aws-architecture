@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Button, Modal, Stack, FormControl } from "native-base";
 import { useAppDispatch, useAppSelector } from "@/src/redux/configureStore";
 import { setShowModalHotel, createHotel } from "@/src/redux/slices/hotel.slice";
@@ -47,8 +47,12 @@ export const ModalHotel = () => {
     },
   };
 
-  const { state, onChange, clearState, isValidaFormState } =
-    useForm(initialState);
+  const {
+    state,
+    onChange,
+    clearState: clearStateModalHotel,
+    isValidaFormState,
+  } = useForm(initialState);
   const showModal = useAppSelector(
     (state) => state.reducer.hotels.showModalHotel
   );
@@ -56,8 +60,13 @@ export const ModalHotel = () => {
 
   const onCloseModal = () => {
     dispatch(setShowModalHotel({ showModalHotel: false }));
-    clearState(Object.keys(initialState));
   };
+
+  useEffect(() => {
+    return () => {
+      clearStateModalHotel(Object.keys(initialState));
+    };
+  }, [showModal]);
 
   useFocusEffect(
     useCallback(() => {
@@ -72,9 +81,10 @@ export const ModalHotel = () => {
     onChange({ value, name });
   };
 
-  const saveHotel = () => {
+  const saveHotel = async () => {
     const { name, address, email, phone, image } = state;
-    dispatch(
+    dispatch(setShowModalHotel({ showModalHotel: false }));
+    await dispatch(
       createHotel({
         name: name.value,
         address: address.value,

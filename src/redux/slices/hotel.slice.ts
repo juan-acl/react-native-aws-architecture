@@ -8,6 +8,8 @@ import { HOTEL_SLICE } from "@/src/redux/nameSlices";
 import { HotelState, Hotel } from "@/src/types/hotel";
 import { AsyncThunkTypes, CreateHotelParams } from "@/src/types/hotel";
 import { hotelsApi } from "../api/hotel.api";
+import { DialogAlert } from "./dialogAlert.slice";
+import { ALERT_TYPE } from "react-native-alert-notification";
 
 const initialState: HotelState = {
   hotels: [],
@@ -76,7 +78,7 @@ export const createHotel = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const response = await thunkAPI.dispatch(
+      await thunkAPI.dispatch(
         hotelsApi.endpoints.createHotel.initiate({
           name,
           address,
@@ -85,9 +87,23 @@ export const createHotel = createAsyncThunk(
           image,
         })
       );
-      console.log("respuesta de la creacion del hotel", { response });
+      thunkAPI.dispatch(
+        DialogAlert({
+          typeAlert: ALERT_TYPE.SUCCESS,
+          title: "Proceso Exitoso",
+          message: "El hotel se ha creado con éxito",
+          textButton: "Ok",
+        })
+      );
     } catch (error) {
-      console.log("slice en el createHotel", error);
+      thunkAPI.dispatch(
+        DialogAlert({
+          typeAlert: ALERT_TYPE.DANGER,
+          title: "Hubo un error",
+          message: "Error al crear el hotel",
+          textButton: "Cerrar",
+        })
+      );
       return thunkAPI.rejectWithValue(error);
     }
   }
