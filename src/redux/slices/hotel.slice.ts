@@ -10,6 +10,7 @@ import { AsyncThunkTypes, CreateHotelParams } from "@/src/types/hotel";
 import { hotelsApi } from "../api/hotel.api";
 import { DialogAlert } from "./dialogAlert.slice";
 import { ALERT_TYPE } from "react-native-alert-notification";
+import { v4 } from "uuid";
 
 const initialState: HotelState = {
   hotels: [],
@@ -57,6 +58,13 @@ const hotelSlice = createSlice({
         state.hotels = action.payload.hotels;
       }
     );
+    builder.addMatcher(
+      hotelsApi.endpoints.createHotel.matchFulfilled,
+      (state, action) => {
+        console.log("action.payload", action.payload);
+        // state.hotels.push(action.payload.hotel);
+      }
+    );
   },
 });
 
@@ -80,6 +88,7 @@ export const createHotel = createAsyncThunk(
     try {
       await thunkAPI.dispatch(
         hotelsApi.endpoints.createHotel.initiate({
+          idHotel: v4(),
           name,
           address,
           email,

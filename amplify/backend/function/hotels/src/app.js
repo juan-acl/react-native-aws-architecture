@@ -42,7 +42,14 @@ app.use(function (req, res, next) {
 
 app.post(path + "/createHotel", async (req, res) => {
   try {
-    const propertiesRequired = ["name", "address", "phone", "email", "image"];
+    const propertiesRequired = [
+      "name",
+      "address",
+      "phone",
+      "email",
+      "image",
+      "idHotel",
+    ];
     const properties = Object.keys(req.body);
     const isValid = propertiesRequired.every((property) =>
       properties.includes(property)
@@ -54,7 +61,7 @@ app.post(path + "/createHotel", async (req, res) => {
       });
     }
     const hotelObjetc = {
-      PK: v4(),
+      PK: req.body.idHotel,
       SK: skPrefixHotel,
       name: req.body.name,
       address: req.body.address,
@@ -71,6 +78,7 @@ app.post(path + "/createHotel", async (req, res) => {
     return res.json({
       code: 200,
       message: "Item hotel inserted successfully.",
+      newHotel: hotelObjetc,
     });
   } catch (error) {
     return res.json({ code: 500, message: error.message });
@@ -113,7 +121,7 @@ app.post(path + "/getHotelsFavoriteByUser", async (req, res) => {
       return res.json({ code: 400, message: "User ID is required." });
     const params = {
       TableName: tableName,
-      IndexName: "hotelFavoriteIndex",
+      IndexName: "hotelNameIndex",
       KeyConditionExpression: "SK = :skPrefix",
       ExpressionAttributeValues: {
         ":skPrefix": `USER#${userId}`,

@@ -4,6 +4,7 @@ import { setIsLoading } from "@/src/redux/slices/loader.slice";
 import { HOTELS_API } from "@/src/redux/nameApis";
 
 interface Hotel {
+  idHotel: string;
   email: string;
   name: string;
   address: string;
