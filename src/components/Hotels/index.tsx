@@ -5,7 +5,7 @@ import { Card } from "./Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { RootState } from "@/src/redux/configureStore";
+import { RootState, useAppSelector } from "@/src/redux/configureStore";
 import {
   setCurrentTabNavigation,
   setFilterText,
@@ -29,6 +29,7 @@ const Hotels = () => {
   const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
   const dispatch = useDispatch();
   const [hotels, setHotels] = useState<Hotel[]>([]);
+  const hotelsRedux = useAppSelector((state) => state.reducer.hotels.hotels);
 
   const onChangeText = () => {
     if (!filterText) {

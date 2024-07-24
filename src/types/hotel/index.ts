@@ -11,6 +11,7 @@ export interface CreateHotelParams {
 export const enum AsyncThunkTypes {
   CREAN_CURRENT_HOTEL = "hotel/creanCurrentHotel",
   CREATE_HOTEL = "hotel/creanCurrentHotel",
+  GET_HOTELS = "hotel/getHotels",
 }
 
 export interface CreateHotelPropsChange {

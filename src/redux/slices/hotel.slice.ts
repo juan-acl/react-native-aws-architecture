@@ -48,6 +48,17 @@ const hotelSlice = createSlice({
   },
 });
 
+export const getHotels = createAsyncThunk(
+  AsyncThunkTypes.GET_HOTELS,
+  async (_, thunkAPI) => {
+    try {
+      await thunkAPI.dispatch(hotelsApi.endpoints.fetchHotels.initiate({}));
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const createHotel = createAsyncThunk(
   AsyncThunkTypes.CREATE_HOTEL,
   async (
@@ -55,14 +66,18 @@ export const createHotel = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      hotelsApi.endpoints.createHotel.initiate({
-        name,
-        address,
-        email,
-        phone,
-        image,
-      });
-    } catch (error) {}
+      await thunkAPI.dispatch(
+        hotelsApi.endpoints.createHotel.initiate({
+          name,
+          address,
+          email,
+          phone,
+          image,
+        })
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
 );
 

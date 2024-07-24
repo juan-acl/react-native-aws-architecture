@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_API } from "@/src/constants";
 import { setIsLoading } from "@/src/redux/slices/loader.slice";
 import { HOTELS_API } from "@/src/redux/nameApis";
+import { setHotels } from "@/src/redux/slices/hotel.slice";
 
 interface Hotel {
   email: string;
