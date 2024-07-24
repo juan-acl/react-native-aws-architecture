@@ -106,6 +106,37 @@ app.post(path + "/getHotels", async function (req, res) {
   }
 });
 
+app.post(path + "/getHotelsFavoriteByUser", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    if (!userId)
+      return res.json({ code: 400, message: "User ID is required." });
+    const params = {
+      TableName: tableName,
+      IndexName: "hotelFavoriteIndex",
+      KeyConditionExpression: "SK = :skPrefix",
+      ExpressionAttributeValues: {
+        ":skPrefix": `USER#${userId}`,
+      },
+      ProjectionExpression: "PK, #name, address, phone, email, image",
+      ExpressionAttributeNames: {
+        "#name": "name",
+      },
+    };
+    const command = new QueryCommand(params);
+    const response = await ddbDocClient.send(command);
+    const dataHotelMapping = HotelDTO(response.Items);
+    return res.json({
+      code: 200,
+      message: "Hotel items loaded successfully.",
+      count: response.Count,
+      hotels: dataHotelMapping,
+    });
+  } catch (error) {
+    return res.json({ code: 500, message: error });
+  }
+});
+
 app.listen(3000, function () {
   console.log("App started");
 });
