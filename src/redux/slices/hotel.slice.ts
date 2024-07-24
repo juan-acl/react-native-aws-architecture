@@ -48,7 +48,7 @@ const hotelSlice = createSlice({
   },
 });
 
-export const getHotels = createAsyncThunk(
+export const getHotelsApp = createAsyncThunk(
   AsyncThunkTypes.GET_HOTELS,
   async (_, thunkAPI) => {
     try {

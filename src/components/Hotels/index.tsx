@@ -5,7 +5,11 @@ import { Card } from "./Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { RootState, useAppSelector } from "@/src/redux/configureStore";
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from "@/src/redux/configureStore";
 import {
   setCurrentTabNavigation,
   setFilterText,
@@ -16,7 +20,7 @@ import { ActionSheetHotel } from "./BottomSheet";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
+import { setHeaderShow, getHotelsApp } from "@/src/redux/slices/hotel.slice";
 import { ModalHotel } from "./ModalHotel";
 import { styles } from "./styles";
 
@@ -26,17 +30,17 @@ const Hotels = () => {
   const filterText = useSelector(
     (state: RootState) => state.reducer.hotels.filterText
   );
-  const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
-  const dispatch = useDispatch();
+  // const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
+  const dispatch = useAppDispatch();
   const [hotels, setHotels] = useState<Hotel[]>([]);
-  const hotelsRedux = useAppSelector((state) => state.reducer.hotels.hotels);
+  const data = useAppSelector((state) => state.reducer.hotels.hotels);
 
   const onChangeText = () => {
     if (!filterText) {
-      setHotels(data?.hotels);
+      setHotels(data);
       return;
     }
-    const filteredHotels: Hotel[] = data?.hotels?.filter((hotel: HotelMap) => {
+    const filteredHotels: Hotel[] = data?.filter((hotel: HotelMap) => {
       let arrayPropertiesForFilter = ["name", "address", "phone"];
       let filterHotelsResult = arrayPropertiesForFilter.some(
         (property: string) => {
@@ -52,12 +56,13 @@ const Hotels = () => {
 
   useFocusEffect(
     useCallback(() => {
-      setHotels(data?.hotels);
+      setHotels(data);
     }, [data])
   );
 
   useFocusEffect(
     useCallback(() => {
+      dispatch(getHotelsApp());
       onChangeText();
     }, [filterText])
   );

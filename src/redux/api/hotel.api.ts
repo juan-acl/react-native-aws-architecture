@@ -23,14 +23,15 @@ export const hotelsApi = createApi({
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
+          const { data } = await queryFulfilled;
           dispatch(setIsLoading({ isLoading: true }));
-          await queryFulfilled;
+          dispatch(setHotels({ hotels: data.hotels }));
         } finally {
           dispatch(setIsLoading({ isLoading: false }));
         }
       },
     }),
-    createHotel: builder.mutation({
+    createHotel: builder.query({
       query: (body: Hotel) => ({
         url: "/hotels/createHotel",
         method: "POST",
