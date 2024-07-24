@@ -22,7 +22,7 @@ import { setHeaderShow, getHotelsApp } from "@/src/redux/slices/hotel.slice";
 import { ModalHotel } from "./ModalHotel";
 import { styles } from "./styles";
 
-const Hotels = () => {
+export const Hotels = () => {
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const filterText = useAppSelector(
@@ -117,4 +117,3 @@ const Hotels = () => {
     </>
   );
 };
-export default Hotels;

@@ -66,7 +66,7 @@ export const createHotel = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      await thunkAPI.dispatch(
+      const response = await thunkAPI.dispatch(
         hotelsApi.endpoints.createHotel.initiate({
           name,
           address,
@@ -75,7 +75,9 @@ export const createHotel = createAsyncThunk(
           image,
         })
       );
+      console.log("respuesta de la creacion del hotel", { response });
     } catch (error) {
+      console.log("slice en el createHotel", error);
       return thunkAPI.rejectWithValue(error);
     }
   }

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { Button, Modal, Stack, FormControl } from "native-base";
 import { useAppDispatch, useAppSelector } from "@/src/redux/configureStore";
-import { setShowModalHotel } from "@/src/redux/slices/hotel.slice";
+import { setShowModalHotel, createHotel } from "@/src/redux/slices/hotel.slice";
 import { useFocusEffect } from "@react-navigation/native";
 import { Input } from "@/src/components/Input";
 import { FormState, useForm } from "@/src/hooks/useForm";
@@ -47,7 +47,8 @@ export const ModalHotel = () => {
     },
   };
 
-  const { state, onChange, clearState } = useForm(initialState);
+  const { state, onChange, clearState, isValidaFormState } =
+    useForm(initialState);
   const showModal = useAppSelector(
     (state) => state.reducer.hotels.showModalHotel
   );
@@ -71,7 +72,18 @@ export const ModalHotel = () => {
     onChange({ value, name });
   };
 
-  const saveHotel = () => {};
+  const saveHotel = () => {
+    const { name, address, email, phone, image } = state;
+    dispatch(
+      createHotel({
+        name: name.value,
+        address: address.value,
+        email: email.value,
+        phone: phone.value,
+        image: image.value,
+      })
+    );
+  };
 
   return (
     <>
@@ -154,7 +166,13 @@ export const ModalHotel = () => {
               >
                 Cancel
               </Button>
-              <Button style={styles.button} onPress={() => {}}>
+              <Button
+                disabled={!isValidaFormState}
+                style={
+                  !isValidaFormState ? styles.button_disabled : styles.button
+                }
+                onPress={saveHotel}
+              >
                 Save
               </Button>
             </Button.Group>

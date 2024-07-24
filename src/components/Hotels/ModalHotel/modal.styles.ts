@@ -1,6 +1,14 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  button_disabled: {
+    padding: 20,
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: "#ccc",
+  },
   modalContent: {
     borderRadius: 10,
     overflow: "hidden",

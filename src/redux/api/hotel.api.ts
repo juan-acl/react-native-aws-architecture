@@ -41,6 +41,8 @@ export const hotelsApi = createApi({
         try {
           dispatch(setIsLoading({ isLoading: true }));
           await queryFulfilled;
+        } catch (error) {
+          console.log("error in create hotrel" + error);
         } finally {
           dispatch(setIsLoading({ isLoading: false }));
         }
