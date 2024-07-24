@@ -1,8 +1,6 @@
 import { useRef } from "react";
 import { Text, View, FlatList } from "react-native";
-import { useFetchHotelsQuery } from "@/src/redux/api/hotel.api";
 import { Card } from "./Card";
-import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import {
@@ -15,7 +13,7 @@ import {
   setFilterText,
 } from "@/src/redux/slices/hotel.slice";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { FetchHotelsQuery, HotelMap, Hotel } from "types/hotel";
+import { HotelMap, Hotel } from "types/hotel";
 import { ActionSheetHotel } from "./BottomSheet";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
@@ -27,7 +25,7 @@ import { styles } from "./styles";
 const Hotels = () => {
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const filterText = useSelector(
+  const filterText = useAppSelector(
     (state: RootState) => state.reducer.hotels.filterText
   );
   // const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
