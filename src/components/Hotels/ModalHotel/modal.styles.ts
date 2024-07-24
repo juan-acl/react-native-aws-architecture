@@ -4,9 +4,7 @@ export const styles = StyleSheet.create({
   button_disabled: {
     padding: 20,
     borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    width: 100,
     backgroundColor: "#ccc",
   },
   modalContent: {
@@ -42,6 +40,6 @@ export const styles = StyleSheet.create({
   button: {
     backgroundColor: "#543313",
     borderRadius: 10,
-    width: "40%",
+    width: 100,
   },
 });

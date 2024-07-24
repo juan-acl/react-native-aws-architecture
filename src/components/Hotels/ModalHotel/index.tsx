@@ -139,6 +139,7 @@ export const ModalHotel = () => {
               <Input
                 placeholder="Correo"
                 value={state.email.value}
+                autocapitalize="none"
                 changeValue={changeValue}
                 name={state.email.name}
                 hasError={state.email.hasError}
