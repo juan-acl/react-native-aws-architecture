@@ -7,9 +7,14 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "auth": {
+    "userPoolGroups": {
+      "userPoolHoteleriaGroupRole": "string"
+    },
     "usersAuthHoteleria": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
+      "IdentityPoolId": "string",
+      "IdentityPoolName": "string",
       "UserPoolArn": "string",
       "UserPoolId": "string",
       "UserPoolName": "string"
@@ -46,6 +51,10 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
+    "FilesHoteleriaApp": {
+      "BucketName": "string",
+      "Region": "string"
+    },
     "hoteleria": {
       "Arn": "string",
       "Name": "string",
