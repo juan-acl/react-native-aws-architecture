@@ -41,6 +41,14 @@
           ],
           "category": "function",
           "resourceName": "files"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "email"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -92,6 +100,25 @@
     }
   },
   "function": {
+    "email": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "hoteleria"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "files": {
       "build": true,
       "dependsOn": [
@@ -189,6 +216,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_email_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "email"
+        }
+      ]
+    },
+    "AMPLIFY_function_email_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "email"
+        }
+      ]
+    },
     "AMPLIFY_function_files_deploymentBucketName": {
       "usedBy": [
         {
