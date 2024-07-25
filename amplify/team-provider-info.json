@@ -34,7 +34,8 @@
       "storage": {
         "hotels": {},
         "reservations": {},
-        "hoteleria": {}
+        "hoteleria": {},
+        "FilesHoteleriaApp": {}
       },
       "api": {
         "hoteleria": {}

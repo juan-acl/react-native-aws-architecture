@@ -24,7 +24,6 @@ export const Profile: React.FC = () => {
   const userProfile: UserInformation | null = useSelector(
     (state: RootState) => state.reducer.auth.userInformation
   );
-  console.log("vakidandooooo", userProfile);
   const [phone_number] = useState(userProfile?.phone_number?.split("+502"));
 
   const logOut = async () => {
