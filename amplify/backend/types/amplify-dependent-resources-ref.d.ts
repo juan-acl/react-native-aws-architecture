@@ -21,6 +21,13 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "files": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "hotels": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

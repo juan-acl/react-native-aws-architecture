@@ -33,6 +33,14 @@
           ],
           "category": "function",
           "resourceName": "room"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "files"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -84,6 +92,25 @@
     }
   },
   "function": {
+    "files": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "hoteleria"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "hotels": {
       "build": true,
       "dependsOn": [
@@ -162,6 +189,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_files_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "files"
+        }
+      ]
+    },
+    "AMPLIFY_function_files_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "files"
+        }
+      ]
+    },
     "AMPLIFY_function_hotels_deploymentBucketName": {
       "usedBy": [
         {

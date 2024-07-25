@@ -28,6 +28,13 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/files": {
+      "name": "/files",
+      "lambdaFunction": "files",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
