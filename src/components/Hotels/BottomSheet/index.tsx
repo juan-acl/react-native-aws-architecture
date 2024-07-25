@@ -10,7 +10,7 @@ import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
 import { PropsBottomSheetHoteles } from "@/src/types/hotel";
 import hotelBottomSheet from "@/assets/images/hotelBottomSheet.jpeg";
-import { Header } from "./header";
+import { Header } from "./share-favorite";
 import { Room } from "../Room";
 import { styles } from "./bottomSheet.styles";
 
@@ -100,7 +100,17 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
               {hotelInformation?.name}
             </Text>
             <Text style={styles.nameParamsHotel}>Habitaciones</Text>
-            <Room />
+            <View
+              style={{
+                flex: 1,
+                height: "50%",
+                width: "70%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Room />
+            </View>
           </View>
         </BottomSheetView>
       </BottomSheet>

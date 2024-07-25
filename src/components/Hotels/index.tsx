@@ -28,7 +28,7 @@ export const Hotels = () => {
   const filterText = useAppSelector(
     (state: RootState) => state.reducer.hotels.filterText
   );
-  // const { data } = useFetchHotelsQuery<FetchHotelsQuery>("");
+
   const dispatch = useAppDispatch();
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const data = useAppSelector((state) => state.reducer.hotels.hotels);

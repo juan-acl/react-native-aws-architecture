@@ -123,13 +123,13 @@ app.post(path + "/getHotelsFavoriteByUser", async (req, res) => {
       TableName: tableName,
       IndexName: "hotelNameIndex",
       KeyConditionExpression: "SK = :skPrefix",
+      ExpressionAttributeNames: {
+        "#name": "name",
+      },
       ExpressionAttributeValues: {
         ":skPrefix": `USER#${userId}`,
       },
       ProjectionExpression: "PK, #name, address, phone, email, image",
-      ExpressionAttributeNames: {
-        "#name": "name",
-      },
     };
     const command = new QueryCommand(params);
     const response = await ddbDocClient.send(command);
@@ -139,6 +139,38 @@ app.post(path + "/getHotelsFavoriteByUser", async (req, res) => {
       message: "Hotel items loaded successfully.",
       count: response.Count,
       hotels: dataHotelMapping,
+    });
+  } catch (error) {
+    return res.json({ code: 500, message: error });
+  }
+});
+
+app.post(path + "/addHotelFavoriteByUser", async (req, res) => {
+  try {
+    const propertiesRequired = ["userId", "hotelId"];
+    const properties = Object.keys(req.body);
+    const isValid = propertiesRequired.every((property) =>
+      properties.includes(property)
+    );
+    if (!isValid) {
+      return res.json({
+        code: 400,
+        message: `Properties required: ${propertiesRequired.join(", ")}`,
+      });
+    }
+    const { userId, hotelId } = req.body;
+    const params = {
+      TableName: tableName,
+      Item: {
+        PK: hotelId,
+        SK: `FAVORITE#USER#HOTEL${userId}`,
+      },
+    };
+    const command = new PutCommand(params);
+    await ddbDocClient.send(command);
+    return res.json({
+      code: 200,
+      message: "Hotel added to favorites successfully.",
     });
   } catch (error) {
     return res.json({ code: 500, message: error });
