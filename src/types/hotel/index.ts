@@ -66,6 +66,19 @@ export interface HotelState {
   isHotelFavorite: boolean;
 }
 
+export interface Create_Hotel {
+  idHotel: string;
+  email: string;
+  name: string;
+  address: string;
+  phone: string;
+  image: string;
+}
+export interface HotelFavorite {
+  idHotel: string;
+  idUser: string;
+}
+
 export interface Hotel {
   PK: string;
   SK: string;
