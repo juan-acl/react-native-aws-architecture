@@ -18,6 +18,7 @@ const initialState: HotelState = {
   currentHotel: null,
   currentScreenTabNavigation: "",
   showModalHotel: false,
+  isHotelFavorite: false,
 };
 
 const hotelSlice = createSlice({
@@ -49,6 +50,12 @@ const hotelSlice = createSlice({
     setFilterText(state, action: PayloadAction<{ filterText: string }>) {
       state.filterText = action.payload.filterText;
     },
+    setIsHotelFavoriteByUser(
+      state,
+      action: PayloadAction<{ isFavorite: boolean }>
+    ) {
+      state.isHotelFavorite = action.payload.isFavorite;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -77,16 +84,36 @@ export const getHotelsApp = createAsyncThunk(
   }
 );
 
+export const getIsFavoriteHotelByUser = createAsyncThunk(
+  AsyncThunkTypes.ADD_HOTEL_TO_FAVORITE,
+  async ({ idHotel, idUser }: ParamsAddHotelToFavorite, thunkAPI) => {
+    try {
+      if (!idHotel || !idUser) return;
+      const response = await thunkAPI.dispatch(
+        hotelsApi.endpoints.getIsHotelFavoriteByUser.initiate({
+          idHotel,
+          idUser,
+        })
+      );
+      thunkAPI.dispatch(
+        hotelSlice.actions.setIsHotelFavoriteByUser({
+          isFavorite: response.data.isFavorite,
+        })
+      );
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const addHotelToFavorite = createAsyncThunk(
   AsyncThunkTypes.ADD_HOTEL_TO_FAVORITE,
   async ({ idHotel, idUser }: ParamsAddHotelToFavorite, thunkAPI) => {
     try {
-      console.log("idHotel", idHotel, "idUser", idUser);
       if (!idHotel || !idUser) return;
       thunkAPI.dispatch(
         hotelsApi.endpoints.addToHotelFavorite.initiate({ idHotel, idUser })
       );
-      console.log("Hotel added to favorite");
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

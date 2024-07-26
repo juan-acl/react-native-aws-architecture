@@ -62,6 +62,7 @@ export interface HotelState {
   currentHotel: Hotel | null;
   currentScreenTabNavigation: string;
   showModalHotel: boolean;
+  isHotelFavorite: boolean;
 }
 
 export interface Hotel {

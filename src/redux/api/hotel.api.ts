@@ -16,6 +16,20 @@ export const hotelsApi = createApi({
   reducerPath: HOTELS_API,
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL_API }),
   endpoints: (builder) => ({
+    getIsHotelFavoriteByUser: builder.query({
+      query: ({ idHotel, idUser }: { idHotel: string; idUser: string }) => ({
+        url: "/hotels/getIsFavoriteHotelByUser",
+        method: "POST",
+        body: { idHotel, idUser },
+      }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          console.log("error in get hotel favorite" + JSON.stringify(error));
+        }
+      },
+    }),
     addToHotelFavorite: builder.query({
       query: ({ idHotel, idUser }: { idHotel: string; idUser: string }) => ({
         url: "/hotels/addHotelFavoriteByUser",

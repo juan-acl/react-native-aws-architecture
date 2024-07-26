@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, ImageBackground, Pressable } from "react-native";
 import hotel_icon from "@/assets/images/hotels-home.png";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "@/src/redux/configureStore";
+import { useAppDispatch, useAppSelector } from "@/src/redux/configureStore";
 import { DialogAlert } from "@/src/redux/slices/dialogAlert.slice";
 import { ALERT_TYPE } from "react-native-alert-notification";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -10,7 +9,10 @@ import { RootStackParamList } from "@/src/navigator/types/navigationStack";
 import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
 import { styles } from "./card.styles";
 import { Hotel } from "@/src/types/hotel";
-import { setHotelInformationBottomSheet } from "@/src/redux/slices/hotel.slice";
+import {
+  setHotelInformationBottomSheet,
+  getIsFavoriteHotelByUser,
+} from "@/src/redux/slices/hotel.slice";
 
 interface CardProps {
   hotelInformation: Hotel;
@@ -21,10 +23,11 @@ export const Card: React.FC<CardProps> = ({
   showActionSheet,
   hotelInformation,
 }: CardProps) => {
-  const isSignedIn = useSelector(
-    (state: RootState) => state.reducer.auth.isSignedIn
+  const isSignedIn = useAppSelector((state) => state.reducer.auth.isSignedIn);
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(
+    (state) => state.reducer.auth.userInformation
   );
-  const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const openActionSheet = () => {
@@ -45,6 +48,12 @@ export const Card: React.FC<CardProps> = ({
     }
     showActionSheet();
     dispatch(setHotelInformationBottomSheet(hotelInformation));
+    dispatch(
+      getIsFavoriteHotelByUser({
+        idHotel: hotelInformation?.PK || "",
+        idUser: currentUser?.sub || "",
+      })
+    );
   };
 
   return (
