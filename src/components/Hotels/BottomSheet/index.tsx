@@ -11,7 +11,6 @@ import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
 import { PropsBottomSheetHoteles } from "@/src/types/hotel";
 import hotelBottomSheet from "@/assets/images/hotelBottomSheet.jpeg";
 import { Header } from "./share-favorite";
-import { Room } from "../Room";
 import { styles } from "./bottomSheet.styles";
 
 export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
@@ -20,7 +19,7 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   const dimensionScreen = Dimensions.get("window");
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
-  const hotelInformation = useSelector(
+  const currentHotelInformation = useSelector(
     (state: RootState) => state.reducer.hotels.currentHotel
   );
   const snapPoints = useMemo(() => [0.00000001, "50%", "100%"], []);
@@ -49,7 +48,7 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   };
 
   const addHotelToFavorite = () => {
-    console.log("Add hotel to favorite");
+    console.log("Add hotel to favorite", { currentHotelInformation });
   };
 
   const shareHotel = () => {
@@ -97,20 +96,9 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
           </View>
           <View style={styles.flexBottomSheet}>
             <Text style={styles.containerDetailsHotel}>
-              {hotelInformation?.name}
+              {currentHotelInformation?.name}
             </Text>
             <Text style={styles.nameParamsHotel}>Habitaciones</Text>
-            <View
-              style={{
-                flex: 1,
-                height: "50%",
-                width: "70%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Room />
-            </View>
           </View>
         </BottomSheetView>
       </BottomSheet>

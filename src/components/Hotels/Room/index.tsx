@@ -1,11 +1,23 @@
-import React from "react";
-import { View } from "react-native";
-import { CardRoom } from "./cardRoom";
+import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import { styles } from "./room.styles";
+import hotel from "@/assets/images/hotels-home.png";
+import { useAppSelector } from "@/src/redux/configureStore";
 
-export const Room = () => {
+export const CardRoom = () => {
+  const hotelInformation = useAppSelector(
+    (state) => state.reducer.hotels.currentHotel
+  );
+
   return (
-    <View style={{ flex: 1, width: "50%", height: "15%" }}>
-      <CardRoom />
+    <View style={styles.container}>
+      <View style={styles.backgroundImage}>
+        <ImageBackground source={hotel} style={StyleSheet.absoluteFill} />
+      </View>
+      <Text style={styles.headtText}>Nombre del la habitacion</Text>
+      <View style={styles.informationRoom}>
+        <Text style={styles.headtText}>{hotelInformation?.address}</Text>
+        <Text style={styles.headtText}>{hotelInformation?.phone}</Text>
+      </View>
     </View>
   );
 };
