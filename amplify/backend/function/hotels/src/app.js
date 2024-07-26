@@ -6,16 +6,16 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
-const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const {
   DynamoDBDocumentClient,
   PutCommand,
   QueryCommand,
+  GetCommand,
 } = require("@aws-sdk/lib-dynamodb");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const bodyParser = require("body-parser");
 const express = require("express");
-const { v4 } = require("uuid");
 const { HotelDTO } = require("./utils/dtoHotel");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
@@ -28,7 +28,7 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 
 const path = "/hotels";
 const skPrefixHotel = "HOTEL#";
-const skPrefixFavorite = "FAVORITE#";
+const skPrefixFavorite = "FAVORITE#HOTEL#";
 // declare a new express app
 const app = express();
 app.use(bodyParser.json());
@@ -115,31 +115,27 @@ app.post(path + "/getHotels", async function (req, res) {
   }
 });
 
-app.post(path + "/getHotelsFavoriteByUser", async (req, res) => {
+app.post(path + "/getIsFavoriteHotelByUser", async (req, res) => {
   try {
-    const { userId } = req.body;
-    if (!userId)
-      return res.json({ code: 400, message: "User ID is required." });
+    const { idUser, idHotel } = req.body;
+    if (!idUser || !idHotel) {
+      return res.json({ code: 400, message: "IdUser, IdHotel are required." });
+    }
+
     const params = {
       TableName: tableName,
-      IndexName: "hotelNameIndex",
-      KeyConditionExpression: "SK = :skPrefix",
-      ExpressionAttributeNames: {
-        "#name": "name",
+      Key: {
+        PK: idHotel,
+        SK: skPrefixFavorite + idUser,
       },
-      ExpressionAttributeValues: {
-        ":skPrefix": `USER#${userId}`,
-      },
-      ProjectionExpression: "PK, #name, address, phone, email, image",
     };
-    const command = new QueryCommand(params);
+
+    const command = new GetCommand(params);
     const response = await ddbDocClient.send(command);
-    const dataHotelMapping = HotelDTO(response.Items);
     return res.json({
       code: 200,
       message: "Hotel items loaded successfully.",
-      count: response.Count,
-      hotels: dataHotelMapping,
+      isFavorite: response.Item ? true : false,
     });
   } catch (error) {
     return res.json({ code: 500, message: error });
@@ -163,8 +159,8 @@ app.post(path + "/addHotelFavoriteByUser", async (req, res) => {
     const params = {
       TableName: tableName,
       Item: {
-        PK: idUser,
-        SK: skPrefixFavorite + idHotel,
+        PK: idHotel,
+        SK: skPrefixFavorite + idUser,
       },
     };
     const command = new PutCommand(params);

@@ -81,6 +81,7 @@ export const addHotelToFavorite = createAsyncThunk(
   AsyncThunkTypes.ADD_HOTEL_TO_FAVORITE,
   async ({ idHotel, idUser }: ParamsAddHotelToFavorite, thunkAPI) => {
     try {
+      console.log("idHotel", idHotel, "idUser", idUser);
       if (!idHotel || !idUser) return;
       thunkAPI.dispatch(
         hotelsApi.endpoints.addToHotelFavorite.initiate({ idHotel, idUser })
