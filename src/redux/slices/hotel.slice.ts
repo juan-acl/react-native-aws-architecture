@@ -108,11 +108,33 @@ export const getIsFavoriteHotelByUser = createAsyncThunk(
 
 export const addHotelToFavorite = createAsyncThunk(
   AsyncThunkTypes.ADD_HOTEL_TO_FAVORITE,
-  async ({ idHotel, idUser }: ParamsAddHotelToFavorite, thunkAPI) => {
+  async (
+    { idHotel, idUser, isFavoriteHotel }: ParamsAddHotelToFavorite,
+    thunkAPI
+  ) => {
     try {
       if (!idHotel || !idUser) return;
+      if (!isFavoriteHotel) {
+        await thunkAPI.dispatch(
+          hotelsApi.endpoints.removeFromHotelFavorite.initiate({
+            idHotel,
+            idUser,
+          })
+        );
+        thunkAPI.dispatch(
+          hotelSlice.actions.setIsHotelFavoriteByUser({
+            isFavorite: false,
+          })
+        );
+        return;
+      }
       thunkAPI.dispatch(
         hotelsApi.endpoints.addToHotelFavorite.initiate({ idHotel, idUser })
+      );
+      thunkAPI.dispatch(
+        hotelSlice.actions.setIsHotelFavoriteByUser({
+          isFavorite: true,
+        })
       );
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

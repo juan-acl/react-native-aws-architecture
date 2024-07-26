@@ -12,6 +12,7 @@ const {
   PutCommand,
   QueryCommand,
   GetCommand,
+  DeleteCommand,
 } = require("@aws-sdk/lib-dynamodb");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const bodyParser = require("body-parser");
@@ -134,8 +135,34 @@ app.post(path + "/getIsFavoriteHotelByUser", async (req, res) => {
     const response = await ddbDocClient.send(command);
     return res.json({
       code: 200,
-      message: "Hotel items loaded successfully.",
+      message: "Hotel is favorite by user.",
       isFavorite: response.Item ? true : false,
+    });
+  } catch (error) {
+    return res.json({ code: 500, message: error });
+  }
+});
+
+app.post(path + "/removeHotelFavoriteByUser", async (req, res) => {
+  try {
+    const { idUser, idHotel } = req.body;
+    if (!idUser || !idHotel) {
+      return res.json({ code: 400, message: "IdUser, IdHotel are required." });
+    }
+
+    const params = {
+      TableName: tableName,
+      Key: {
+        PK: idHotel,
+        SK: skPrefixFavorite + idUser,
+      },
+    };
+
+    const command = new DeleteCommand(params);
+    await ddbDocClient.send(command);
+    return res.json({
+      code: 200,
+      message: "Hotel removed from favorites successfully.",
     });
   } catch (error) {
     return res.json({ code: 500, message: error });

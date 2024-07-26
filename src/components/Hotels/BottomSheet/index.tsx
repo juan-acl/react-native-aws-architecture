@@ -27,6 +27,9 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   const currentUser = useAppSelector(
     (state) => state.reducer.auth.userInformation
   );
+  const isFavoriteHotel = useAppSelector(
+    (state) => state.reducer.hotels.isHotelFavorite
+  );
   const snapPoints = useMemo(() => [0.00000001, "50%", "100%"], []);
 
   /**
@@ -53,10 +56,12 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   };
 
   const addHotelToFavoriteForUser = () => {
+    console.log("Add hotel to favorite");
     dispatch(
       addHotelToFavorite({
         idHotel: currentHotelInformation?.PK || "",
         idUser: currentUser?.sub || "",
+        isFavoriteHotel,
       })
     );
   };

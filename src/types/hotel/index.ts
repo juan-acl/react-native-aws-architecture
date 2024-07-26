@@ -18,6 +18,7 @@ export const enum AsyncThunkTypes {
 export interface ParamsAddHotelToFavorite {
   idHotel: string;
   idUser: string;
+  isFavoriteHotel: boolean;
 }
 
 export interface CreateHotelPropsChange {
