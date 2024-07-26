@@ -2,22 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL_API } from "@/src/constants";
 import { setIsLoading } from "@/src/redux/slices/loader.slice";
 import { HOTELS_API } from "@/src/redux/nameApis";
+import { Create_Hotel, HotelFavorite } from "@/src/types/hotel";
 
 const CURRENT_PATH = "/hotels/";
-
-interface Hotel {
-  idHotel: string;
-  email: string;
-  name: string;
-  address: string;
-  phone: string;
-  image: string;
-}
-
-interface HotelFavorite {
-  idHotel: string;
-  idUser: string;
-}
 
 export const hotelsApi = createApi({
   reducerPath: HOTELS_API,
@@ -80,7 +67,7 @@ export const hotelsApi = createApi({
       },
     }),
     createHotel: builder.query({
-      query: (body: Hotel) => ({
+      query: (body: Create_Hotel) => ({
         url: "createHotel",
         method: "POST",
         body,

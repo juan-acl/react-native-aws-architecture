@@ -114,7 +114,7 @@ export const addHotelToFavorite = createAsyncThunk(
   ) => {
     try {
       if (!idHotel || !idUser) return;
-      if (!isFavoriteHotel) {
+      if (isFavoriteHotel) {
         await thunkAPI.dispatch(
           hotelsApi.endpoints.removeFromHotelFavorite.initiate({
             idHotel,
