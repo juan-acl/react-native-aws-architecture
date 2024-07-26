@@ -18,10 +18,17 @@ export const hotelsApi = createApi({
   endpoints: (builder) => ({
     addToHotelFavorite: builder.query({
       query: ({ idHotel, idUser }: { idHotel: string; idUser: string }) => ({
-        url: "/hotels/addHotelToFavorite",
+        url: "/hotels/addHotelFavoriteByUser",
         method: "POST",
         body: { idHotel, idUser },
       }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          console.log("error in add hotel to favorite" + JSON.stringify(error));
+        }
+      },
     }),
     fetchHotels: builder.query({
       query: () => ({

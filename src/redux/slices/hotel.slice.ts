@@ -85,6 +85,7 @@ export const addHotelToFavorite = createAsyncThunk(
       thunkAPI.dispatch(
         hotelsApi.endpoints.addToHotelFavorite.initiate({ idHotel, idUser })
       );
+      console.log("Hotel added to favorite");
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

@@ -53,7 +53,6 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   };
 
   const addHotelToFavoriteForUser = () => {
-    console.log("Add hotel to favorite", { currentHotelInformation });
     dispatch(
       addHotelToFavorite({
         idHotel: currentHotelInformation?.PK || "",
