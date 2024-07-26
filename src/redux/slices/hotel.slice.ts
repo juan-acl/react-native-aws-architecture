@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HOTEL_SLICE } from "@/src/redux/nameSlices";
 import { HotelState, Hotel } from "@/src/types/hotel";
-import { AsyncThunkTypes, CreateHotelParams } from "@/src/types/hotel";
+import {
+  AsyncThunkTypes,
+  CreateHotelParams,
+  ParamsAddHotelToFavorite,
+} from "@/src/types/hotel";
 import { hotelsApi } from "../api/hotel.api";
 import { DialogAlert } from "./dialogAlert.slice";
 import { ALERT_TYPE } from "react-native-alert-notification";
@@ -67,6 +71,20 @@ export const getHotelsApp = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await thunkAPI.dispatch(hotelsApi.endpoints.fetchHotels.initiate({}));
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const addHotelToFavorite = createAsyncThunk(
+  AsyncThunkTypes.ADD_HOTEL_TO_FAVORITE,
+  async ({ idHotel, idUser }: ParamsAddHotelToFavorite, thunkAPI) => {
+    try {
+      if (!idHotel || !idUser) return;
+      thunkAPI.dispatch(
+        hotelsApi.endpoints.addToHotelFavorite.initiate({ idHotel, idUser })
+      );
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

@@ -16,6 +16,13 @@ export const hotelsApi = createApi({
   reducerPath: HOTELS_API,
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL_API }),
   endpoints: (builder) => ({
+    addToHotelFavorite: builder.query({
+      query: ({ idHotel, idUser }: { idHotel: string; idUser: string }) => ({
+        url: "/hotels/addHotelToFavorite",
+        method: "POST",
+        body: { idHotel, idUser },
+      }),
+    }),
     fetchHotels: builder.query({
       query: () => ({
         url: "/hotels/getHotels",

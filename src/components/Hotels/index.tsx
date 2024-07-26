@@ -60,7 +60,6 @@ export const Hotels = () => {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(getHotelsApp());
       onChangeText();
     }, [filterText])
   );
@@ -70,6 +69,7 @@ export const Hotels = () => {
       dispatch(
         setCurrentTabNavigation({ currentScreenTabNavigation: "hotels" })
       );
+      dispatch(getHotelsApp());
       return () => {
         dispatch(setFilterText({ filterText: "" }));
         dispatch(setCurrentTabNavigation({ currentScreenTabNavigation: "" }));

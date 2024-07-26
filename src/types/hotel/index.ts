@@ -12,6 +12,12 @@ export const enum AsyncThunkTypes {
   CREAN_CURRENT_HOTEL = "hotel/creanCurrentHotel",
   CREATE_HOTEL = "hotel/creanCurrentHotel",
   GET_HOTELS = "hotel/getHotels",
+  ADD_HOTEL_TO_FAVORITE = "hotel/getHotels",
+}
+
+export interface ParamsAddHotelToFavorite {
+  idHotel: string;
+  idUser: string;
 }
 
 export interface CreateHotelPropsChange {
@@ -59,7 +65,7 @@ export interface HotelState {
 }
 
 export interface Hotel {
-  PK: number;
+  PK: string;
   SK: string;
   image: string;
   rating: number;

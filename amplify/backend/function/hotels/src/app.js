@@ -28,6 +28,7 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 
 const path = "/hotels";
 const skPrefixHotel = "HOTEL#";
+const skPrefixFavorite = "FAVORITE#";
 // declare a new express app
 const app = express();
 app.use(bodyParser.json());
@@ -147,7 +148,7 @@ app.post(path + "/getHotelsFavoriteByUser", async (req, res) => {
 
 app.post(path + "/addHotelFavoriteByUser", async (req, res) => {
   try {
-    const propertiesRequired = ["userId", "hotelId"];
+    const propertiesRequired = ["idUser", "idHotel"];
     const properties = Object.keys(req.body);
     const isValid = propertiesRequired.every((property) =>
       properties.includes(property)
@@ -158,12 +159,12 @@ app.post(path + "/addHotelFavoriteByUser", async (req, res) => {
         message: `Properties required: ${propertiesRequired.join(", ")}`,
       });
     }
-    const { userId, hotelId } = req.body;
+    const { idUser, idHotel } = req.body;
     const params = {
       TableName: tableName,
       Item: {
-        PK: hotelId,
-        SK: `FAVORITE#USER#HOTEL${userId}`,
+        PK: idUser,
+        SK: skPrefixFavorite + idHotel,
       },
     };
     const command = new PutCommand(params);

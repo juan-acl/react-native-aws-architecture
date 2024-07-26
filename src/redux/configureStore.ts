@@ -14,6 +14,7 @@ import {
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
+
 const persistConfig = {
   key: "root",
   version: 1,

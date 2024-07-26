@@ -1,13 +1,15 @@
 import React, { useMemo } from "react";
 import { ImageBackground, Text, View, Dimensions } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "@/src/redux/configureStore";
+import { useAppDispatch, useAppSelector } from "@/src/redux/configureStore";
 import { setCleanCurrentHotel } from "@/src/redux/slices/hotel.slice";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RootStackParamList } from "@/src/navigator/types/navigationStack";
-import { setHeaderShow } from "@/src/redux/slices/hotel.slice";
+import {
+  setHeaderShow,
+  addHotelToFavorite,
+} from "@/src/redux/slices/hotel.slice";
 import { PropsBottomSheetHoteles } from "@/src/types/hotel";
 import hotelBottomSheet from "@/assets/images/hotelBottomSheet.jpeg";
 import { Header } from "./share-favorite";
@@ -17,10 +19,13 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
   bottomSheetRef,
 }: PropsBottomSheetHoteles) => {
   const dimensionScreen = Dimensions.get("window");
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
-  const currentHotelInformation = useSelector(
-    (state: RootState) => state.reducer.hotels.currentHotel
+  const currentHotelInformation = useAppSelector(
+    (state) => state.reducer.hotels.currentHotel
+  );
+  const currentUser = useAppSelector(
+    (state) => state.reducer.auth.userInformation
   );
   const snapPoints = useMemo(() => [0.00000001, "50%", "100%"], []);
 
@@ -47,8 +52,14 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
     }
   };
 
-  const addHotelToFavorite = () => {
+  const addHotelToFavoriteForUser = () => {
     console.log("Add hotel to favorite", { currentHotelInformation });
+    dispatch(
+      addHotelToFavorite({
+        idHotel: currentHotelInformation?.PK || "",
+        idUser: currentUser?.sub || "",
+      })
+    );
   };
 
   const shareHotel = () => {
@@ -89,7 +100,7 @@ export const ActionSheetHotel: React.FC<PropsBottomSheetHoteles> = ({
               }}
             >
               <Header
-                onClickAddFavorite={addHotelToFavorite}
+                onClickAddFavorite={addHotelToFavoriteForUser}
                 onClickShare={shareHotel}
               />
             </View>
