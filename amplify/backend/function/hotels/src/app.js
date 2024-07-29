@@ -6,7 +6,7 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
-const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const {
   DynamoDBDocumentClient,
   PutCommand,
@@ -52,17 +52,17 @@ app.post(path + "/createHotel", async (req, res) => {
       "image",
       "idHotel",
     ];
-    const properties = Object.keys(req.body);
-    const isValid = propertiesRequired.every((property) =>
-      properties.includes(property)
+    const arrayRequest = Object.keys(req.body);
+    const isValidProperties = propertiesRequired.every((property) =>
+      arrayRequest.includes(property)
     );
-    if (!isValid) {
+    if (!isValidProperties) {
       return res.json({
         code: 400,
         message: `Properties required: ${propertiesRequired.join(", ")}`,
       });
     }
-    const hotelObjetc = {
+    const hotel = {
       PK: req.body.idHotel,
       SK: skPrefixHotel,
       name: req.body.name,
@@ -73,14 +73,14 @@ app.post(path + "/createHotel", async (req, res) => {
     };
     const params = {
       TableName: tableName,
-      Item: hotelObjetc,
+      Item: hotel,
     };
     const command = new PutCommand(params);
     await ddbDocClient.send(command);
     return res.json({
       code: 200,
       message: "Item hotel inserted successfully.",
-      newHotel: hotelObjetc,
+      newHotel: hotel,
     });
   } catch (error) {
     return res.json({ code: 500, message: error.message });
