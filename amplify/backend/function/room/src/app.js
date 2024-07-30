@@ -73,7 +73,7 @@ app.post(path + "/createRoom", async (req, res) => {
         message: `Properties required: ${propertiesRoomRequired.join(", ")}`,
       });
     }
-    const roomObjetc = {
+    const room = {
       PK: req.body.pk,
       SK: sortKeyPrefix + v4(),
       name: req.body.name,
@@ -85,7 +85,7 @@ app.post(path + "/createRoom", async (req, res) => {
     };
     const params = {
       TableName: tableName,
-      Item: roomObjetc,
+      Item: room,
     };
     const command = new PutCommand(params);
     await ddbDocClient.send(command);
@@ -122,7 +122,7 @@ app.post(path + "/getRoomsByHotel", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.json({ code: 500, error });
+    return res.json({ code: 500, error: error.message });
   }
 });
 
@@ -157,7 +157,7 @@ app.post(path + "/getRoomsAvailableByHotel", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.json({ code: 500, error });
+    return res.json({ code: 500, error: error.message });
   }
 });
 
