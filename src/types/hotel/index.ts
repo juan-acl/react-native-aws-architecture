@@ -74,6 +74,7 @@ export interface Create_Hotel {
   phone: string;
   image: string;
 }
+
 export interface HotelFavorite {
   idHotel: string;
   idUser: string;
