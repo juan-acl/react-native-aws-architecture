@@ -20,7 +20,7 @@ export const hotelsApi = createApi({
         try {
           await queryFulfilled;
         } catch (error) {
-          console.log("error in get hotel favorite" + JSON.stringify(error));
+          throw new Error("error in removeHotelFavoriteByUser" + error);
         }
       },
     }),
@@ -34,7 +34,7 @@ export const hotelsApi = createApi({
         try {
           await queryFulfilled;
         } catch (error) {
-          console.log("error in get hotel favorite" + JSON.stringify(error));
+          throw new Error("error in getIsHotelFavoriteByUser" + error);
         }
       },
     }),
@@ -48,7 +48,7 @@ export const hotelsApi = createApi({
         try {
           await queryFulfilled;
         } catch (error) {
-          console.log("error in add hotel to favorite" + JSON.stringify(error));
+          throw new Error("error on addToHotelFavorite" + error);
         }
       },
     }),
@@ -77,6 +77,7 @@ export const hotelsApi = createApi({
           dispatch(setIsLoading({ isLoading: true }));
           await queryFulfilled;
         } catch (error) {
+          throw new Error("error on create hotel" + error);
           console.log("error in create hotrel" + error);
         } finally {
           dispatch(setIsLoading({ isLoading: false }));
