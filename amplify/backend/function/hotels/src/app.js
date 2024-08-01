@@ -18,6 +18,7 @@ const awsServerlessExpressMiddleware = require("aws-serverless-express/middlewar
 const bodyParser = require("body-parser");
 const express = require("express");
 const { HotelDTO } = require("./utils/dtoHotel");
+const { ErrorHandlerAsync } = require("./utils/errorHandler");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -87,34 +88,37 @@ app.post(path + "/createHotel", async (req, res) => {
   }
 });
 
-app.post(path + "/getHotels", async function (req, res) {
-  try {
-    const params = {
-      TableName: tableName,
-      IndexName: "hotelNameIndex",
-      KeyConditionExpression: "SK = :skPrefix",
-      ExpressionAttributeNames: {
-        "#name": "name",
-      },
-      ExpressionAttributeValues: {
-        ":skPrefix": skPrefixHotel,
-      },
-      ProjectionExpression: "PK, #name, address, phone, email, image",
-    };
-    const command = new QueryCommand(params);
-    const response = await ddbDocClient.send(command);
-    const dataHotelMapping = HotelDTO(response.Items);
-    return res.json({
-      code: 200,
-      message: "Hotel items loaded successfully.",
-      count: response.Count,
-      hotels: dataHotelMapping,
-    });
-  } catch (err) {
-    res.statusCode = 500;
-    res.json({ error: "Could not load items: " + err.message });
-  }
-});
+app.post(
+  path + "/getHotels",
+  ErrorHandlerAsync(async (req, res) => {
+    try {
+      const params = {
+        TableName: tableName,
+        IndexName: "hotelNameIndex",
+        KeyConditionExpression: "SK = :skPrefix",
+        ExpressionAttributeNames: {
+          "#name": "name",
+        },
+        ExpressionAttributeValues: {
+          ":skPrefix": skPrefixHotel,
+        },
+        ProjectionExpression: "PK, #name, address, phone, email, image",
+      };
+      const command = new QueryCommand(params);
+      const response = await ddbDocClient.send(command);
+      const dataHotelMapping = HotelDTO(response.Items);
+      return res.json({
+        code: 200,
+        message: "Hotel items loaded successfully.",
+        count: response.Count,
+        hotels: dataHotelMapping,
+      });
+    } catch (err) {
+      res.statusCode = 500;
+      res.json({ error: "Could not load items: " + err.message });
+    }
+  })
+);
 
 app.post(path + "/getIsFavoriteHotelByUser", async (req, res) => {
   try {
