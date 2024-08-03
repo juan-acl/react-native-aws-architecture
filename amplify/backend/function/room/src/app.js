@@ -8,18 +8,14 @@ See the License for the specific language governing permissions and limitations 
 
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const {
-  DeleteCommand,
   DynamoDBDocumentClient,
-  GetCommand,
-  PutCommand,
   QueryCommand,
-  ScanCommand,
 } = require("@aws-sdk/lib-dynamodb");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const bodyParser = require("body-parser");
 const express = require("express");
 const { RoomDTO } = require("./utils/dtoRoom");
-const { v4 } = require("uuid");
+const { ErrorHandlerAsync } = require("./utils/errorHandler");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -53,52 +49,6 @@ app.all(path + "/testing", async (req, res) => {
   }
 });
 
-app.post(path + "/createRoom", async (req, res) => {
-  try {
-    const propertiesRoomRequired = [
-      "pk",
-      "name",
-      "description",
-      "price",
-      "type",
-      "image",
-    ];
-    const properties = Object.keys(req.body);
-    const isValid = propertiesRoomRequired.every((property) =>
-      properties.includes(property)
-    );
-    if (!isValid) {
-      return res.json({
-        code: 400,
-        message: `Properties required: ${propertiesRoomRequired.join(", ")}`,
-      });
-    }
-    const room = {
-      PK: req.body.pk,
-      SK: sortKeyPrefix + v4(),
-      name: req.body.name,
-      description: req.body.description,
-      price: req.body.price,
-      type: req.body.type,
-      image: req.body.image,
-      available: true,
-    };
-    const params = {
-      TableName: tableName,
-      Item: room,
-    };
-    const command = new PutCommand(params);
-    await ddbDocClient.send(command);
-    return res.json({
-      code: 200,
-      message: "Item room inserted successfully.",
-    });
-  } catch (error) {
-    console.log(error);
-    return res.json({ code: 500, error });
-  }
-});
-
 app.post(path + "/getRoomsByHotel", async (req, res) => {
   try {
     const { pk } = req.body;
@@ -126,40 +76,43 @@ app.post(path + "/getRoomsByHotel", async (req, res) => {
   }
 });
 
-app.post(path + "/getRoomsAvailableByHotel", async (req, res) => {
-  try {
-    const { pk } = req.body;
-    if (!pk)
-      return res.json({ code: 400, message: "Property PK is required." });
-    let valueStatusRoom = "available";
-    const statusRoom = {
-      available: 1,
-    }[valueStatusRoom];
-    const params = {
-      TableName: tableName,
-      IndexName: "PK-available-index",
-      KeyConditionExpression: "PK = :pk AND #available = :available",
-      ExpressionAttributeNames: {
-        "#available": "available",
-      },
-      ExpressionAttributeValues: {
-        ":pk": pk,
-        ":available": statusRoom,
-      },
-    };
-    const command = new QueryCommand(params);
-    const response = await ddbDocClient.send(command);
-    const mappingRoom = RoomDTO(response.Items);
-    return res.json({
-      code: 200,
-      count: response.Count,
-      rooms: mappingRoom,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.json({ code: 500, error: error.message });
-  }
-});
+app.post(
+  path + "/getRoomsAvailableByHotel",
+  ErrorHandlerAsync(async (req, res) => {
+    try {
+      const { pk } = req.body;
+      if (!pk)
+        return res.json({ code: 400, message: "Property PK is required." });
+      let valueStatusRoom = "available";
+      const statusRoom = {
+        available: 1,
+      }[valueStatusRoom];
+      const params = {
+        TableName: tableName,
+        IndexName: "PK-available-index",
+        KeyConditionExpression: "PK = :pk AND #available = :available",
+        ExpressionAttributeNames: {
+          "#available": "available",
+        },
+        ExpressionAttributeValues: {
+          ":pk": pk,
+          ":available": statusRoom,
+        },
+      };
+      const command = new QueryCommand(params);
+      const response = await ddbDocClient.send(command);
+      const mappingRoom = RoomDTO(response.Items);
+      return res.json({
+        code: 200,
+        count: response.Count,
+        rooms: mappingRoom,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.json({ code: 500, error: error.message });
+    }
+  })
+);
 
 app.listen(3000, function () {
   console.log("App started");
