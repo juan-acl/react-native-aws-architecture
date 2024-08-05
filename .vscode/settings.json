@@ -16,5 +16,5 @@
   "editor.minimap.enabled": false,
   "editor.cursorStyle": "line",
   "editor.cursorBlinking": "smooth",
-  "editor.cursorWidth": 5
+  "editor.cursorWidth": 10
 }

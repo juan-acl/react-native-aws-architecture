@@ -19,6 +19,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const { HotelDTO } = require("./utils/dtoHotel");
 const { ErrorHandlerAsync } = require("./utils/errorHandler");
+const { Response } = require("./utils/response");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -46,80 +47,76 @@ app.use(function (req, res, next) {
 app.post(
   path + "/createHotel",
   ErrorHandlerAsync(async (req, res) => {
-    try {
-      const propertiesRequired = [
-        "name",
-        "address",
-        "phone",
-        "email",
-        "image",
-        "idHotel",
-      ];
-      const arrayRequest = Object.keys(req.body);
-      const isValidProperties = propertiesRequired.every((property) =>
-        arrayRequest.includes(property)
-      );
-      if (!isValidProperties) {
-        return res.json({
-          code: 400,
-          message: `Properties required: ${propertiesRequired.join(", ")}`,
-        });
-      }
-      const hotel = {
-        PK: req.body.idHotel,
-        SK: skPrefixHotel,
-        name: req.body.name,
-        address: req.body.address,
-        phone: req.body.phone,
-        email: req.body.email,
-        image: req.body.image,
-      };
-      const params = {
-        TableName: tableName,
-        Item: hotel,
-      };
-      const command = new PutCommand(params);
-      await ddbDocClient.send(command);
-      return res.json({
-        code: 200,
-        message: "Item hotel inserted successfully.",
-        newHotel: hotel,
+    const propertiesRequired = [
+      "name",
+      "address",
+      "phone",
+      "email",
+      "image",
+      "idHotel",
+    ];
+    const arrayRequest = Object.keys(req.body);
+    const isValidProperties = propertiesRequired.every((property) =>
+      arrayRequest.includes(property)
+    );
+    if (!isValidProperties) {
+      return Response({
+        res,
+        code: 400,
+        message: `Properties required: ${propertiesRequired.join(", ")}`,
+        payload: null,
       });
-    } catch (error) {
-      return res.json({ code: 500, message: error.message });
     }
+    const hotel = {
+      PK: req.body.idHotel,
+      SK: skPrefixHotel,
+      name: req.body.name,
+      address: req.body.address,
+      phone: req.body.phone,
+      email: req.body.email,
+      image: req.body.image,
+    };
+    const params = {
+      TableName: tableName,
+      Item: hotel,
+    };
+    const command = new PutCommand(params);
+    await ddbDocClient.send(command);
+    return res.json({
+      code: 200,
+      message: "Item hotel inserted successfully.",
+      newHotel: hotel,
+    });
   })
 );
 
 app.post(
   path + "/getHotels",
   ErrorHandlerAsync(async (req, res) => {
-    try {
-      const params = {
-        TableName: tableName,
-        IndexName: "hotelNameIndex",
-        KeyConditionExpression: "SK = :skPrefix",
-        ExpressionAttributeNames: {
-          "#name": "name",
-        },
-        ExpressionAttributeValues: {
-          ":skPrefix": skPrefixHotel,
-        },
-        ProjectionExpression: "PK, #name, address, phone, email, image",
-      };
-      const command = new QueryCommand(params);
-      const response = await ddbDocClient.send(command);
-      const dataHotelMapping = HotelDTO(response.Items);
-      return res.json({
-        code: 200,
-        message: "Hotel items loaded successfully.",
+    const params = {
+      TableName: tableName,
+      IndexName: "hotelNameIndex",
+      KeyConditionExpression: "SK = :skPrefix",
+      ExpressionAttributeNames: {
+        "#name": "name",
+      },
+      ExpressionAttributeValues: {
+        ":skPrefix": skPrefixHotel,
+      },
+      ProjectionExpression: "PK, #name, address, phone, email, image",
+    };
+    const command = new QueryCommand(params);
+    const response = await ddbDocClient.send(command);
+    const dataHotelMapping = HotelDTO(response.Items);
+    Response({
+      res,
+      code: 200,
+      message: "Hotel items loaded successfully.",
+      payload: {
         count: response.Count,
         hotels: dataHotelMapping,
-      });
-    } catch (err) {
-      res.statusCode = 500;
-      res.json({ error: "Could not load items: " + err.message });
-    }
+      },
+    });
   })
 );
 
