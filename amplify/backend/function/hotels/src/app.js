@@ -150,7 +150,9 @@ app.post(
       res,
       code: 200,
       message: "Hotel is favorite by user.",
-      isFavorite: response.Item ? true : false,
+      payload: {
+        isFavorite: response.Item ? true : false,
+      },
     });
   })
 );

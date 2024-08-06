@@ -61,13 +61,13 @@ const hotelSlice = createSlice({
     builder.addMatcher(
       hotelsApi.endpoints.fetchHotels.matchFulfilled,
       (state, action) => {
-        state.hotels = action.payload.hotels;
+        state.hotels = action.payload.payload.hotels;
       }
     );
     builder.addMatcher(
       hotelsApi.endpoints.createHotel.matchFulfilled,
       (state, action) => {
-        state.hotels.push(action.payload.newHotel);
+        state.hotels.push(action.payload.payload.newHotel);
       }
     );
   },
@@ -97,7 +97,7 @@ export const getIsFavoriteHotelByUser = createAsyncThunk(
       );
       thunkAPI.dispatch(
         hotelSlice.actions.setIsHotelFavoriteByUser({
-          isFavorite: response.data.isFavorite,
+          isFavorite: response.data.payload.isFavorite,
         })
       );
     } catch (error) {
