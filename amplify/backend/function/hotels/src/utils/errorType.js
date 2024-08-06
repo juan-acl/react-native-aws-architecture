@@ -1,9 +1,26 @@
+exports.TypeError = {
+  ServerError: "ServerError",
+  ValidationError: "ValidationError",
+};
+
 class ServerError extends Error {
-  constructor(message) {
+  statusCode;
+  constructor({ message, statusCode }) {
     super(message);
-    this.name = "ServerError";
+    this.name = TypeError.ServerError;
     this.message = message;
+    this.statusCode = statusCode || 500;
   }
 }
 
-module.exports = { ServerError };
+class ValidationError extends Error {
+  statusCode;
+  constructor({ message, statusCode }) {
+    super(message);
+    this.name = TypeError.ValidationError;
+    this.message = message;
+    this.statusCode = statusCode || 400;
+  }
+}
+
+module.exports = { ServerError, ValidationError };

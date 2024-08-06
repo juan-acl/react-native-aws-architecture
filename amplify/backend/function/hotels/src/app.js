@@ -20,7 +20,7 @@ const express = require("express");
 const { HotelDTO } = require("./utils/dtoHotel");
 const { ErrorHandlerAsync } = require("./utils/errorHandler");
 const { Response } = require("./utils/response");
-const { ServerError } = require("./utils/errorType");
+const { ValidationError } = require("./utils/errorType");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -61,11 +61,9 @@ app.post(
       arrayRequest.includes(property)
     );
     if (!isValidProperties) {
-      return Response({
-        res,
-        code: 400,
+      throw new ValidationError({
         message: `Properties required: ${propertiesRequired.join(", ")}`,
-        payload: null,
+        statusCode: 400,
       });
     }
     const hotel = {
@@ -98,8 +96,6 @@ app.post(
 app.post(
   path + "/getHotels",
   ErrorHandlerAsync(async (req, res) => {
-    if (!req.body.name) throw new ServerError("Name is required");
-
     const params = {
       TableName: tableName,
       IndexName: "hotelNameIndex",
@@ -224,15 +220,15 @@ app.post(
   })
 );
 
-function errorHandlingMiddleware(err, req, res, next) {
-  console.error(`Error: ${err.message}`);
-  res.status(err.status || 500).json({
+const errorHandlingMiddleware = (err, req, res, next) => {
+  res.status(err.statusCode || 500).json({
+    failed: true,
     error: {
       message: err.message,
-      status: err.status || 500,
+      status: err.statusCode || 500,
     },
   });
-}
+};
 
 app.use(errorHandlingMiddleware);
 
