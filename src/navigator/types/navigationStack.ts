@@ -11,6 +11,7 @@ export type RootStackParamList = {
   [RoutesNameScreens.Profile]: undefined;
   [RoutesNameScreens.DrawerMain]: undefined;
   [RoutesNameScreens.LogOut]: undefined;
+  [RoutesNameScreens.Rooms]: undefined;
 };
 
 export type HomeProps = NativeStackScreenProps<

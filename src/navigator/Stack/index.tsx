@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/src/redux/configureStore";
 import { ConfirmEmailScreen } from "@/src/screens/ConfirmEmail";
 import { DrawerNavigation } from "../drawer";
+import { RoomScreen } from "@/src/screens/Rooms";
 
 const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
@@ -100,6 +101,13 @@ export const StackNavigator = () => {
         }}
         name={RoutesNameScreens.SignUp}
         component={SignUpScreen}
+      />
+      <InstanceStackNavigation.Screen
+        options={{
+          title: "HabitacionesH",
+        }}
+        name={RoutesNameScreens.Rooms}
+        component={RoomScreen}
       />
     </InstanceStackNavigation.Navigator>
   );

@@ -8,4 +8,5 @@ export const enum RoutesNameScreens {
   Profile = "Profile_Screen",
   DrawerMain = "DrawerMain_Screen",
   LogOut = "LogOut_Screen",
+  Rooms = "Rooms_Screen",
 }

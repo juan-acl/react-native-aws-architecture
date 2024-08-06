@@ -10,6 +10,7 @@ export const RootNavigation = () => {
   const isLoading = useSelector(
     (state: RootState) => state.reducer.loader.isLoading
   );
+
   return (
     <>
       <NavigationContainer independent={true}>

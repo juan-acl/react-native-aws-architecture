@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Text, View, FlatList } from "react-native";
 import { Card } from "./Card";
 import { useState, useCallback } from "react";
@@ -12,15 +11,16 @@ import {
   setCurrentTabNavigation,
   setFilterText,
 } from "@/src/redux/slices/hotel.slice";
-import BottomSheet from "@gorhom/bottom-sheet";
 import { HotelMap, Hotel } from "types/hotel";
-import { ActionSheetHotel } from "./BottomSheet";
-import { setHeaderShow, getHotelsApp } from "@/src/redux/slices/hotel.slice";
+import { getHotelsApp } from "@/src/redux/slices/hotel.slice";
 import { ModalHotel } from "./ModalHotel";
 import { styles } from "./styles";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "@/src/navigator/types/navigationStack";
+import { RoutesNameScreens } from "@/src/navigator/stack/nameScreensStack";
 
 export const Hotels = () => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const filterText = useAppSelector(
     (state: RootState) => state.reducer.hotels.filterText
   );
@@ -74,8 +74,7 @@ export const Hotels = () => {
   );
 
   const handleOpenPress = () => {
-    dispatch(setHeaderShow({ show: false }));
-    bottomSheetRef.current?.expand();
+    navigation.navigate(RoutesNameScreens.Rooms);
   };
 
   return (
@@ -108,7 +107,7 @@ export const Hotels = () => {
           )}
         />
       )}
-      <ActionSheetHotel bottomSheetRef={bottomSheetRef} />
+      {/* <ActionSheetHotel bottomSheetRef={bottomSheetRef} /> */}
       <ModalHotel />
     </>
   );
