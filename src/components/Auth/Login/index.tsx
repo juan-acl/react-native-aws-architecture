@@ -25,7 +25,7 @@ import { styles } from "./login.styles";
 export const Login = () => {
   const dispatch: AppDispatch = useDispatch();
   const authenticationErrorMessage = useSelector(
-    (state: RootState) => state.reducer.auth.errorAuth,
+    (state: RootState) => state.reducer.auth.errorAuth
   );
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
@@ -49,7 +49,7 @@ export const Login = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(setAuthError(false));
-    }, []),
+    }, [])
   );
 
   const { state, onChange, isValidaFormState } = useForm(initialState);
@@ -60,7 +60,7 @@ export const Login = () => {
         SignIn({
           emailParams: state.email.value,
           passwordParams: state.password.value,
-        }),
+        })
       );
       if (!SignIn.fulfilled.match(response)) return;
       navigation.navigate(RoutesNameScreens.navigationTab);

@@ -17,4 +17,3 @@ export type HomeProps = NativeStackScreenProps<
   RootStackParamList,
   RoutesNameScreens.Home
 >;
-

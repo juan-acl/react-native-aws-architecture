@@ -78,7 +78,6 @@ export const hotelsApi = createApi({
           await queryFulfilled;
         } catch (error) {
           throw new Error("error on create hotel" + error);
-          console.log("error in create hotrel" + error);
         } finally {
           dispatch(setIsLoading({ isLoading: false }));
         }

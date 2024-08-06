@@ -1,7 +1,5 @@
-import ConfirmationCodeScreen from '@/src/components/Auth/ConfirmSignUp';
+import ConfirmationCodeScreen from "@/src/components/Auth/ConfirmSignUp";
 
 export const ConfirmEmailScreen = () => {
-    return (
-        <ConfirmationCodeScreen />
-    );
-}
+  return <ConfirmationCodeScreen />;
+};

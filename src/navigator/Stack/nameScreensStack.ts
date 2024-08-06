@@ -9,4 +9,3 @@ export const enum RoutesNameScreens {
   DrawerMain = "DrawerMain_Screen",
   LogOut = "LogOut_Screen",
 }
-

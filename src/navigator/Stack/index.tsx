@@ -16,10 +16,10 @@ const InstanceStackNavigation = createStackNavigator<RootStackParamList>();
 
 export const StackNavigator = () => {
   const isSignIn = useSelector(
-    (state: RootState) => state.reducer.auth.isSignedIn,
+    (state: RootState) => state.reducer.auth.isSignedIn
   );
   const headerShown = useSelector(
-    (state: RootState) => state.reducer.hotels.headerShow,
+    (state: RootState) => state.reducer.hotels.headerShow
   );
   return (
     <InstanceStackNavigation.Navigator

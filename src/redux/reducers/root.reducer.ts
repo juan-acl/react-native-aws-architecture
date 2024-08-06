@@ -4,9 +4,9 @@ import { loaderReducer } from "../slices/loader.slice";
 import { authReducer } from "../slices/auth.slice";
 
 const rootReducer = combineReducers({
-    hotels: hotelReducer,
-    loader: loaderReducer,
-    auth: authReducer,
-})
+  hotels: hotelReducer,
+  loader: loaderReducer,
+  auth: authReducer,
+});
 
 export default rootReducer;

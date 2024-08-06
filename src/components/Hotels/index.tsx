@@ -15,15 +15,11 @@ import {
 import BottomSheet from "@gorhom/bottom-sheet";
 import { HotelMap, Hotel } from "types/hotel";
 import { ActionSheetHotel } from "./BottomSheet";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "@/src/navigator/types/navigationStack";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { setHeaderShow, getHotelsApp } from "@/src/redux/slices/hotel.slice";
 import { ModalHotel } from "./ModalHotel";
 import { styles } from "./styles";
 
 export const Hotels = () => {
-  const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const filterText = useAppSelector(
     (state: RootState) => state.reducer.hotels.filterText

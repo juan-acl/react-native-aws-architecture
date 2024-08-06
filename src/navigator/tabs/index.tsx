@@ -40,7 +40,7 @@ const getTabBarIcon = (routeName: string, color: string, size: number) => {
 
 export const ButtonTabNavigation = () => {
   const headerShown = useSelector(
-    (state: RootState) => state.reducer.hotels.headerShow,
+    (state: RootState) => state.reducer.hotels.headerShow
   );
   return (
     <InstanceButtonTabNavigation.Navigator

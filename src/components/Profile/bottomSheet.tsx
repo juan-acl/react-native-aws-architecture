@@ -21,7 +21,7 @@ export const ActionSheetUpdateProfile: React.FC<Props> = ({
   onChangeBottomSheet,
 }: Props) => {
   const userInformation = useAppSelector(
-    (state) => state.reducer.auth.userInformation,
+    (state) => state.reducer.auth.userInformation
   );
   const snapPoints = useMemo(() => [0.1, "50%", "100%"], []);
   const initialState: FormState = {
