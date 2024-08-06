@@ -20,6 +20,7 @@ const express = require("express");
 const { HotelDTO } = require("./utils/dtoHotel");
 const { ErrorHandlerAsync } = require("./utils/errorHandler");
 const { Response } = require("./utils/response");
+const { ServerError } = require("./utils/errorType");
 
 const ddbClient = new DynamoDBClient({ region: process.env.TABLE_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -76,16 +77,20 @@ app.post(
       email: req.body.email,
       image: req.body.image,
     };
+
     const params = {
       TableName: tableName,
       Item: hotel,
     };
+
     const command = new PutCommand(params);
     await ddbDocClient.send(command);
-    return res.json({
+
+    Response({
+      res,
       code: 200,
       message: "Item hotel inserted successfully.",
-      newHotel: hotel,
+      payload: hotel,
     });
   })
 );
@@ -93,6 +98,8 @@ app.post(
 app.post(
   path + "/getHotels",
   ErrorHandlerAsync(async (req, res) => {
+    if (!req.body.name) throw new ServerError("Name is required");
+
     const params = {
       TableName: tableName,
       IndexName: "hotelNameIndex",
@@ -123,102 +130,111 @@ app.post(
 app.post(
   path + "/getIsFavoriteHotelByUser",
   ErrorHandlerAsync(async (req, res) => {
-    try {
-      const { idUser, idHotel } = req.body;
-      if (!idUser || !idHotel) {
-        return res.json({
-          code: 400,
-          message: "IdUser, IdHotel are required.",
-        });
-      }
-
-      const params = {
-        TableName: tableName,
-        Key: {
-          PK: idHotel,
-          SK: skPrefixFavorite + idUser,
-        },
-      };
-
-      const command = new GetCommand(params);
-      const response = await ddbDocClient.send(command);
-      return res.json({
-        code: 200,
-        message: "Hotel is favorite by user.",
-        isFavorite: response.Item ? true : false,
+    const { idUser, idHotel } = req.body;
+    if (!idUser || !idHotel) {
+      return Response({
+        res,
+        code: 400,
+        message: "IdUser, IdHotel are required.",
       });
-    } catch (error) {
-      return res.json({ code: 500, message: error });
     }
+
+    const params = {
+      TableName: tableName,
+      Key: {
+        PK: idHotel,
+        SK: skPrefixFavorite + idUser,
+      },
+    };
+
+    const command = new GetCommand(params);
+    const response = await ddbDocClient.send(command);
+
+    Response({
+      res,
+      code: 200,
+      message: "Hotel is favorite by user.",
+      isFavorite: response.Item ? true : false,
+    });
   })
 );
 
 app.post(
   path + "/removeHotelFavoriteByUser",
   ErrorHandlerAsync(async (req, res) => {
-    try {
-      const { idUser, idHotel } = req.body;
-      if (!idUser || !idHotel) {
-        return res.json({
-          code: 400,
-          message: "IdUser, IdHotel are required.",
-        });
-      }
-
-      const params = {
-        TableName: tableName,
-        Key: {
-          PK: idHotel,
-          SK: skPrefixFavorite + idUser,
-        },
-      };
-
-      const command = new DeleteCommand(params);
-      await ddbDocClient.send(command);
-      return res.json({
-        code: 200,
-        message: "Hotel removed from favorites successfully.",
+    const { idUser, idHotel } = req.body;
+    if (!idUser || !idHotel) {
+      return Response({
+        res,
+        code: 400,
+        message: "IdUser, IdHotel are required.",
       });
-    } catch (error) {
-      return res.json({ code: 500, message: error });
     }
+
+    const params = {
+      TableName: tableName,
+      Key: {
+        PK: idHotel,
+        SK: skPrefixFavorite + idUser,
+      },
+    };
+
+    const command = new DeleteCommand(params);
+    await ddbDocClient.send(command);
+
+    Response({
+      res,
+      code: 200,
+      message: "Hotel removed from favorites successfully.",
+    });
   })
 );
 
 app.post(
   path + "/addHotelFavoriteByUser",
   ErrorHandlerAsync(async (req, res) => {
-    try {
-      const propertiesRequired = ["idUser", "idHotel"];
-      const properties = Object.keys(req.body);
-      const isValid = propertiesRequired.every((property) =>
-        properties.includes(property)
-      );
-      if (!isValid) {
-        return res.json({
-          code: 400,
-          message: `Properties required: ${propertiesRequired.join(", ")}`,
-        });
-      }
-      const { idUser, idHotel } = req.body;
-      const params = {
-        TableName: tableName,
-        Item: {
-          PK: idHotel,
-          SK: skPrefixFavorite + idUser,
-        },
-      };
-      const command = new PutCommand(params);
-      await ddbDocClient.send(command);
-      return res.json({
-        code: 200,
-        message: "Hotel added to favorites successfully.",
+    const propertiesRequired = ["idUser", "idHotel"];
+    const properties = Object.keys(req.body);
+    const isValid = propertiesRequired.every((property) =>
+      properties.includes(property)
+    );
+    if (!isValid) {
+      return Response({
+        res,
+        code: 400,
+        message: `Properties required: ${propertiesRequired.join(", ")}`,
       });
-    } catch (error) {
-      return res.json({ code: 500, message: error });
     }
+    const { idUser, idHotel } = req.body;
+    const params = {
+      TableName: tableName,
+      Item: {
+        PK: idHotel,
+        SK: skPrefixFavorite + idUser,
+      },
+    };
+    const command = new PutCommand(params);
+    await ddbDocClient.send(command);
+
+    Response({
+      res,
+      code: 200,
+      message: "Hotel added to favorites successfully.",
+    });
   })
 );
+
+function errorHandlingMiddleware(err, req, res, next) {
+  console.error(`Error: ${err.message}`);
+  res.status(err.status || 500).json({
+    error: {
+      message: err.message,
+      status: err.status || 500,
+    },
+  });
+}
+
+app.use(errorHandlingMiddleware);
 
 app.listen(3000, function () {
   console.log("App started");
