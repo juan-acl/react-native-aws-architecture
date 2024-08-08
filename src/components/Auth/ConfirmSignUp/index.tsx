@@ -59,7 +59,7 @@ const ConfirmationCodeScreen = () => {
       if (!ConfirmSignUp.fulfilled.match(response)) return;
       navigation.navigate(RoutesNameScreens.SignIn);
     } catch (error: any) {
-      console.log("Error en codeConfirmation" + error.message);
+      throw new Error(error);
     }
   };
 

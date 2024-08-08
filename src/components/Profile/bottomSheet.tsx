@@ -55,7 +55,7 @@ export const ActionSheetUpdateProfile: React.FC<Props> = ({
     },
   };
 
-  const { state, onChange, isValidaFormState } = useForm(initialState);
+  const { state, onChange } = useForm(initialState);
 
   const changeValue = ({ value, name }: RegisterOnChangeProps): void => {
     onChange({ value, name });
