@@ -14,13 +14,18 @@ export const styles = StyleSheet.create({
   informationRoom: {
     flex: 1,
     gap: 10,
-    flexDirection: "row",
+    flexDirection: "column",
   },
   headtText: {
     color: "grey",
     fontWeight: "600",
     marginLeft: 20,
-    marginTop: 10,
+    marginTop: 2,
     fontSize: 17,
+  },
+  nameHotel: {
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center",
   },
 });

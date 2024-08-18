@@ -1,4 +1,10 @@
-import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { styles } from "./room.styles";
 import hotel from "@/assets/images/hotels-home.png";
 import { useAppSelector } from "@/src/redux/configureStore";
@@ -13,8 +19,9 @@ export const CardRoom = () => {
       <View style={styles.backgroundImage}>
         <ImageBackground source={hotel} style={StyleSheet.absoluteFill} />
       </View>
-      <Text style={styles.headtText}>Nombre del la habitacion</Text>
+      <Text style={styles.nameHotel}>Nombre del la habitacion</Text>
       <View style={styles.informationRoom}>
+        <Text style={styles.headtText}>{hotelInformation?.name}</Text>
         <Text style={styles.headtText}>{hotelInformation?.address}</Text>
         <Text style={styles.headtText}>{hotelInformation?.phone}</Text>
       </View>
