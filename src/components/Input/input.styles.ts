@@ -33,6 +33,7 @@ export const styles = StyleSheet.create({
   errorText: {
     marginTop: 5,
     color: "red",
-    fontSize: 14,
+    fontSize: 16,
+    height: 20,
   },
 });

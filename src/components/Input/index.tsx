@@ -58,7 +58,14 @@ export const Input = ({
           maxLength={typeInput === "numeric" ? maxLength : undefined}
           autoCapitalize={autocapitalize}
         />
-        {hasError && <Text style={styles.errorText}>{messageError}</Text>}
+        <Text
+            style={[
+              styles.errorText,
+              { opacity: hasError ? 2 : 0 }
+            ]}
+        >
+          {messageError}
+        </Text>
       </View>
     </Pressable>
   );
